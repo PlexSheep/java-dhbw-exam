@@ -1,0 +1,1 @@
+<property name="connection.driver_class">xenial.sqlite.jdbc.</property>

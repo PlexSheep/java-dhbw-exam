@@ -1,3 +1,8 @@
+package backend;
+
+import backend.accounts.Account;
+import backend.accounts.GiroAccount;
+
 import java.util.Date;
 import java.util.List;
 
@@ -7,7 +12,7 @@ import java.util.List;
 public class Client extends Person {
 
     /**
-     * stores the accounts of a Client
+     * stores the accounts of a backend.Client
      */
     public List<Account> accounts;
     public Client(
@@ -23,7 +28,7 @@ public class Client extends Person {
     /**
      * create a new account of type T for the user
      *
-     * @param <T> any Class that extends Account
+     * @param <T> any Class that extends backend.accounts.Account
      * @return a newly created account that has not been reviewed.
      */
     public <T extends Account> Account createAccount() {
@@ -31,6 +36,9 @@ public class Client extends Person {
         // T a = new T(this); does not work. FIXME
         //T a = new T(this);
         //return a;
+        switch getClass(T) {
+            case GiroAccount
+        }
         return null;
     }
 }

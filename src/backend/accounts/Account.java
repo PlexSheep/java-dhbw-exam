@@ -1,3 +1,7 @@
+package backend.accounts;
+
+import backend.Client;
+
 /**
  *
  */
@@ -9,12 +13,12 @@ public abstract class Account {
     /**
      * whether the account is currently active.
      *
-     * New accounts have to be reviewed by an Employee, only then will they be activated.
+     * New accounts have to be reviewed by an backend.Employee, only then will they be activated.
      * Accounts can be deactivated for various reasons.
      */
     public boolean active = false;
     /**
-     * primary key of Account
+     * primary key of backend.accounts.Account
      */
     private int id;
 

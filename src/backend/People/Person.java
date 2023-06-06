@@ -10,25 +10,25 @@ public abstract class Person {
     /**
      * name as per requirement
      */
-    public String name;
+    private String name;
     /**
      * birthday as per requirement
      */
-    public Date birthday;
+    private Date birthday;
     /**
      * physical location as per requirement
      *
      * (this is not a MAC address)
      */
-    public String address;
+    private String address;
     /**
      * email as per requirement
      */
-    public String email;
+    private String email;
     /**
      * telephone number as per requirement
      */
-    public String telephoneNumber;
+    private String telephoneNumber;
     /**
      * the primary key of the account
      */
@@ -80,5 +80,45 @@ public abstract class Person {
      */
     public boolean isLoggedIn() {
         return isLoggedIn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
     }
 }

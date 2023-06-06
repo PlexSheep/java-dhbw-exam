@@ -9,7 +9,7 @@ public abstract class Account {
     /**
      * specifies the owner of the account
      */
-    public final Client owner;
+    private final Client owner;
     /**
      * whether the account is currently active.
      *
@@ -34,5 +34,9 @@ public abstract class Account {
      */
     public void save() {
         // TODO
+    }
+
+    public Client getOwner() {
+        return owner;
     }
 }

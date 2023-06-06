@@ -1,6 +1,6 @@
 package backend.accounts;
 
-import backend.Client;
+import backend.People.Client;
 
 public class GiroAccount extends Account{
     public GiroAccount(Client owner) {

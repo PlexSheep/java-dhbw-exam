@@ -1,6 +1,6 @@
 package backend.accounts;
 
-import backend.Client;
+import backend.People.Client;
 
 /**
  *
@@ -13,7 +13,7 @@ public abstract class Account {
     /**
      * whether the account is currently active.
      *
-     * New accounts have to be reviewed by an backend.Employee, only then will they be activated.
+     * New accounts have to be reviewed by an backend.People.Employee, only then will they be activated.
      * Accounts can be deactivated for various reasons.
      */
     public boolean active = false;
@@ -30,7 +30,7 @@ public abstract class Account {
     }
 
     /**
-     * save the account to the database
+     * save the account to the backend.database
      */
     public void save() {
         // TODO

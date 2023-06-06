@@ -1,9 +1,9 @@
-package database;
+package backend.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 public class database_controller {
-    private static String url = "jdbc:sqlite:database/database.db";
+    private static String url = "jdbc:sqlite:backend.database/backend.database.db";
 
     public static void connect() {
         Connection conn = null;

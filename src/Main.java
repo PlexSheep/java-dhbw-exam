@@ -1,4 +1,4 @@
-import database.database_controller;
+import backend.database.database_controller;
 
 public class Main {
     public static void main(String[] args) {

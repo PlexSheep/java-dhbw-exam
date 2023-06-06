@@ -1,7 +1,6 @@
-package backend;
+package backend.People;
 
 import backend.accounts.Account;
-import backend.accounts.GiroAccount;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 public class Client extends Person {
 
     /**
-     * stores the accounts of a backend.Client
+     * stores the accounts of a backend.People.Client
      */
     public List<Account> accounts;
     public Client(

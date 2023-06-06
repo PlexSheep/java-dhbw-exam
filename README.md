@@ -26,13 +26,14 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Das Programm muss eine UI-Schnittstelle haben mit Java AWT/ Swing.
 - [ ] Das Programm soll Intuitive Bedienbar sein.
 - [ ] Das Programm muss seine Daten dauerhaft abspeichern (z.B. Persistenz mit JDBC). 
-  > D.h. wenn neue Benutzer angelegt wurden und neue Konten – dann müssen diese Daten nach Neustart im Programm verfügbar sein.
+  - D.h. wenn neue Benutzer angelegt wurden und neue Konten 
+    dann müssen diese Daten nach Neustart im Programm verfügbar sein.
 - [ ] Überlegen Sie sich ein passendes, realistische Klassen-/Objektmodell
-  > (z.B. Konto, Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
+  - (z.B. Konto, Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
 - [ ] Leiten Sie sinnvoll ab, 
   - verteilen Sie die Attribute und Methoden so, dass die Objektorientierung einen Sinn ergibt
 - [ ] Es muss eine sinnvolle Vererbungshierarchie erkennbar sein.
-  > Arbeiten Sie ggf. mit abstrakten Klassen
+  - Arbeiten Sie ggf. mit abstrakten Klassen
 - [ ] Setzen Sie ggf. Polymorphie ein
 - [ ] Denken Sie an Datenkapselung
 - [ ] Denken Sie an die Fehlerbehandlung (Eingabe, Konvertierungen, Überläufe, ...)
@@ -51,7 +52,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Als Zip-Datei mit Namen „Banking App <Gruppen-Id>.zip“
 - [ ] Jeglichen Source Code und komplett lauffähiges Projekt
 - [ ] Packen Sie das Projekt in ausführbare „jar“-Files. 
-  > Die „jar“-Files sollen auf der Konsole ausführbar sein : java -jar BankingApp ...
+  - Die „jar“-Files sollen auf der Konsole ausführbar sein : java -jar BankingApp ...
 - [ ] Komplette Dokumentation inkl. Anleitung, 
     - wie das Programm zu installieren, 
     - auszuführen

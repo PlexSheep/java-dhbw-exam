@@ -75,6 +75,9 @@ public abstract class Person {
         // TODO
     }
 
+    /**
+     * check if the user is currently logged in
+     */
     public boolean isLoggedIn() {
         return isLoggedIn;
     }

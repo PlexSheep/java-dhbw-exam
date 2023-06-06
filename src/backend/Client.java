@@ -28,8 +28,8 @@ public class Client extends Person {
     /**
      * create a new account of type T for the user
      *
-     * @param <T> any Class that extends backend.accounts.Account
-     * @return a newly created account that has not been reviewed.
+     * @param <T> any Class that extends Account
+     * @return a newly created account of type T that has not been reviewed.
      */
     public <T extends Account> Account createAccount() {
         // create a new object of type T

@@ -1,7 +1,9 @@
+package backend;
+
 import java.util.Date;
 
 /**
- * Abstract base class for any Person
+ * Abstract base class for any backend.Person
  */
 public abstract class Person {
 
@@ -53,7 +55,7 @@ public abstract class Person {
     }
 
     /**
-     * save the Person to the database
+     * save the backend.Person to the database
      */
     public void save() {
         // TODO

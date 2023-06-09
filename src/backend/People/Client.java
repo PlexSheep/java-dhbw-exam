@@ -35,9 +35,13 @@ public class Client extends Person {
         // T a = new T(this); does not work. FIXME
         //T a = new T(this);
         //return a;
+        /*
         switch getClass(T) {
             case GiroAccount
         }
+        return null;
+        */
+        String s = "";
         return null;
     }
 }

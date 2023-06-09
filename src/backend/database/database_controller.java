@@ -1,5 +1,6 @@
 package backend.database;
 import backend.People.Person;
+import backend.Utils.Authentication;
 
 import java.sql.*;
 
@@ -18,14 +19,15 @@ public class database_controller {
         }
     }
 
-    public static void saveUsers(Person p, String table) throws SQLException {
+    public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(name, address, email, phone) VALUES(?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
             stmt.setString(3, p.getEmail());
             stmt.setString(4, p.getTelephoneNumber());
+            stmt.setString(5, Authentication.hash_password(password));
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -47,5 +49,34 @@ public class database_controller {
         return null;
     }
 
+    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
+        try {
+
+            String insert = "SELECT * FROM " + table + " WHERE name = ?";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setString(1, name);
+            return stmt.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String get_user_password(String name, String table) throws SQLException {
+        try {
+
+            String insert = "SELECT `password` FROM " + table + " WHERE name = ?";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setString(1, name);
+            return stmt.executeQuery().getString("password");
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

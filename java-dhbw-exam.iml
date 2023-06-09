@@ -9,6 +9,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="hibernate.orm.core" level="project" />
     <orderEntry type="library" name="xerial.sqlite.jdbc" level="project" />
-    <orderEntry type="library" name="groovy-4.0.2" level="project" />
+    <orderEntry type="library" name="springframework.security.spring.crypto" level="project" />
+    <orderEntry type="library" name="bouncycastle.bcpkix.jdk15on" level="project" />
+    <orderEntry type="library" name="commons.logging" level="project" />
   </component>
 </module>

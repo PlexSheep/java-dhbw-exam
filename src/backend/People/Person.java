@@ -1,6 +1,13 @@
 package backend.People;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Date;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 
 /**
  * Abstract base class for any backend.People.Person
@@ -64,8 +71,19 @@ public abstract class Person {
     /**
      * log the user in
      */
-    public void login() {
-        // TODO
+    public void login(String password) throws NoSuchAlgorithmException {
+        try {
+            SecureRandom random = new SecureRandom();
+            byte[] salt = new byte[16];
+            random.nextBytes(salt);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] hashedPassword = md.digest(password.getBytes(UTF_8));
+            System.out.println(Arrays.toString(hashedPassword));
+        }
+        catch (Exception e){
+
+        }
     }
 
     /**
@@ -121,4 +139,5 @@ public abstract class Person {
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
     }
+
 }

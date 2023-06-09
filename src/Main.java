@@ -1,7 +1,9 @@
 import backend.People.Client;
 import backend.People.Person;
+import backend.Utils.Authentication;
 import backend.database.database_controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.*;
@@ -17,10 +19,13 @@ import java.awt.*;
 import java.net.URL;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
+        Authentication auth = new Authentication();
         database_controller.connect();
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
-        database_controller.saveUsers(herbert, "Employee");
+        herbert.login("FFF");
+
+        //database_controller.saveUsers(herbert, "test","Employee");
         System.out.println(database_controller.readUsers(1, "Employee").getString("Name"));
 
         JTextField username = new JTextField();
@@ -35,7 +40,7 @@ public class Main {
         if (option != JOptionPane.OK_OPTION) {
             System.exit(0);
         } else {
-            if (username.getText().equals("test") && password.getText().equals("test")) {//check credentials here
+            if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
                 System.out.println("Login successful");
             } else {
                 System.out.println("login failed");

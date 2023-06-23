@@ -70,12 +70,12 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Demonstration von fehlerhafter Eingabe durch den Benutzer
 
 
-# Test Credentials
+## Test Credentials
 | Username | Password |
 |----------|----------|
 | Herbert  | test     |
 
-# Dependencies
+## Dependencies
 - [iban4j](https://github.com/arturmkrtchyan/iban4j)
 ```maven
 <dependency>

@@ -1,11 +1,15 @@
 package backend.database;
 import backend.people.Person;
-import backend.Utils.Authentication;
+import backend.utils.Authentication;
 import backend.accounts.Account;
 
 import java.sql.*;
 
-public class database_controller {
+public class DatabaseController {
+
+    public static final String TABLE_CLIENTS = "client";
+    public static final String TABLE_EMPLOYEES = "Employee";
+
     static Connection conn = null;
     public static void connect() {
 
@@ -51,18 +55,25 @@ public class database_controller {
         }
     }
 
-    public static ResultSet readUsers(int id, String table) throws SQLException {
-        try {
-            String query = "SELECT * FROM " + table + " WHERE id = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, id);
-            return stmt.executeQuery();
-        }
-        catch (Exception e){
-            System.out.println(e);
-            e.printStackTrace();
-        }
-        return null;
+    /**
+     * get a single user from the database
+     *
+     * @param id  the id of the user
+     * @param table should be one of the constants: TABLE_CLIENTS, TABLE_EMPLOYEES
+     * @return
+     * @throws SQLException
+     */
+    public static ResultSet readUser(int id, String table) throws SQLException {
+        String query = "SELECT * FROM " + table + " WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(query);
+        stmt.setInt(1, id);
+        return stmt.executeQuery();
+    }
+
+    public static ResultSet readUsers(String table) throws SQLException {
+        String query = "SELECT * FROM " + table;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        return stmt.executeQuery();
     }
 
     public static ResultSet auth_users(String name, String password, String table) throws SQLException {
@@ -95,13 +106,19 @@ public class database_controller {
         return null;
     }
 
-    public boolean changeBalance(int accID, double amount) throws SQLException {
+    public static boolean changeBalance(String iban, double amount) throws SQLException {
         try {
+            // make transaction with unfinished flag
+
+            // change the balance
             String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setDouble(1, amount);
-            stmt.setInt(1, accID);
+            stmt.setString(1, iban);
             stmt.executeQuery();
+            // validate the balance
+
+            // set finished flag to transaction
             return true;
         }
         catch (Exception e){

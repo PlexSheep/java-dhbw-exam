@@ -5,13 +5,12 @@ import backend.people.Client;
 import org.junit.jupiter.api.Test;
 
 import java.sql.PreparedStatement;
-import backend.Utils.Authentication;
+
 import backend.accounts.Account;
 
 import java.sql.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-class database_controllerTest {
+class DatabaseControllerTest {
 
     static Connection conn = null;
 

@@ -2,8 +2,11 @@ package backend.accounts;
 
 
 import backend.people.Client;
+import backend.database.DatabaseController;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
+
+import java.sql.SQLException;
 
 /**
  *
@@ -97,9 +100,9 @@ public abstract class Account {
      *
      * @param balance new balance
      */
-    public void setBalance(int balance) {
+    public void setBalance(int balance) throws SQLException {
+        DatabaseController.changeBalance(this.iban.toString(), balance);
         this.balance = balance;
-        this.save();
     }
 
     /**
@@ -111,10 +114,9 @@ public abstract class Account {
      *               can be negative.
      * @return the new balance of the account
      */
-    public int modBalance(int amount) {
-        this.balance += amount;
-        this.save();
-        return this.balance;
+    public void modBalance(int amount) throws SQLException {
+        int newBalance = this.balance + amount;
+        this.setBalance(newBalance);
     }
 
     /**

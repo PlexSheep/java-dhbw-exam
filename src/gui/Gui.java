@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class gui {
+public class Gui {
     public static void createFrame() {
         JDialog dialog = new JDialog();
         dialog.setTitle("My Frame");
@@ -27,7 +27,7 @@ public class gui {
         panel.add(firstRowPanel, BorderLayout.NORTH);
 
         JLabel label = new JLabel();
-        ImageIcon imgThisImg = new ImageIcon(gui.class.getResource(""));
+        ImageIcon imgThisImg = new ImageIcon(Gui.class.getResource(""));
         label.setIcon(imgThisImg);
         firstRowPanel.add(label);
 

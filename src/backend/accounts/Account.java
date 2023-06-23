@@ -10,10 +10,6 @@ import org.iban4j.Iban;
  */
 public abstract class Account {
 
-    // static parts of the IBAN
-    public static final String COUNTRY_CODE = "DE";
-    public static final String BANK_CODE = "19043";
-
     /**
      * specifies the owner of the account
      */
@@ -50,10 +46,7 @@ public abstract class Account {
 
     public Account(Client owner) {
         this.owner = owner;
-        this.iban = new Iban.Builder()
-                .countryCode(CountryCode.valueOf(Account.COUNTRY_CODE))
-                .bankCode(Account.BANK_CODE)
-                .buildRandom();
+        this.iban = Iban.random(CountryCode.DE);
         this.accountNumber = this.iban.getAccountNumber();
 
         // finally, save to DB

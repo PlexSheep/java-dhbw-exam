@@ -2,11 +2,18 @@ package backend.accounts;
 
 
 import backend.people.Client;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 
 /**
  *
  */
 public abstract class Account {
+
+    // static parts of the IBAN
+    public static final String COUNTRY_CODE = "DE";
+    public static final String BANK_CODE = "19043";
+
     /**
      * specifies the owner of the account
      */
@@ -31,10 +38,21 @@ public abstract class Account {
     /**
      * Unique identifier for any account, used as primary key in the database
      */
-    private String iban;
+    public String accountNumber;
+
+    /**
+     * resulting from COUNTRY_CODE, BANK_CODE and accountNumber,
+     * we generate an IBAN
+     */
+    public Iban iban;
 
     public Account(Client owner) {
         this.owner = owner;
+        this.iban = new Iban.Builder()
+                .countryCode(CountryCode.valueOf(Account.COUNTRY_CODE))
+                .bankCode(Account.BANK_CODE)
+                .buildRandom();
+        this.accountNumber = this.iban.getAccountNumber();
 
         // finally, save to DB
         this.save();

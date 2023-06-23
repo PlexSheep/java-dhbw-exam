@@ -33,6 +33,8 @@ public abstract class Account {
      */
     private int id;
 
+    AccountType TYPE;
+
     public Account(Client owner) {
         this.owner = owner;
 
@@ -106,5 +108,23 @@ public abstract class Account {
      */
     public void setDebtLimit(int debtLimit) {
         this.debtLimit = debtLimit;
+    }
+
+    /**
+     * Get the account types
+     *
+     * @return Enum AccountType constant
+     */
+    public AccountType getTYPE() {
+        return TYPE;
+    }
+
+    /**
+     * Get the account id
+     *
+     * @return int ID
+     */
+    public int getId() {
+        return id;
     }
 }

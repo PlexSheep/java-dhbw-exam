@@ -59,4 +59,10 @@ public class Client extends Person {
         }
         return null;
     }
+
+    /*
+    public boolean transferMoney(int recipientID, double amount){
+    }
+
+     */
 }

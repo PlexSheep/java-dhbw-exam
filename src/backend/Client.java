@@ -1,9 +1,6 @@
 package backend;
 
-import backend.accounts.Account;
-import backend.accounts.AccountType;
-import backend.accounts.DebitAccount;
-import backend.accounts.GiroAccount;
+import backend.accounts.*;
 
 import java.util.Date;
 import java.util.List;
@@ -52,6 +49,9 @@ public class Client extends Person {
             }
             case DEBIT -> {
                 a = new DebitAccount(this);
+            }
+            case CREDIT -> {
+                a = new CreditAccount(this);
             }
             default -> {
                 throw new UnsupportedOperationException();

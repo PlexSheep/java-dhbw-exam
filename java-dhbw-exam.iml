@@ -12,5 +12,6 @@
     <orderEntry type="library" name="springframework.security.spring.crypto" level="project" />
     <orderEntry type="library" name="bouncycastle.bcpkix.jdk15on" level="project" />
     <orderEntry type="library" name="commons.logging" level="project" />
+    <orderEntry type="library" name="junit.jupiter" level="project" />
   </component>
 </module>

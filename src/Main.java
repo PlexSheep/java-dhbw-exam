@@ -1,4 +1,4 @@
-import backend.People.Client;
+import backend.Client;
 import backend.People.Person;
 import backend.Utils.Authentication;
 import backend.database.database_controller;
@@ -23,9 +23,9 @@ public class Main {
         Authentication auth = new Authentication();
         database_controller.connect();
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
-        herbert.login("FFF");
+        //herbert.login("FFF");
 
-        //database_controller.saveUsers(herbert, "test","Employee");
+        //database_controller.saveUsers(herbert, "test", "Employee");
         System.out.println(database_controller.readUsers(1, "Employee").getString("Name"));
 
         JTextField username = new JTextField();

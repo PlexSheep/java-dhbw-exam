@@ -3,7 +3,7 @@ package backend.accounts;
 /**
  * @param <T>
  */
-public interface AccountFactory<T> {
+public class AccountFactory<T> {
     private Class<T> clazz;
 
     public AccountFactory(Class<T> clazz) {

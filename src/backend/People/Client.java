@@ -1,5 +1,6 @@
 package backend;
 
+import backend.People.Person;
 import backend.accounts.Account;
 import backend.accounts.AccountType;
 import backend.accounts.DebitAccount;

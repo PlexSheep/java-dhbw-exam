@@ -1,6 +1,7 @@
 package backend.accounts;
 
-import backend.People.Client;
+
+import backend.Client;
 
 /**
  *

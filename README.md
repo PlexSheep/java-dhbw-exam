@@ -74,3 +74,13 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 | Username | Password |
 |----------|----------|
 | Herbert  | test     |
+
+# Dependencies
+- [iban4j](https://github.com/arturmkrtchyan/iban4j)
+```maven
+<dependency>
+  <groupId>org.iban4j</groupId>
+  <artifactId>iban4j</artifactId>
+  <version>3.2.5-RELEASE</version>
+</dependency>
+```

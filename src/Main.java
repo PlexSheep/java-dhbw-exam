@@ -32,13 +32,13 @@ public class Main {
                                         "telephone:\t%s\n" +
                                         "pass:\t\t%s\n" +
                                         "date:\t\t%s\n",
-                                client_set.getString("ID"),      // index 1
-                                client_set.getString("name"),    // index 2
-                                client_set.getString("address"), // index 3
-                                client_set.getString("email"),   // index 4
-                                client_set.getString("phone"),   // index 5
-                                client_set.getString("password"),// index 6
-                                client_set.getString("date")     // index 7
+                                client_set.getString("ID"),          // index 1
+                                client_set.getString("name"),        // index 2
+                                client_set.getString("address"),     // index 3
+                                client_set.getString("email"),       // index 4
+                                client_set.getString("phone"),       // index 5
+                                client_set.getString("password"),    // index 6
+                                client_set.getString("date")         // index 7
                         )
                 );
                 Client client = new Client(
@@ -69,13 +69,13 @@ public class Main {
                                 "telephone:\t%s\n" +
                                 "pass:\t\t%s\n" +
                                 "date:\t\t%s\n",
-                                employee_list.getString("ID"),      // index 1
-                                employee_list.getString("name"),    // index 2
-                                employee_list.getString("address"), // index 3
-                                employee_list.getString("email"),   // index 4
-                                employee_list.getString("phone"),   // index 5
-                                employee_list.getString("password"),// index 6
-                                employee_list.getString("date")     // index 7
+                                employee_list.getString("ID"),          // index 1
+                                employee_list.getString("name"),        // index 2
+                                employee_list.getString("address"),     // index 3
+                                employee_list.getString("email"),       // index 4
+                                employee_list.getString("phone"),       // index 5
+                                employee_list.getString("password"),    // index 6
+                                employee_list.getString("date")         // index 7
                         )
                 );
                 Employee employee = new Employee(

@@ -1,9 +1,7 @@
 import backend.people.Client;
-import backend.people.*;
+import backend.people.Employee;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
-import backend.people.Client;
-
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
@@ -19,9 +17,6 @@ public class Main {
         // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
-
-        DatabaseController.fillDb();
-
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         System.out.println(client_set);
@@ -58,7 +53,6 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
 
         LinkedList<Employee> EMPLOYEE_LIST = new LinkedList<>();
         ResultSet employee_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
@@ -107,7 +101,7 @@ public class Main {
         //herbert.login("FFF");
 
         //database_controller.saveUsers(herbert, "test", "Employee");
-        System.out.println(DatabaseController.readUser(1, "Employee").getString("Name"));
+        System.out.println(DatabaseController.readUser(1, "Employee").getString("name"));
 
         // frontend start
 

@@ -16,7 +16,17 @@ public abstract class Account {
      * New accounts have to be reviewed by an backend.Employee, only then will they be activated.
      * Accounts can be deactivated for various reasons.
      */
-    public boolean active = false;
+    private boolean active = false;
+    /**
+     * balance of the account
+     *
+     * can be negative
+     */
+    private int balance = 0;
+    /**
+     * lower limit for the balance of the account
+     */
+    private int debtLimit = 0;
     /**
      * primary key of backend.accounts.Account
      */
@@ -38,5 +48,62 @@ public abstract class Account {
 
     public Client getOwner() {
         return owner;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+        this.save();
+    }
+
+    /**
+     * @return current balance of the account
+     */
+    public int getBalance() {
+        return balance;
+    }
+
+    /**
+     * overwrite the current balance
+     *
+     * @param balance new balance
+     */
+    public void setBalance(int balance) {
+        this.balance = balance;
+        this.save();
+    }
+
+    /**
+     * modify the current balance of an account by a specified amount.
+     *
+     * TODO do some checks to see if the supposed changes are valid.
+     *
+     * @param amount the amount to modify the current balance by,
+     *               can be negative.
+     * @return the new balance of the account
+     */
+    public int modBalance(int amount) {
+        this.balance += amount;
+        this.save();
+        return this.balance;
+    }
+
+    /**
+     * @return get the current debt limit
+     */
+    public int getDebtLimit() {
+        return debtLimit;
+    }
+
+    /**
+     * set the lower limit of the accounts balance.
+     *
+     * @param debtLimit new limit, must be positive
+     */
+    public void setDebtLimit(int debtLimit) {
+        this.debtLimit = debtLimit;
     }
 }

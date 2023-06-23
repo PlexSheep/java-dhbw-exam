@@ -1,6 +1,7 @@
 package backend;
 
 import backend.accounts.*;
+import backend.People.Person;
 
 import java.util.Date;
 import java.util.List;
@@ -37,9 +38,8 @@ public class Client extends Person {
     /**
      * create a new account of type T for the user
      *
-     * @param type any Class that extends Account (as enum, not class)
+     * @param <T> any Class that extends Account
      * @return a newly created account of type T that has not been reviewed.
-     * @throws UnsupportedOperationException if type hasn't been implemented yet
      */
     public Account createAccount(AccountType type) throws UnsupportedOperationException {
         Account a = null;
@@ -57,6 +57,6 @@ public class Client extends Person {
                 throw new UnsupportedOperationException();
             }
         }
-        return a;
+        return null;
     }
 }

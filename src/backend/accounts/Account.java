@@ -46,6 +46,8 @@ public abstract class Account {
      */
     public Iban iban;
 
+    AccountType TYPE;
+
     public Account(Client owner) {
         this.owner = owner;
         this.iban = new Iban.Builder()
@@ -124,5 +126,23 @@ public abstract class Account {
      */
     public void setDebtLimit(int debtLimit) {
         this.debtLimit = debtLimit;
+    }
+
+    /**
+     * Get the account types
+     *
+     * @return Enum AccountType constant
+     */
+    public AccountType getTYPE() {
+        return TYPE;
+    }
+
+    /**
+     * Get the account IBAN
+     *
+     * @return String IBAN
+     */
+    public String getIBAN() {
+        return iban.toString();
     }
 }

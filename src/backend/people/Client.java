@@ -62,4 +62,10 @@ public class Client extends Person {
     public void deleteAccount(String iban) {
 
     }
+
+    /*
+    public boolean transferMoney(int recipientID, double amount){
+    }
+
+     */
 }

@@ -29,7 +29,7 @@ public class DatabaseController {
     }
 
     public static void fillDb() throws SQLException {
-        for(int i = 0; i > 1000; i++){
+        for(int i = 0; i < 1000; i++){
             Client dave = new Client("dave", new Date(1), "Here", "s", "e");
             saveUsers(dave, "test", "client");
 
@@ -40,7 +40,7 @@ public class DatabaseController {
 
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(ID ,name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
@@ -51,6 +51,7 @@ public class DatabaseController {
         }
         catch (Exception e){
             System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -62,17 +63,17 @@ public class DatabaseController {
             stmt.setString(2, a.getTYPE().toString());
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());
-            stmt.executeQuery();
-
+            stmt.executeUpdate();
 
             insert = "INSERT INTO client_account (client, account) VALUES(?, ?)";
             stmt = conn.prepareStatement(insert);
             stmt.setInt(1, c.getId());
             stmt.setString(2, a.getIBAN());
-            stmt.executeQuery();
+            stmt.executeUpdate();
         }
         catch (Exception e){
             System.out.println(e);
+            e.printStackTrace();
         }
     }
 

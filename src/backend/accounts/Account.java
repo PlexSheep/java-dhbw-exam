@@ -138,11 +138,11 @@ public abstract class Account {
     }
 
     /**
-     * Get the account id
+     * Get the account IBAN
      *
-     * @return int ID
+     * @return String IBAN
      */
-    public int getId() {
-        return id;
+    public String getIBAN() {
+        return iban.toString();
     }
 }

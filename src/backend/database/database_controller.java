@@ -38,9 +38,9 @@ public class database_controller {
 
     public static void saveAccount(Account a) throws SQLException {
         try {
-            String insert = "INSERT INTO account (ID, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
+            String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setInt(1, a.getId());
+            stmt.setString(1, a.getIBAN());
             stmt.setString(2, a.getTYPE().toString());
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());

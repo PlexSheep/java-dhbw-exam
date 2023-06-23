@@ -1,4 +1,4 @@
-package backend.People;
+package backend.people;
 
 import java.util.Date;
 

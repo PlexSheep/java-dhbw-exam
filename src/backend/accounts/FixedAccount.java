@@ -1,6 +1,6 @@
 package backend.accounts;
 
-import backend.Client;
+import backend.people.Client;
 
 /**
  * _Festgeldkonto_ store only a given sum of money

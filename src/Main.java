@@ -1,5 +1,4 @@
 import backend.Client;
-import backend.People.Person;
 import backend.Utils.Authentication;
 import backend.database.database_controller;
 

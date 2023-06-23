@@ -1,7 +1,7 @@
 package backend.accounts;
 
 
-import backend.Client;
+import backend.people.Client;
 
 /**
  *
@@ -29,9 +29,9 @@ public abstract class Account {
      */
     private int debtLimit = 0;
     /**
-     * primary key of backend.accounts.Account
+     * Unique identifier for any account, used as primary key in the database
      */
-    private int id;
+    private String iban;
 
     public Account(Client owner) {
         this.owner = owner;

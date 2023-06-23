@@ -1,6 +1,6 @@
 package backend.accounts;
 
-import backend.Client;
+import backend.people.Client;
 
 /**
  * account for a credit card

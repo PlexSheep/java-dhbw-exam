@@ -1,6 +1,7 @@
 package backend;
 
 import backend.accounts.*;
+import backend.People.*;
 
 import java.util.Date;
 import java.util.List;

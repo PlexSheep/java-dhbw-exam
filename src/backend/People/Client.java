@@ -1,6 +1,9 @@
-package backend.People;
+package backend;
 
 import backend.accounts.Account;
+import backend.accounts.AccountType;
+import backend.accounts.DebitAccount;
+import backend.accounts.GiroAccount;
 
 import java.util.Date;
 import java.util.List;
@@ -11,9 +14,19 @@ import java.util.List;
 public class Client extends Person {
 
     /**
-     * stores the accounts of a backend.People.Client
+     * stores the accounts of a backend.Client
      */
     public List<Account> accounts;
+
+    /**
+     * Create a new Client
+     *
+     * @param name
+     * @param birthday
+     * @param address
+     * @param email
+     * @param telephoneNumber
+     */
     public Client(
             String name,
             Date birthday,
@@ -30,18 +43,19 @@ public class Client extends Person {
      * @param <T> any Class that extends Account
      * @return a newly created account of type T that has not been reviewed.
      */
-    public <T extends Account> Account createAccount() {
-        // create a new object of type T
-        // T a = new T(this); does not work. FIXME
-        //T a = new T(this);
-        //return a;
-        /*
-        switch getClass(T) {
-            case GiroAccount
+    public Account createAccount(AccountType type) throws UnsupportedOperationException {
+        Account a = null;
+        switch (type) {
+            case GIRO -> {
+                a = new GiroAccount(this);
+            }
+            case DEBIT -> {
+                a = new DebitAccount(this);
+            }
+            default -> {
+                throw new UnsupportedOperationException();
+            }
         }
-        return null;
-        */
-        String s = "";
         return null;
     }
 }

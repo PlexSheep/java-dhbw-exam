@@ -1,9 +1,13 @@
 package backend.database;
+import backend.accounts.CreditAccount;
+import backend.people.Client;
 import backend.people.Person;
-import backend.utils.Authentication;
+import backend.Utils.Authentication;
 import backend.accounts.Account;
+import org.iban4j.Iban;
 
 import java.sql.*;
+import java.util.Date;
 
 public class DatabaseController {
 
@@ -24,9 +28,19 @@ public class DatabaseController {
         }
     }
 
+    public static void fillDb() throws SQLException {
+        for(int i = 0; i > 1000; i++){
+            Client dave = new Client("dave", new Date(1), "Here", "s", "e");
+            saveUsers(dave, "test", "client");
+
+            Account a = new CreditAccount(dave);
+            saveAccount(dave, a);
+        }
+    }
+
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(ID ,name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
@@ -40,7 +54,7 @@ public class DatabaseController {
         }
     }
 
-    public static void saveAccount(Account a) throws SQLException {
+    public static void saveAccount(Client c, Account a) throws SQLException {
         try {
             String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
@@ -48,12 +62,39 @@ public class DatabaseController {
             stmt.setString(2, a.getTYPE().toString());
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());
-            stmt.executeUpdate();
+            stmt.executeQuery();
+
+
+            insert = "INSERT INTO client_account (client, account) VALUES(?, ?)";
+            stmt = conn.prepareStatement(insert);
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, a.getIBAN());
+            stmt.executeQuery();
         }
         catch (Exception e){
             System.out.println(e);
         }
     }
+
+    public static ResultSet loadAccount(Iban iban) throws SQLException {
+        try {
+            String query = "SELECT * FROM account WHERE IBAN = ?)";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, iban.toString());
+            return stmt.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public static ResultSet readUsers(String table) throws SQLException {
+        String query = "SELECT * FROM " + table;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        return stmt.executeQuery();
+    }
+
 
     /**
      * get a single user from the database
@@ -67,12 +108,6 @@ public class DatabaseController {
         String query = "SELECT * FROM " + table + " WHERE id = ?";
         PreparedStatement stmt = conn.prepareStatement(query);
         stmt.setInt(1, id);
-        return stmt.executeQuery();
-    }
-
-    public static ResultSet readUsers(String table) throws SQLException {
-        String query = "SELECT * FROM " + table;
-        PreparedStatement stmt = conn.prepareStatement(query);
         return stmt.executeQuery();
     }
 
@@ -106,19 +141,13 @@ public class DatabaseController {
         return null;
     }
 
-    public static boolean changeBalance(String iban, double amount) throws SQLException {
+    public boolean changeBalance(int accID, double amount) throws SQLException {
         try {
-            // make transaction with unfinished flag
-
-            // change the balance
             String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setDouble(1, amount);
-            stmt.setString(1, iban);
+            stmt.setInt(1, accID);
             stmt.executeQuery();
-            // validate the balance
-
-            // set finished flag to transaction
             return true;
         }
         catch (Exception e){

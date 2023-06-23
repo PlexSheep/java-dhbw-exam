@@ -1,6 +1,7 @@
-import backend.people.Client;
-import backend.utils.Authentication;
+import backend.Utils.Authentication;
 import backend.database.DatabaseController;
+import backend.people.Client;
+
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
@@ -32,6 +33,7 @@ public class Main {
             System.out.println(client_set);
         }
 
+        DatabaseController.fillDb();
 
 
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");

@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -13,7 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Abstract base class for any backend.People.Person
  */
 public abstract class Person {
-
+    //private UUID uuid = UUID.randomUUID();
     /**
      * name as per requirement
      */
@@ -140,4 +141,14 @@ public abstract class Person {
         this.telephoneNumber = telephoneNumber;
     }
 
+    public int getId(){
+        return id;
+    }
+
+    /*
+    public UUID getUuid() {
+        return uuid;
+    }
+
+     */
 }

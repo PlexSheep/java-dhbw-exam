@@ -7,5 +7,7 @@ package backend.accounts;
  */
 public enum AccountType {
     GIRO,
-    DEBIT
+    DEBIT,
+    CREDIT,
+    FIXED
 }

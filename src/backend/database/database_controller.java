@@ -1,5 +1,5 @@
 package backend.database;
-import backend.People.Person;
+import backend.people.Person;
 import backend.Utils.Authentication;
 import backend.accounts.Account;
 

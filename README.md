@@ -68,3 +68,9 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Daran denken initial auch ein System mit Daten zu liefern.
 - [ ] Video als Demonstration aller Funktionalität KEINEN SOURCE CODE. 
 - [ ] Demonstration von fehlerhafter Eingabe durch den Benutzer
+
+
+# Test Credentials
+| Username | Password |
+|----------|----------|
+| Herbert  | test     |

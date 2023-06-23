@@ -1,12 +1,15 @@
 package backend.accounts;
 
 
-import backend.Client;
+import backend.people.Client;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 
 /**
  *
  */
 public abstract class Account {
+
     /**
      * specifies the owner of the account
      */
@@ -29,12 +32,34 @@ public abstract class Account {
      */
     private int debtLimit = 0;
     /**
-     * primary key of backend.accounts.Account
+     * Unique identifier for any account, used as primary key in the database
      */
-    private int id;
+    public String accountNumber;
+
+    /**
+     * resulting from COUNTRY_CODE, BANK_CODE and accountNumber,
+     * we generate an IBAN
+     */
+    public Iban iban;
+
+    AccountType TYPE;
 
     public Account(Client owner) {
         this.owner = owner;
+
+        /*
+        Iban iban = new Iban.Builder()
+            // this line is bugged vvvvvv
+            .countryCode(CountryCode.DE)
+            // ^^^^^^^^^^^^^^^^^^^
+            // iban4j checks for wrong padding with some codes, like DE.
+            // see https://github.com/arturmkrtchyan/iban4j/issues/33
+            .bankCode("19043")
+            .buildRandom();
+         */
+
+        this.iban = Iban.random(CountryCode.DE);
+        this.accountNumber = this.iban.getAccountNumber();
 
         // finally, save to DB
         this.save();
@@ -106,5 +131,23 @@ public abstract class Account {
      */
     public void setDebtLimit(int debtLimit) {
         this.debtLimit = debtLimit;
+    }
+
+    /**
+     * Get the account types
+     *
+     * @return Enum AccountType constant
+     */
+    public AccountType getTYPE() {
+        return TYPE;
+    }
+
+    /**
+     * Get the account IBAN
+     *
+     * @return String IBAN
+     */
+    public String getIBAN() {
+        return iban.toString();
     }
 }

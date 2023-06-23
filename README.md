@@ -68,3 +68,19 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Daran denken initial auch ein System mit Daten zu liefern.
 - [ ] Video als Demonstration aller Funktionalität KEINEN SOURCE CODE. 
 - [ ] Demonstration von fehlerhafter Eingabe durch den Benutzer
+
+
+# Test Credentials
+| Username | Password |
+|----------|----------|
+| Herbert  | test     |
+
+# Dependencies
+- [iban4j](https://github.com/arturmkrtchyan/iban4j)
+```maven
+<dependency>
+  <groupId>org.iban4j</groupId>
+  <artifactId>iban4j</artifactId>
+  <version>3.2.5-RELEASE</version>
+</dependency>
+```

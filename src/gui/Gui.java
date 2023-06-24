@@ -1,23 +1,31 @@
-package gui;
+package GUI;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Gui {
-    public static void createFrame() {
-        JDialog dialog = new JDialog();
+    public static void createTrFrame() {
+        JFrame dialog = new JFrame();
         dialog.setTitle("My Frame");
-        dialog.setSize(400, 300);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setSize(800, 700);
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
     }
 
+    public static void createAccFrame() {
+        UserData test = new UserData();
+        test.setTitle("Konto Center");
+        test.setContentPane(test.JMain);
+        test.setSize(500, 400);
+        test.setVisible(true);
+        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Fancy GUI");
+        JFrame frame = new JFrame("Banking App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -31,13 +39,15 @@ public class Gui {
         label.setIcon(imgThisImg);
         firstRowPanel.add(label);
 
-        JTextField textField = new JTextField(20); // Specify the width of the text field
-        firstRowPanel.add(textField);
+        JPanel textjpanel = new JPanel(new BorderLayout());
+        JLabel tlabel = new JLabel("Transaktionen");
+        textjpanel.add(tlabel, BorderLayout.WEST);
+        firstRowPanel.add(textjpanel);
 
         JPanel secondRowPanel = new JPanel(new BorderLayout());
         panel.add(secondRowPanel, BorderLayout.CENTER);
 
-        String[] elements = {"Hallo", "Schüss", "Auf Wiedersehen", ".", ".", "Hallo", "Schüss", "Auf Wiedersehen", ".", ".", "Hallo", "Schüss", "Auf Wiedersehen", ".", "."};
+        String[] elements = {"Amogus sent you: 10000000$", "Whatcolorisyourbugatti withdrew: 0.1$", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Auf Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder"};
         JList<String> list = new JList<>(elements);
         JScrollPane scrollPane = new JScrollPane(list);
         list.setLayoutOrientation(JList.VERTICAL);
@@ -52,20 +62,21 @@ public class Gui {
         JButton button = new JButton("Überweisung");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createFrame();
+                createTrFrame();
             }
         });
-        JButton button1 = new JButton("Überweisung");
+        JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createFrame();
+                createAccFrame();
             }
         });
+
         lastRowPanel.add(button);
         lastRowPanel.add(button1);
 
         frame.getContentPane().add(panel);
-        frame.setSize(500, 300);
+        frame.setSize(400, 300);
         frame.setVisible(true);
     }
 }

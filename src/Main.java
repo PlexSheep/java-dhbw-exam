@@ -1,12 +1,16 @@
+import GUI.UserData;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.Utils.Authentication;
 import backend.database.database_controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 //import javax.swing.border.*;
 import java.awt.*;
 //import java.awt.event.*;
@@ -42,6 +46,7 @@ public class Main {
         } else {
             if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
                 System.out.println("Login successful");
+                Gui.createGUI();
             } else {
                 System.out.println("login failed");
                 //maybe repeat here

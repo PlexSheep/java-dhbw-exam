@@ -26,7 +26,7 @@ public class UserData extends JFrame {
     private JButton JChangeCredentials;
     private JButton JDeleteAccount;
     private JButton JLogout;
-    JPanel JMain;
+    public JPanel JMain;
 
 
     public static void main(String[] args){

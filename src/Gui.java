@@ -1,5 +1,3 @@
-import GUI.UserData;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -34,10 +32,7 @@ public class Gui {
         JPanel firstRowPanel = new JPanel();
         panel.add(firstRowPanel, BorderLayout.NORTH);
 
-        JLabel label = new JLabel();
-        ImageIcon imgThisImg = new ImageIcon(GUI.Gui.class.getResource(""));
-        label.setIcon(imgThisImg);
-        firstRowPanel.add(label);
+
 
         JPanel textjpanel = new JPanel(new BorderLayout());
         JLabel tlabel = new JLabel("Transaktionen");
@@ -68,7 +63,8 @@ public class Gui {
         JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createAccFrame();
+                UserData.createUser();
+                ;
             }
         });
 

@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 
 public class UserData extends JFrame {
@@ -29,7 +27,7 @@ public class UserData extends JFrame {
     public JPanel JMain;
 
 
-    public static void main(String[] args){
+    public static void createUser(){
         UserData test=new UserData();
         test.setContentPane(test.JMain);
         test.setTitle("Test");

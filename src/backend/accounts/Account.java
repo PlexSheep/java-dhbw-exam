@@ -5,10 +5,13 @@ import backend.people.Client;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 
+import java.util.UUID;
+
 /**
  *
  */
 public abstract class Account {
+
 
     /**
      * specifies the owner of the account
@@ -46,18 +49,6 @@ public abstract class Account {
 
     public Account(Client owner) {
         this.owner = owner;
-
-        /*
-        Iban iban = new Iban.Builder()
-            // this line is bugged vvvvvv
-            .countryCode(CountryCode.DE)
-            // ^^^^^^^^^^^^^^^^^^^
-            // iban4j checks for wrong padding with some codes, like DE.
-            // see https://github.com/arturmkrtchyan/iban4j/issues/33
-            .bankCode("19043")
-            .buildRandom();
-         */
-
         this.iban = Iban.random(CountryCode.DE);
         this.accountNumber = this.iban.getAccountNumber();
 
@@ -150,4 +141,7 @@ public abstract class Account {
     public String getIBAN() {
         return iban.toString();
     }
+
+
+
 }

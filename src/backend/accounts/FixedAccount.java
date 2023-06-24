@@ -8,5 +8,7 @@ import backend.people.Client;
 public class FixedAccount extends Account {
     public FixedAccount(Client owner) {
         super(owner);
+        this.TYPE = AccountType.FIXED;
+
     }
 }

@@ -82,13 +82,14 @@ public class DatabaseController {
      * @param recipient
      * @throws SQLException
      */
-    public static void saveTransaction(Client sender, Client recipient) throws SQLException {
+    public static void saveTransaction(Client sender, Client recipient, Double amount) throws SQLException {
         try {
-            String insert = "INSERT INTO transactions (sender, recipient, timestamp) VALUES(?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO transactions (sender, recipient, amount, timestamp) VALUES(?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, sender.getId());
             stmt.setInt(2, recipient.getId());
-            stmt.setString(3, new Date().toString());
+            stmt.setDouble(3, amount);
+            stmt.setString(4, new Date().toString());
             stmt.executeUpdate();
         }
         catch (Exception e){

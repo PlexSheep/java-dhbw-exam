@@ -85,6 +85,22 @@ class databaseControllerTest {
         }
     }
 
+    public static boolean changePassword(Person p, String pass, String table){
+        try {
+            String update = "UPDATE " + table + " set (password) VALUES(?) WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, Authentication.hash_password(pass));
+            stmt.setInt(2, p.getId());
+            stmt.executeUpdate();
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Test
     public static void saveAccount(Client c, Account a) throws SQLException {
         try {
@@ -214,8 +230,8 @@ class databaseControllerTest {
 
     @Test
     void testTransactionTable() throws SQLException {
-        connect();
-        DatabaseController.saveTransaction(dave, dave);
+        DatabaseController.connect();
+        DatabaseController.saveTransaction(dave, dave, 1000.88);
     }
 
 }

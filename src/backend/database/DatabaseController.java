@@ -260,6 +260,20 @@ public class DatabaseController {
         return false;
     }
 
-
+    public static boolean changePassword(Person p, String pass, String table){
+        try {
+            String update = "UPDATE " + table + " set (password) VALUES(?) WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, Authentication.hash_password(pass));
+            stmt.setInt(2, p.getId());
+            stmt.executeUpdate();
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

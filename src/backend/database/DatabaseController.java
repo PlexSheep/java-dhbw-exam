@@ -5,6 +5,7 @@ import backend.people.Person;
 import backend.Utils.Authentication;
 import backend.accounts.Account;
 import org.iban4j.Iban;
+import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.Date;
@@ -13,9 +14,13 @@ public class DatabaseController {
 
     public static final String TABLE_CLIENTS = "client";
     public static final String TABLE_EMPLOYEES = "Employee";
+    private static Client dave = new Client("dave", new Date(1), "Here", "s", "e");
 
+    private static Account a = new CreditAccount(dave);
     static Connection conn = null;
     public static void connect() {
+
+
 
         try {
             String url = "jdbc:sqlite:src/backend/database/database.db";
@@ -30,10 +35,8 @@ public class DatabaseController {
 
     public static void fillDb() throws SQLException {
         for(int i = 0; i < 1000; i++){
-            Client dave = new Client("dave", new Date(1), "Here", "s", "e");
             saveUsers(dave, "test", "client");
 
-            Account a = new CreditAccount(dave);
             saveAccount(dave, a);
         }
     }
@@ -57,13 +60,14 @@ public class DatabaseController {
 
     public static void updateUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
+            String insert = "UPDATE " + table + "set (name, address, email, phone, password) VALUES(?, ?, ?, ?, ?) WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
             stmt.setString(3, p.getEmail());
             stmt.setString(4, p.getTelephoneNumber());
             stmt.setString(5, Authentication.hash_password(password));
+            stmt.setInt(5, p.getId());
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -98,18 +102,19 @@ public class DatabaseController {
      * @param sender
      * @throws SQLException
      */
-    public static void readTransactionBySender(Client sender) throws SQLException {
+    public static ResultSet readTransactionBySender(Client sender) throws SQLException {
         try {
             String insert = "SELECT * FROM transactions WHERE sender=?";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, sender.getId());
             stmt.setString(3, new Date().toString());
-            stmt.executeUpdate();
+            return stmt.executeQuery();
         }
         catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -118,18 +123,19 @@ public class DatabaseController {
      * @param recipient
      * @throws SQLException
      */
-    public static void readTransactionBySRecipient(Client recipient) throws SQLException {
+    public static ResultSet readTransactionBySRecipient(Client recipient) throws SQLException {
         try {
             String insert = "SELECT * FROM transactions WHERE sender=?";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, recipient.getId());
             stmt.setString(3, new Date().toString());
-            stmt.executeUpdate();
+            return stmt.executeQuery();
         }
         catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void saveAccount(Client c, Account a) throws SQLException {
@@ -156,12 +162,14 @@ public class DatabaseController {
 
     public static void updateAccount(Account a) throws SQLException {
         try {
-            String insert = "UPDATE account set (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
+            String insert = "UPDATE account set (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?) WHERE id=?";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, a.getIBAN());
             stmt.setString(2, a.getTYPE().toString());
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());
+            stmt.setDouble(5, a.getDebtLimit());
+
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -250,5 +258,7 @@ public class DatabaseController {
         }
         return false;
     }
+
+
 
 }

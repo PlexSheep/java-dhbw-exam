@@ -212,4 +212,10 @@ class databaseControllerTest {
         return false;
     }
 
+    @Test
+    void testTransactionTable() throws SQLException {
+        connect();
+        DatabaseController.saveTransaction(dave, dave);
+    }
+
 }

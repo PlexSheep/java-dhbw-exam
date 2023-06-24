@@ -57,8 +57,7 @@ public class Gui {
         JButton button = new JButton("Überweisung");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createTrFrame();
-            }
+                Transaction.createTransaction();       }
         });
         JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {

@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -8,7 +10,6 @@ public class UserData extends JFrame {
     private JPanel JNamePanel;
     private JPanel JEmailPanel;
     private JPanel JNumberPanel;
-    private JButton changePictureButton;
     private JLabel JNAme;
     private JPanel JAdressPanel;
     private JLabel profilePicturePanel;
@@ -25,7 +26,17 @@ public class UserData extends JFrame {
     private JButton JDeleteAccount;
     private JButton JLogout;
     public JPanel JMain;
+    private JTextField JNewPassword;
 
+
+    public UserData() {
+        JChangePassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
 
     public static void createUser(){
         UserData test=new UserData();
@@ -33,7 +44,7 @@ public class UserData extends JFrame {
         test.setTitle("Test");
         test.setSize(500,400);
         test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
 }

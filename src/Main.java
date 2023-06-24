@@ -1,14 +1,16 @@
-import backend.Utils.Authentication;
-import backend.database.DatabaseController;
+import GUI.UserData;
 import backend.people.Client;
+import backend.people.Employee;
+import backend.Utils.Authentication;
+import backend.database.database_controller;
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 //import javax.swing.border.*;
 import java.awt.*;
 //import java.awt.event.*;
@@ -22,27 +24,13 @@ import java.net.URL;
 
 public class Main {
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
-        // backend setup
         Authentication auth = new Authentication();
-        DatabaseController.connect();
-        List CLIENT_LIST;
-        ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
-        System.out.println(client_set);
-        assert client_set != null;
-        while (client_set.next()) {
-            System.out.println(client_set);
-        }
-
-        DatabaseController.fillDb();
-
-
+        database_controller.connect();
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
 
         //database_controller.saveUsers(herbert, "test", "Employee");
-        System.out.println(DatabaseController.readUser(1, "Employee").getString("Name"));
-
-        // frontend start
+        System.out.println(database_controller.readUsers(1, "Employee").getString("Name"));
 
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
@@ -58,6 +46,7 @@ public class Main {
         } else {
             if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
                 System.out.println("Login successful");
+                Gui.createGUI();
             } else {
                 System.out.println("login failed");
                 //maybe repeat here

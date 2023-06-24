@@ -1,16 +1,11 @@
-import GUI.UserData;
 import backend.people.Client;
-import backend.people.Employee;
 import backend.Utils.Authentication;
 import backend.database.DatabaseController;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 //import javax.swing.border.*;
 import java.awt.*;
 //import java.awt.event.*;

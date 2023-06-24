@@ -24,8 +24,8 @@ public class Main {
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
 
-        //database_controller.saveUsers(herbert, "test", "Employee");
-        System.out.println(DatabaseController.readUsers(1, "Employee").getString("Name"));
+        //DatabaseController.saveUsers(herbert, "test", "Employee");
+        System.out.println(DatabaseController.readUsers("client").getString("Name"));
 
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();

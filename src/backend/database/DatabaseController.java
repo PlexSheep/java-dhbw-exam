@@ -72,6 +72,66 @@ public class DatabaseController {
         }
     }
 
+    /**
+     * Save a transaction
+     * @param sender
+     * @param recipient
+     * @throws SQLException
+     */
+    public static void saveTransaction(Client sender, Client recipient) throws SQLException {
+        try {
+            String insert = "INSERT INTO transactions (sender, recipient, timestamp) VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setInt(1, sender.getId());
+            stmt.setInt(2, recipient.getId());
+            stmt.setString(3, new Date().toString());
+            stmt.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read transactions for specific sender
+     * @param sender
+     * @throws SQLException
+     */
+    public static void readTransactionBySender(Client sender) throws SQLException {
+        try {
+            String insert = "SELECT * FROM transactions WHERE sender=?";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setInt(1, sender.getId());
+            stmt.setString(3, new Date().toString());
+            stmt.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Read transactions for specific recipient
+     *
+     * @param recipient
+     * @throws SQLException
+     */
+    public static void readTransactionBySRecipient(Client recipient) throws SQLException {
+        try {
+            String insert = "SELECT * FROM transactions WHERE sender=?";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setInt(1, recipient.getId());
+            stmt.setString(3, new Date().toString());
+            stmt.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
     public static void saveAccount(Client c, Account a) throws SQLException {
         try {
             String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";

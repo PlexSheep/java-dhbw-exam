@@ -23,7 +23,7 @@ public class DatabaseController {
 
 
         try {
-            String url = "jdbc:sqlite:src/backend/database/database.db";
+            String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");

@@ -53,9 +53,6 @@ class databaseControllerTest {
         DatabaseController.connect();
         ResultSet res = DatabaseController.readTransactionBySender(dave);
         while(res.next()) {
-            for(RowSet row : res){
-
-            }
             System.out.println(res.getString("amount"));
         }
     }

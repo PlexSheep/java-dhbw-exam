@@ -55,6 +55,23 @@ public class DatabaseController {
         }
     }
 
+    public static void updateUsers(Person p, String password, String table) throws SQLException {
+        try {
+            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setString(1, p.getName());
+            stmt.setString(2, p.getAddress());
+            stmt.setString(3, p.getEmail());
+            stmt.setString(4, p.getTelephoneNumber());
+            stmt.setString(5, Authentication.hash_password(password));
+            stmt.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
     public static void saveAccount(Client c, Account a) throws SQLException {
         try {
             String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
@@ -69,6 +86,22 @@ public class DatabaseController {
             stmt = conn.prepareStatement(insert);
             stmt.setInt(1, c.getId());
             stmt.setString(2, a.getIBAN());
+            stmt.executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateAccount(Account a) throws SQLException {
+        try {
+            String insert = "UPDATE account set (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            stmt.setString(1, a.getIBAN());
+            stmt.setString(2, a.getTYPE().toString());
+            stmt.setDouble(3, a.getBalance());
+            stmt.setDouble(4, a.getDebtLimit());
             stmt.executeUpdate();
         }
         catch (Exception e){

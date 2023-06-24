@@ -2,7 +2,7 @@ import GUI.UserData;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.Utils.Authentication;
-import backend.database.database_controller;
+import backend.database.DatabaseController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,12 +25,12 @@ import java.net.URL;
 public class Main {
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         Authentication auth = new Authentication();
-        database_controller.connect();
+        DatabaseController.connect();
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
 
         //database_controller.saveUsers(herbert, "test", "Employee");
-        System.out.println(database_controller.readUsers(1, "Employee").getString("Name"));
+        System.out.println(DatabaseController.readUsers(1, "Employee").getString("Name"));
 
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();

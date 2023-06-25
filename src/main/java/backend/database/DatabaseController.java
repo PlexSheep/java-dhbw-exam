@@ -35,7 +35,7 @@ public class DatabaseController {
 
     public static void fillDb() throws SQLException {
         for(int i = 0; i < 1000; i++){
-            saveUsers(dave, "test", "client");
+            saveUsers(new Client("dave", new Date(1), "Here", "s", "e"), "test", "client");
 
             saveAccount(dave, a);
         }
@@ -43,13 +43,14 @@ public class DatabaseController {
 
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(user_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, p.getName());
-            stmt.setString(2, p.getAddress());
-            stmt.setString(3, p.getEmail());
-            stmt.setString(4, p.getTelephoneNumber());
-            stmt.setString(5, Authentication.hash_password(password));
+            stmt.setInt(1, p.getId());
+            stmt.setString(2, p.getName());
+            stmt.setString(3, p.getAddress());
+            stmt.setString(4, p.getEmail());
+            stmt.setString(5, p.getTelephoneNumber());
+            stmt.setString(6, Authentication.hash_password(password));
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -129,6 +130,19 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, recipient.getId());
             stmt.setString(3, new Date().toString());
+            return stmt.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResultSet readTransactions() throws SQLException {
+        try {
+            String query = "SELECT * FROM transactions";
+            PreparedStatement stmt = conn.prepareStatement(query);
             return stmt.executeQuery();
         }
         catch (Exception e){
@@ -228,12 +242,12 @@ public class DatabaseController {
         return null;
     }
 
-    public static String get_user_password(String name, String table) throws SQLException {
+    public static String get_user_password(Integer userId, String table) throws SQLException {
         try {
 
-            String query = "SELECT `password` FROM " + table + " WHERE name = ?";
+            String query = "SELECT `password` FROM " + table + " WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, name);
+            stmt.setInt(1, userId);
             return stmt.executeQuery().getString("password");
         }
         catch (Exception e){

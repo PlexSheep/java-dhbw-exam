@@ -1,18 +1,11 @@
 package backend.database;
 
-import backend.utils.Authentication;
 import backend.accounts.CreditAccount;
-import backend.accounts.DebitAccount;
 import backend.people.Client;
-import backend.people.Person;
-import org.iban4j.Iban;
 import org.junit.jupiter.api.Test;
-
-import java.sql.PreparedStatement;
 
 import backend.accounts.Account;
 
-import javax.sql.RowSet;
 import java.sql.*;
 import java.util.Date;
 
@@ -38,8 +31,9 @@ class databaseControllerTest {
     }
 
     @Test
-    public static void fillDb() throws SQLException {
-        for(int i = 0; i < 1000; i++){
+    void fillDb() throws SQLException {
+        DatabaseController.connect();
+        for(int i = 0; i < 200; i++){
             Client dave = new Client("dave", new Date(1), "Here", "s", "e");
             DatabaseController.saveUsers(dave, "test", "client");
 

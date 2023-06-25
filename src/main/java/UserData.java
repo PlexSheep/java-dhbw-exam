@@ -63,8 +63,12 @@ public class UserData extends JFrame {
         Person p = Main.loggedIn;
         String name = p.getName();
         JNameVariable.setText(name);
-
-
+        String address = p.getAddress();
+        JAdressVariable.setText(address);
+        String number = p.getTelephoneNumber();
+        JNumberVar.setText(number);
+        String mail = p.getEmail();
+        JEmailVar.setText(mail);
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override

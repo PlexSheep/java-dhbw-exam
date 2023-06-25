@@ -2,7 +2,7 @@ package backend.database;
 import backend.accounts.CreditAccount;
 import backend.people.Client;
 import backend.people.Person;
-import backend.Utils.Authentication;
+import backend.utils.Authentication;
 import backend.accounts.Account;
 import org.iban4j.Iban;
 import org.junit.jupiter.api.Test;

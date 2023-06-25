@@ -1,18 +1,11 @@
 package backend.database;
 
-import backend.Utils.Authentication;
 import backend.accounts.CreditAccount;
-import backend.accounts.DebitAccount;
 import backend.people.Client;
-import backend.people.Person;
-import org.iban4j.Iban;
 import org.junit.jupiter.api.Test;
-
-import java.sql.PreparedStatement;
 
 import backend.accounts.Account;
 
-import javax.sql.RowSet;
 import java.sql.*;
 import java.util.Date;
 

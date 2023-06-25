@@ -1,31 +1,110 @@
 import backend.people.Client;
-import backend.Utils.Authentication;
+import backend.people.Employee;
+import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import javax.swing.*;
-//import javax.swing.border.*;
-import java.awt.*;
-//import java.awt.event.*;
-//import java.io.File;
-//import java.awt.Container;
-//import java.awt.event.MouseAdapter;
-//import java.awt.event.MouseEvent;
-//import java.awt.Component;
-//import java.util.ArrayList;
 import java.net.URL;
+import javax.swing.*;
+import java.awt.Image;
+import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         Authentication auth = new Authentication();
         DatabaseController.connect();
+        LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+        ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
+        System.out.println(client_set);
+        assert client_set != null;
+        while (client_set.next()) {
+            try {
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
+                                client_set.getString("ID"),          // index 1
+                                client_set.getString("name"),        // index 2
+                                client_set.getString("address"),     // index 3
+                                client_set.getString("email"),       // index 4
+                                client_set.getString("phone"),       // index 5
+                                client_set.getString("password"),    // index 6
+                                client_set.getString("date")         // index 7
+                        )
+                );
+                Client client = new Client(
+                        client_set.getString("name"),
+                        client_set.getDate("date"),
+                        client_set.getString("address"),
+                        client_set.getString("email"),
+                        client_set.getString("phone")
+                );
+                CLIENT_LIST.add(client);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        LinkedList<Employee> EMPLOYEE_LIST = new LinkedList<>();
+        ResultSet employee_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
+        System.out.println(employee_list );
+        assert employee_list != null;
+        while (employee_list.next()) {
+            try {
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                "name:\t\t%s\n" +
+                                "address:\t%s\n" +
+                                "email:\t\t%s\n" +
+                                "telephone:\t%s\n" +
+                                "pass:\t\t%s\n" +
+                                "date:\t\t%s\n",
+                                employee_list.getString("ID"),          // index 1
+                                employee_list.getString("name"),        // index 2
+                                employee_list.getString("address"),     // index 3
+                                employee_list.getString("email"),       // index 4
+                                employee_list.getString("phone"),       // index 5
+                                employee_list.getString("password"),    // index 6
+                                employee_list.getString("date")         // index 7
+                        )
+                );
+                Employee employee = new Employee(
+                        employee_list.getString("name"),
+                        employee_list.getDate("date"),
+                        employee_list.getString("address"),
+                        employee_list.getString("email"),
+                        employee_list.getString("phone")
+                );
+                EMPLOYEE_LIST.add(employee);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // debug
+        System.out.println(CLIENT_LIST);
+        System.out.println(EMPLOYEE_LIST);
+
+
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
 
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));
+        //database_controller.saveUsers(herbert, "test", "Employee");
+        System.out.println(DatabaseController.readUser(1, "Employee").getString("name"));
+
+        // frontend start
 
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
@@ -41,7 +120,6 @@ public class Main {
         } else {
             if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
                 System.out.println("Login successful");
-                Gui.createGUI();
             } else {
                 System.out.println("login failed");
                 //maybe repeat here

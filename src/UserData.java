@@ -2,13 +2,12 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import backend.Utils.Authentication;
 import backend.database.DatabaseController;
-
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -18,15 +17,17 @@ public class UserData extends JFrame {
     private JPanel JNamePanel;
     private JPanel JEmailPanel;
     private JPanel JNumberPanel;
-    private JLabel JNAme;
+    private JLabel JName;
     private JPanel JAdressPanel;
     private JLabel profilePicturePanel;
     private JPanel JIban;
     private JPanel JBic;
-    private JLabel JNameVariable;
     private JLabel JAdressVariable;
     private JLabel JEmailVar;
-    private JLabel JNumverVar;
+    private JLabel JNumberVar;
+
+    private JLabel JNameVariable;
+
     private JLabel JIbanVar;
     private JLabel JBicVar;
     private JButton JChangePassword;
@@ -44,7 +45,7 @@ public class UserData extends JFrame {
                     try {
                         String newPassword = JNewPassword.getText();
                         Connection conn = DatabaseController.conn;
-                        UserData.updatepassword(conn, newPassword);
+                        UserData.updatePassword(conn, newPassword);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
@@ -52,19 +53,25 @@ public class UserData extends JFrame {
             }
 
         });
+
+
+        String columnName = "name";
+        JNameVariable.setText(getColumnValue("Employee", columnName));
+        String columnAdress = "address";
+        JAdressVariable.setText(getColumnValue("Employee", columnAdress));
+
     }
 
-
-    public static void createUser(){
-        UserData test=new UserData();
+    public static void createUser() {
+        UserData test = new UserData();
         test.setContentPane(test.JMain);
         test.setTitle("Test");
-        test.setSize(500,400);
+        test.setSize(500, 400);
         test.setVisible(true);
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
-    public static void updatepassword(Connection conn, String newPassword) throws SQLException {
+
+    public static void updatePassword(Connection conn, String newPassword) throws SQLException {
         try {
             String hashedPassword = Authentication.hash_password(newPassword);
 
@@ -87,9 +94,25 @@ public class UserData extends JFrame {
         }
     }
 
+    public String getColumnValue(String tableName, String columnName) {
+        String value = "";
 
+        try {
+            Connection conn = DatabaseController.conn;
+            String query = "SELECT " + columnName + " FROM " + tableName + " WHERE name = 'Herbert'";
+            PreparedStatement statement = conn.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                value = resultSet.getString(columnName);
+            }
+
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
 }
-
-
-///Amogus sus
-

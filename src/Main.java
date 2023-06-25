@@ -42,6 +42,7 @@ public class Main {
             if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
                 System.out.println("Login successful");
                 Gui.createGUI();
+
             } else {
                 System.out.println("login failed");
                 //maybe repeat here

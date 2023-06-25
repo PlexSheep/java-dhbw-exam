@@ -139,6 +139,19 @@ public class DatabaseController {
         return null;
     }
 
+    public static ResultSet readTransactions() throws SQLException {
+        try {
+            String query = "SELECT * FROM transactions";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            return stmt.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void saveAccount(Client c, Account a) throws SQLException {
         try {
             String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
@@ -229,12 +242,12 @@ public class DatabaseController {
         return null;
     }
 
-    public static String get_user_password(String name, String table) throws SQLException {
+    public static String get_user_password(Integer userId, String table) throws SQLException {
         try {
 
-            String query = "SELECT `password` FROM " + table + " WHERE name = ?";
+            String query = "SELECT `password` FROM " + table + " WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, name);
+            stmt.setInt(1, userId);
             return stmt.executeQuery().getString("password");
         }
         catch (Exception e){

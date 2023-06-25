@@ -1,5 +1,6 @@
 import backend.people.Client;
 import backend.people.Employee;
+import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
@@ -13,6 +14,9 @@ import java.awt.Image;
 import java.util.LinkedList;
 
 public class Main {
+
+    static Person loggedIn;
+
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         Authentication auth = new Authentication();
         DatabaseController.connect();
@@ -45,7 +49,8 @@ public class Main {
                         client_set.getDate("date"),
                         client_set.getString("address"),
                         client_set.getString("email"),
-                        client_set.getString("phone")
+                        client_set.getString("phone"),
+                        client_set.getInt("user_id")
                 );
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
@@ -55,19 +60,19 @@ public class Main {
 
         LinkedList<Employee> EMPLOYEE_LIST = new LinkedList<>();
         ResultSet employee_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
-        System.out.println(employee_list );
+        System.out.println(employee_list);
         assert employee_list != null;
         while (employee_list.next()) {
             try {
                 System.out.println(
                         String.format(
                                 "id:\t\t\t%s\n" +
-                                "name:\t\t%s\n" +
-                                "address:\t%s\n" +
-                                "email:\t\t%s\n" +
-                                "telephone:\t%s\n" +
-                                "pass:\t\t%s\n" +
-                                "date:\t\t%s\n",
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
                                 employee_list.getString("ID"),          // index 1
                                 employee_list.getString("name"),        // index 2
                                 employee_list.getString("address"),     // index 3
@@ -82,14 +87,15 @@ public class Main {
                         employee_list.getDate("date"),
                         employee_list.getString("address"),
                         employee_list.getString("email"),
-                        employee_list.getString("phone")
+                        employee_list.getString("phone"),
+                        employee_list.getInt("user_id")
                 );
                 EMPLOYEE_LIST.add(employee);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
 
         // debug
         System.out.println(CLIENT_LIST);
@@ -108,7 +114,7 @@ public class Main {
 
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
-        Object[] message = {"Username:", username, "Password:", password};
+        Object[] message = {"User ID:", username, "Password:", password};
         ImageIcon bankIcon = null;
         URL imgURL = Main.class.getResource("amogus.png");
         if (imgURL != null) {
@@ -118,13 +124,34 @@ public class Main {
         if (option != JOptionPane.OK_OPTION) {
             System.exit(0);
         } else {
-            if (auth.password_authentication(username.getText(), password.getText(), "Employee")) {//check credentials here
-                System.out.println("Login successful");
-            } else {
-                System.out.println("login failed");
-                //maybe repeat here
-            }
-        }
+                if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
+                    for (Person p : EMPLOYEE_LIST) {
+                        if (p.getId() == Integer.parseInt(username.getText())) {
+                            System.out.println(p);
+                            loggedIn = p;
+                            break;
+                        }
+                    }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    Gui.createGUI();
+                }
+                else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")){
+                        for (Person p : CLIENT_LIST) {
+                            if (p.getId() == Integer.parseInt(username.getText())) {
+                                loggedIn = p;
+                                break;
+                            }
+                        }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    Gui.createGUI();
+                }
 
+                else {
+                    System.out.println("login failed");
+                    //maybe repeat here
+                }
+        }
     }
 }

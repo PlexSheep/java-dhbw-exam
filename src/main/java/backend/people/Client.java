@@ -34,6 +34,17 @@ public class Client extends Person {
         super(name, birthday, address, email, telephoneNumber);
     }
 
+    public Client(
+            String name,
+            Date birthday,
+            String address,
+            String email,
+            String telephoneNumber,
+            Integer id)
+    {
+        super(name, birthday, address, email, telephoneNumber, id);
+    }
+
     /**
      * create a new account of type T for the user
      *

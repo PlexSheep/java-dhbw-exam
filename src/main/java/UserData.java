@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import backend.Utils.Authentication;
+import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
 public class UserData extends JFrame {

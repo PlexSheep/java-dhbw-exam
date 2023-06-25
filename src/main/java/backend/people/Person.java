@@ -40,7 +40,7 @@ public abstract class Person {
     /**
      * the primary key of the account
      */
-    private int id;
+    int id;
     /**
      * stores if the user is currently logged in
      */
@@ -62,6 +62,24 @@ public abstract class Person {
         secRan.setSeed(System.currentTimeMillis() % 1000);
 
         this.id = secRan.nextInt(9999999,99999999);
+
+        // finally, save to DB
+        this.save();
+    }
+
+    public Person(
+            String name,
+            Date birthday,
+            String address,
+            String email,
+            String telephoneNumber,
+            Integer id) {
+        this.name = name;
+        this.birthday = birthday;
+        this.address = address;
+        this.email = email;
+        this.telephoneNumber = telephoneNumber;
+        this.id = id;
 
         // finally, save to DB
         this.save();

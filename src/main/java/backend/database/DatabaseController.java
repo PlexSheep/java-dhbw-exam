@@ -23,7 +23,7 @@ public class DatabaseController {
 
 
         try {
-            String url = "jdbc:sqlite:src/backend/database/database.db";
+            String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
             System.out.println("Connection to SQLite has been established.");
@@ -105,10 +105,9 @@ public class DatabaseController {
      */
     public static ResultSet readTransactionBySender(Client sender) throws SQLException {
         try {
-            String insert = "SELECT * FROM transactions WHERE sender=?";
-            PreparedStatement stmt = conn.prepareStatement(insert);
+            String query = "SELECT * FROM transactions WHERE sender=?";
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, sender.getId());
-            stmt.setString(3, new Date().toString());
             return stmt.executeQuery();
         }
         catch (Exception e){

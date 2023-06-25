@@ -43,7 +43,7 @@ public class DatabaseController {
 
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(client_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(user_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, p.getId());
             stmt.setString(2, p.getName());

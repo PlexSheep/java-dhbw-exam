@@ -1,6 +1,6 @@
 package backend.database;
 
-import backend.Utils.Authentication;
+import backend.utils.Authentication;
 import backend.accounts.CreditAccount;
 import backend.accounts.DebitAccount;
 import backend.people.Client;

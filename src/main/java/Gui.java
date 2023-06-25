@@ -5,22 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Gui {
-    public static void createTrFrame() {
-        JFrame dialog = new JFrame();
-        dialog.setTitle("My Frame");
-        dialog.setSize(800, 700);
-        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
-    }
-
-    public static void createAccFrame() {
-        UserData test = new UserData();
-        test.setTitle("Konto Center");
-        test.setContentPane(test.JMain);
-        test.setSize(500, 400);
-        test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
 
     public static void createGUI() {
         JFrame frame = new JFrame("Banking App");

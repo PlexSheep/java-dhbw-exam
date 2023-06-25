@@ -1,4 +1,4 @@
-package backend.Utils;
+package backend.utils;
 
 import backend.database.DatabaseController;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;

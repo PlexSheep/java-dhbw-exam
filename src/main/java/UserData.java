@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import backend.Utils.Authentication;
+import backend.people.Person;
+import backend.utils.Authentication;
 import backend.database.DatabaseController;
+
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -37,6 +39,8 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
 
+
+
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -55,11 +59,19 @@ public class UserData extends JFrame {
         });
 
 
-        String columnName = "name";
-        JNameVariable.setText(getColumnValue("Employee", columnName));
-        String columnAdress = "address";
-        JAdressVariable.setText(getColumnValue("Employee", columnAdress));
 
+        Person p = Main.loggedIn;
+        String name = p.getName();
+        JNameVariable.setText(name);
+
+
+
+        JChangeCredentials.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChangeCredential.ChangeCredential();
+            }
+        });
     }
 
     public static void createUser() {
@@ -115,4 +127,5 @@ public class UserData extends JFrame {
 
         return value;
     }
+
 }

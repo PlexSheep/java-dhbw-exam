@@ -35,7 +35,7 @@ public class DatabaseController {
 
     public static void fillDb() throws SQLException {
         for(int i = 0; i < 1000; i++){
-            saveUsers(dave, "test", "client");
+            saveUsers(new Client("dave", new Date(1), "Here", "s", "e"), "test", "client");
 
             saveAccount(dave, a);
         }
@@ -43,13 +43,14 @@ public class DatabaseController {
 
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(name, address, email, phone, password) VALUES(?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(client_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, p.getName());
-            stmt.setString(2, p.getAddress());
-            stmt.setString(3, p.getEmail());
-            stmt.setString(4, p.getTelephoneNumber());
-            stmt.setString(5, Authentication.hash_password(password));
+            stmt.setInt(1, p.getId());
+            stmt.setString(2, p.getName());
+            stmt.setString(3, p.getAddress());
+            stmt.setString(4, p.getEmail());
+            stmt.setString(5, p.getTelephoneNumber());
+            stmt.setString(6, Authentication.hash_password(password));
             stmt.executeUpdate();
         }
         catch (Exception e){

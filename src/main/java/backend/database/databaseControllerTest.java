@@ -38,8 +38,9 @@ class databaseControllerTest {
     }
 
     @Test
-    public static void fillDb() throws SQLException {
-        for(int i = 0; i < 1000; i++){
+    void fillDb() throws SQLException {
+        DatabaseController.connect();
+        for(int i = 0; i < 200; i++){
             Client dave = new Client("dave", new Date(1), "Here", "s", "e");
             DatabaseController.saveUsers(dave, "test", "client");
 

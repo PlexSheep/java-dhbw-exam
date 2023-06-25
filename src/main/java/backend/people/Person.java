@@ -58,6 +58,11 @@ public abstract class Person {
         this.email = email;
         this.telephoneNumber = telephoneNumber;
 
+        SecureRandom secRan = new SecureRandom();
+        secRan.setSeed(System.currentTimeMillis() % 1000);
+
+        this.id = secRan.nextInt(9999999,99999999);
+
         // finally, save to DB
         this.save();
     }

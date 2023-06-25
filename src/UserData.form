@@ -237,7 +237,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="Input new Password"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="1cdf5" class="javax.swing.JButton" binding="JChangePassword">

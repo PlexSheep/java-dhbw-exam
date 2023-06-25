@@ -1,6 +1,14 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import backend.Utils.Authentication;
+import backend.database.DatabaseController;
+
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -28,15 +36,24 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
 
-
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (e.getSource() == JChangePassword) {
+                    try {
+                        String newPassword = JNewPassword.getText();
+                        Connection conn = DatabaseController.conn;
+                        UserData.updatepassword(conn, newPassword);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
             }
+
         });
     }
+
 
     public static void createUser(){
         UserData test=new UserData();
@@ -47,5 +64,32 @@ public class UserData extends JFrame {
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
+    public static void updatepassword(Connection conn, String newPassword) throws SQLException {
+        try {
+            String hashedPassword = Authentication.hash_password(newPassword);
+
+            String updateQuery = "UPDATE Employee SET password = ? WHERE name = ?";
+            PreparedStatement statement = conn.prepareStatement(updateQuery);
+            statement.setString(1, hashedPassword);
+            statement.setString(2, "Herbert");
+
+            int rowsAffected = statement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Table updated successfully.");
+            } else {
+                System.out.println("No rows were updated.");
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
+
+
+
 

@@ -17,7 +17,7 @@ public class DatabaseController {
     private static Client dave = new Client("dave", new Date(1), "Here", "s", "e");
 
     private static Account a = new CreditAccount(dave);
-    static Connection conn = null;
+    public static Connection conn = null;
     public static void connect() {
 
 

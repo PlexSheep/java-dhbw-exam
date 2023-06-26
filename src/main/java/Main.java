@@ -18,6 +18,7 @@ public class Main {
     static Person loggedIn;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
+        // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();

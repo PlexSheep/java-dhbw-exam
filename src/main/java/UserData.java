@@ -6,8 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
+
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -37,6 +39,8 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
 
+
+
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -55,10 +59,6 @@ public class UserData extends JFrame {
         });
 
 
-        String columnName = "name";
-        JNameVariable.setText(getColumnValue("Employee", columnName));
-        String columnAdress = "address";
-        JAdressVariable.setText(getColumnValue("Employee", columnAdress));
 
     }
 

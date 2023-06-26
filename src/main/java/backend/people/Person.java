@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -13,7 +14,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * Abstract base class for any backend.People.Person
  */
 public abstract class Person {
-
+    //private UUID uuid = UUID.randomUUID();
     /**
      * name as per requirement
      */
@@ -39,7 +40,7 @@ public abstract class Person {
     /**
      * the primary key of the account
      */
-    private int id;
+    int id;
     /**
      * stores if the user is currently logged in
      */
@@ -56,6 +57,29 @@ public abstract class Person {
         this.address = address;
         this.email = email;
         this.telephoneNumber = telephoneNumber;
+
+        SecureRandom secRan = new SecureRandom();
+        secRan.setSeed(System.currentTimeMillis() % 1000);
+
+        this.id = secRan.nextInt(9999999,99999999);
+
+        // finally, save to DB
+        this.save();
+    }
+
+    public Person(
+            String name,
+            Date birthday,
+            String address,
+            String email,
+            String telephoneNumber,
+            Integer id) {
+        this.name = name;
+        this.birthday = birthday;
+        this.address = address;
+        this.email = email;
+        this.telephoneNumber = telephoneNumber;
+        this.id = id;
 
         // finally, save to DB
         this.save();
@@ -140,4 +164,14 @@ public abstract class Person {
         this.telephoneNumber = telephoneNumber;
     }
 
+    public int getId(){
+        return id;
+    }
+
+    /*
+    public UUID getUuid() {
+        return uuid;
+    }
+
+     */
 }

@@ -1,5 +1,3 @@
-package GUI;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -24,7 +22,7 @@ public class Gui {
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
+    public static void createGUI() {
         JFrame frame = new JFrame("Banking App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -34,10 +32,7 @@ public class Gui {
         JPanel firstRowPanel = new JPanel();
         panel.add(firstRowPanel, BorderLayout.NORTH);
 
-        JLabel label = new JLabel();
-        ImageIcon imgThisImg = new ImageIcon(Gui.class.getResource(""));
-        label.setIcon(imgThisImg);
-        firstRowPanel.add(label);
+
 
         JPanel textjpanel = new JPanel(new BorderLayout());
         JLabel tlabel = new JLabel("Transaktionen");
@@ -62,13 +57,13 @@ public class Gui {
         JButton button = new JButton("Überweisung");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createTrFrame();
-            }
+                Transaction.createTransaction();       }
         });
         JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                createAccFrame();
+                UserData.createUser();
+
             }
         });
 

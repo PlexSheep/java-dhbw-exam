@@ -8,5 +8,7 @@ import backend.people.Client;
 public class CreditAccount extends Account {
     public CreditAccount(Client owner) {
         super(owner);
+        this.TYPE = AccountType.CREDIT;
+
     }
 }

@@ -5,6 +5,7 @@ out/
 
 ### Eclipse ###
 .apt_generated
+.class
 .classpath
 .factorypath
 .project
@@ -28,3 +29,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 .idea/uiDesigner.xml
+
+## Classes
+*.class

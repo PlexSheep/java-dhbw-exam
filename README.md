@@ -71,9 +71,12 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 
 
 ## Test Credentials
-| Username | Password |
-|----------|----------|
-| Herbert  | test     |
+| Username | Password      |
+|----------|---------------|
+| 1        | (leave empty) |
+| 10       | test          |
+| 50       | test          |
+| (...)    | test          |
 
 ## Dependencies
 - [iban4j](https://github.com/arturmkrtchyan/iban4j)

@@ -8,7 +8,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [x] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
 - [x] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
 - [x] Konto ändern, 
-- [ ] Konto auflösen, 
+- [x] Konto auflösen, 
 - [ ] Zahlungseingang, 
 - [ ] Zahlungsausgang, 
 - [ ] Überweisung auf anderes Konto, 

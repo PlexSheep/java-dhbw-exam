@@ -67,24 +67,26 @@ public class Main {
         assert employee_list != null;
         while (employee_list.next()) {
             try {
-                //System.out.println(
-                //        String.format(
-                //                "id:\t\t\t%s\n" +
-                //                        "name:\t\t%s\n" +
-                //                        "address:\t%s\n" +
-                //                        "email:\t\t%s\n" +
-                //                        "telephone:\t%s\n" +
-                //                        "pass:\t\t%s\n" +
-                //                        "date:\t\t%s\n",
-                //                employee_list.getString("ID"),          // index 1
-                //                employee_list.getString("name"),        // index 2
-                //                employee_list.getString("address"),     // index 3
-                //                employee_list.getString("email"),       // index 4
-                //                employee_list.getString("phone"),       // index 5
-                //                employee_list.getString("password"),    // index 6
-                //                employee_list.getString("date")         // index 7
-                //        )
-                //);
+                /*
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
+                                employee_list.getString("ID"),          // index 1
+                                employee_list.getString("name"),        // index 2
+                                employee_list.getString("address"),     // index 3
+                                employee_list.getString("email"),       // index 4
+                                employee_list.getString("phone"),       // index 5
+                                employee_list.getString("password"),    // index 6
+                                employee_list.getString("date")         // index 7
+                        )
+                );
+                */
                 Employee employee = new Employee(
                         employee_list.getString("name"),
                         employee_list.getDate("date"),
@@ -105,19 +107,25 @@ public class Main {
         while (account_list.next()) {
             try {
                 Client owner = null;
+                // get id of owner
                 int ownerId = DatabaseController.getOwnerOfAccount(
                         account_list.getString("IBAN")).getInt("client");
+                //System.out.println(String.format("ownerID:\t%d", ownerId));
+
                 // now get the object for that user_id
                 for (Client client : CLIENT_LIST) {
+                    //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
                     if (client.getId() == ownerId) {
                         owner = client;
+                        break;
                     }
                 }
                 if (owner == null) {
-                    System.out.println(String.format("Could not find an owner for %s",
-                            account_list.getString("IBAN")));
+                    //System.out.println(String.format("Could not find an owner for %s",
+                    //        account_list.getString("IBAN")));
                     continue;
                 }
+
                 // next find the type of the account
                 AccountType type;
                 switch (account_list.getString("type")) {

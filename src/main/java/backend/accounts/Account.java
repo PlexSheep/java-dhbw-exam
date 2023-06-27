@@ -1,10 +1,12 @@
 package backend.accounts;
 
 
+import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 
+import java.sql.SQLException;
 import java.util.UUID;
 
 /**
@@ -47,20 +49,39 @@ public abstract class Account {
 
     AccountType TYPE;
 
+    /** Create a new account
+     * @param owner
+     */
     public Account(Client owner) {
         this.owner = owner;
         this.iban = Iban.random(CountryCode.DE);
         this.accountNumber = this.iban.getAccountNumber();
+    }
 
-        // finally, save to DB
-        this.save();
+    /**
+     * Add a new account with existing data
+     * @param owner
+     * @param iban
+     * @param balance
+     * @param debtLimit
+     */
+    public Account(Client owner, String iban, int balance, int debtLimit) {
+        this.owner = owner;
+        this.iban = Iban.valueOf(iban);
+        this.accountNumber = this.iban.getAccountNumber();
+        this.balance = balance;
+        this.debtLimit = debtLimit;
     }
 
     /**
      * save the account to the backend.database
      */
     public void save() {
-        // TODO
+        try {
+            DatabaseController.updateAccount(this);
+        } catch (SQLException e) {
+            System.out.println(String.format("could not save account %s", this.getIBAN()));
+        }
     }
 
     public Client getOwner() {
@@ -71,7 +92,7 @@ public abstract class Account {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(boolean active) throws SQLException {
         this.active = active;
         this.save();
     }
@@ -88,7 +109,7 @@ public abstract class Account {
      *
      * @param balance new balance
      */
-    public void setBalance(int balance) {
+    public void setBalance(int balance) throws SQLException {
         this.balance = balance;
         this.save();
     }
@@ -102,7 +123,7 @@ public abstract class Account {
      *               can be negative.
      * @return the new balance of the account
      */
-    public int modBalance(int amount) {
+    public int modBalance(int amount) throws SQLException {
         this.balance += amount;
         this.save();
         return this.balance;

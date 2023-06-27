@@ -17,7 +17,7 @@ public class Authentication {
      * @throws SQLException
      */
     public static boolean password_authentication(Integer userId, String password, String table) throws SQLException {
-        String db_password = DatabaseController.get_user_password(userId, table);
+        String db_password = DatabaseController.getUserPassword(userId, table);
         return encoder.matches(password, db_password);
     }
     /**

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 public class Main {
 
     static Person loggedIn = null;
+    static boolean isEmployee = false;
     static JFrame frame = null;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
@@ -244,12 +245,13 @@ public class Main {
                             if (p.getId() == Integer.parseInt(username.getText())) {
                                 System.out.println(p);
                                 loggedIn = p;
+                                isEmployee = true;
                                 break;
                             }
                     }
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
-                    frame = Gui.createGUI();
+                    if (isEmployee) AdminConsole.createAdminConsole();
                 } else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
                     for (Person p : CLIENT_LIST) {
                         if (p.getId() == Integer.parseInt(username.getText())) {
@@ -260,6 +262,39 @@ public class Main {
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
                     frame = Gui.createGUI();
+                    // the gui is running by now
+                    frame.addWindowListener(new WindowAdapter() {
+                        /** executes when the window is closing
+                         * used to store our data back into the database
+                         *
+                         * @param e the event to be processed
+                         */
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            System.out.println("Ending application, saving data");
+                            for (Client client : CLIENT_LIST) {
+                                try {
+                                    client.save(DatabaseController.TABLE_CLIENTS);
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                            }
+                            for (Employee employee : EMPLOYEE_LIST) {
+                                try {
+                                    employee.save(DatabaseController.TABLE_EMPLOYEES);
+                                } catch (SQLException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                            }
+                            /*
+                            for (Account account : ACCOUNT_LIST) {
+                                account.save();
+                            }
+
+                            */
+                            super.windowClosing(e);
+                        }
+                    });
                 } else {
                     System.out.println("login failed");
                     //username.setText("");
@@ -277,38 +312,6 @@ public class Main {
             }
         }
 
-        // the gui is running by now
-        frame.addWindowListener(new WindowAdapter() {
-            /** executes when the window is closing
-             * used to store our data back into the database
-             *
-             * @param e the event to be processed
-             */
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.out.println("Ending application, saving data");
-                for (Client client : CLIENT_LIST) {
-                    try {
-                        client.save(DatabaseController.TABLE_CLIENTS);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-                for (Employee employee : EMPLOYEE_LIST) {
-                    try {
-                        employee.save(DatabaseController.TABLE_EMPLOYEES);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-                /*
-                for (Account account : ACCOUNT_LIST) {
-                    account.save();
-                }
 
-                 */
-                super.windowClosing(e);
-            }
-        });
     }
 }

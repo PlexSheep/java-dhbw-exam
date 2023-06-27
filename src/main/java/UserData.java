@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import backend.people.Client;
+import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
+
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -26,6 +29,9 @@ public class UserData extends JFrame {
     private JLabel JEmailVar;
     private JLabel JNumberVar;
 
+    private JLabel JIBAN;
+    private JLabel JBIC;
+
     private JLabel JNameVariable;
 
     private JLabel JIbanVar;
@@ -37,6 +43,10 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
 
+
+    /**
+     * Function to display the users data on the GUI
+     */
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -55,11 +65,31 @@ public class UserData extends JFrame {
         });
 
 
-        String columnName = "name";
-        JNameVariable.setText(getColumnValue("Employee", columnName));
-        String columnAdress = "address";
-        JAdressVariable.setText(getColumnValue("Employee", columnAdress));
 
+        Client p = (Client) Main.loggedIn;
+        String name = p.getName();
+        JNameVariable.setText(name);
+        String address = p.getAddress();
+        JAdressVariable.setText(address);
+        String number = p.getTelephoneNumber();
+        JNumberVar.setText(number);
+        String mail = p.getEmail();
+        JEmailVar.setText(mail);
+        JIbanVar.setText(p.getAccounts().get(0).getIBAN());
+
+
+        JChangeCredentials.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ChangeCredential.ChangeCredential();
+            }
+        });
+        JLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
     }
 
     public static void createUser() {
@@ -71,6 +101,12 @@ public class UserData extends JFrame {
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Update the password from the GUI
+     * @param conn
+     * @param newPassword
+     * @throws SQLException
+     */
     public static void updatePassword(Connection conn, String newPassword) throws SQLException {
         try {
             String hashedPassword = Authentication.hash_password(newPassword);
@@ -115,4 +151,5 @@ public class UserData extends JFrame {
 
         return value;
     }
+
 }

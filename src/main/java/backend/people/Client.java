@@ -2,6 +2,7 @@ package backend.people;
 
 import backend.accounts.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Client extends Person {
     /**
      * stores the accounts of a backend.Client
      */
-    public List<Account> accounts;
+    public ArrayList<Account> accounts = new ArrayList<>();
 
     /**
      * Create a new Client
@@ -72,6 +73,15 @@ public class Client extends Person {
 
     public void deleteAccount(String iban) {
 
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public boolean addAccount(Account a){
+        accounts.add(a);
+        return true;
     }
 
     /*

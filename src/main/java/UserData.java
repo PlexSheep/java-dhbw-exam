@@ -53,9 +53,7 @@ public class UserData extends JFrame {
                     }
                 }
             }
-
         });
-
 
         String columnName = "name";
         JNameVariable.setText(getColumnValue("Employee", columnName));
@@ -83,7 +81,7 @@ public class UserData extends JFrame {
     public static void createUser() {
         UserData test = new UserData();
         test.setContentPane(test.JMain);
-        test.setTitle("Test");
+        test.setTitle("Konto Center");
         test.setSize(500, 400);
         test.setVisible(true);
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

@@ -94,12 +94,11 @@ public class Transaction extends JFrame{
 
     public static void createTransaction(){
         Transaction test=new Transaction();
+        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         test.setContentPane(test.JTransaction);
         test.setTitle("Test");
-        test.setSize(500,400);
+        test.setSize(500,200);
         test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
 
 

@@ -295,7 +295,7 @@ public class DatabaseController {
         return null;
     }
 
-    public boolean changeBalance(int accID, double amount) throws SQLException {
+    public static boolean changeBalance(int accID, double amount) throws SQLException {
         try {
             String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
             PreparedStatement stmt = conn.prepareStatement(query);

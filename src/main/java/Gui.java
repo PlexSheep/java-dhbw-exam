@@ -71,5 +71,6 @@ public class Gui {
         frame.getContentPane().add(panel);
         frame.setSize(400, 300);
         frame.setVisible(true);
+        return frame;
     }
 }

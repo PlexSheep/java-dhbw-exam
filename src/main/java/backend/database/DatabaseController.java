@@ -22,7 +22,7 @@ public class DatabaseController {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
-            System.out.println("Connection to SQLite has been established.");
+            //System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -58,14 +58,14 @@ public class DatabaseController {
     public static void updateUsers(Person p, String table) throws SQLException {
         try {
             String insert = "UPDATE " + table + " set name = ?, address = ?, email = ?, phone = ? WHERE id = ?";
-            System.out.println(String.format("prepared query:\t%s", insert));
+            //System.out.println(String.format("prepared query:\t%s", insert));
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
             stmt.setString(3, p.getEmail());
             stmt.setString(4, p.getTelephoneNumber());
             stmt.setInt(5, p.getId());
-            System.out.println(String.format("query:\t%s", stmt.toString()));
+            //System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
         }
         catch (Exception e){

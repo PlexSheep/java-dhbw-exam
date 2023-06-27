@@ -1,6 +1,7 @@
 package backend.database;
 import backend.accounts.CreditAccount;
 import backend.people.Client;
+import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;
@@ -311,9 +312,20 @@ public class DatabaseController {
         return false;
     }
 
-    public static boolean changePassword(Person p, String pass, String table){
+    public static boolean changePassword(Person p, String pass){
         try {
-            String update = "UPDATE " + table + " set (password) VALUES(?) WHERE user_id = ?";
+            String table = null;
+            if (p instanceof Client) {
+                table = TABLE_CLIENTS;
+            }
+            else if(p instanceof Employee) {
+                table = TABLE_EMPLOYEES;
+            }
+            else {
+                System.out.println(String.format("Invalid Person type: %s", p));
+                return false;
+            }
+            String update = "UPDATE " + table + " set password = ? WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(update);
             stmt.setString(1, Authentication.hash_password(pass));
             stmt.setInt(2, p.getId());
@@ -321,10 +333,8 @@ public class DatabaseController {
             return true;
         }
         catch (Exception e){
-            System.out.println(e);
             e.printStackTrace();
         }
         return false;
     }
-
 }

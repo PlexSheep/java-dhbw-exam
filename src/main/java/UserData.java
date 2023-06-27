@@ -53,13 +53,12 @@ public class UserData extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == JChangePassword) {
-                    try {
-                        String newPassword = JNewPassword.getText();
-                        Connection conn = DatabaseController.conn;
-                        UserData.updatePassword(conn, newPassword);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
+                    String newPassword = JNewPassword.getText();
+                     if (DatabaseController.changePassword(Main.loggedIn, newPassword)) {
+                         // success
+                         // empty the text field
+                         JNewPassword.setText("");
+                     }
                 }
             }
 
@@ -80,7 +79,12 @@ public class UserData extends JFrame {
         JNumberVar.setText(number);
         String mail = p.getEmail();
         JEmailVar.setText(mail);
-        JIbanVar.setText(p.getAccounts().get(0).getIBAN());
+        try {
+            JIbanVar.setText(p.getAccounts().get(0).getIBAN());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         JChangeCredentials.addActionListener(new ActionListener() {
@@ -98,12 +102,12 @@ public class UserData extends JFrame {
     }
 
     public static void createUser() {
-        UserData test = new UserData();
-        test.setContentPane(test.JMain);
-        test.setTitle("Test");
-        test.setSize(500, 400);
-        test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        UserData accountCenter = new UserData();
+        accountCenter.setContentPane(accountCenter.JMain);
+        accountCenter.setTitle("Konto Center");
+        accountCenter.setSize(500, 400);
+        accountCenter.setVisible(true);
+        accountCenter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -111,6 +115,7 @@ public class UserData extends JFrame {
      * @param conn
      * @param newPassword
      * @throws SQLException
+     * @deprecated do not use this, does not even work. use DatabaseController.changePassword
      */
     public static void updatePassword(Connection conn, String newPassword) throws SQLException {
         try {

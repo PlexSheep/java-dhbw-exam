@@ -61,7 +61,6 @@ public class Gui {
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 UserData.createUser();
-
             }
         });
 

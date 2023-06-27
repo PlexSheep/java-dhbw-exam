@@ -204,18 +204,8 @@ public class Main {
          */
 
         // debug
-        /*
-        for(Client c : CLIENT_LIST){
-            System.out.println( c.getName() + " " + c.getAccounts());
-        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
-
-
-         */
-
-        Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
-        //herbert.login("FFF");
 
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));

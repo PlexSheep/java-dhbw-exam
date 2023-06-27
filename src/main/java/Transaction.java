@@ -16,20 +16,19 @@ public class Transaction extends JFrame{
     private JLabel JTitle;
     private JLabel JRecipientLabel;
     private JTextField JIBAN;
-    private JLabel JBICLabel;
-    private JTextField JBIC;
 
 
     public Transaction() {
         JTransactionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                try {
-                    if ((Client) Main.loggedIn.getA)
-                    DatabaseController.saveTransaction((Client) Main.loggedIn, JIBAN.getText(), Double.parseDouble(JAmountInput.getText()));
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                //try {
+                ////    currently bugged
+                ////    if ((Client) Main.loggedIn.getA)
+                ////    DatabaseController.saveTransaction((Client) Main.loggedIn, JIBAN.getText(), Double.parseDouble(JAmountInput.getText()));
+                //} catch (SQLException e) {
+                //    throw new RuntimeException(e);
+                //}
             }
         });
     }

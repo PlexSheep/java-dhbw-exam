@@ -1,8 +1,5 @@
 import backend.accounts.Account;
 import backend.accounts.AccountType;
-import backend.accounts.Account;
-import backend.accounts.CreditAccount;
-import backend.accounts.GiroAccount;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
@@ -22,7 +19,8 @@ import java.util.LinkedList;
 
 public class Main {
 
-    static Person loggedIn;
+    static Person loggedIn = null;
+    static JFrame frame = null;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
@@ -36,24 +34,26 @@ public class Main {
         assert client_set != null;
         while (client_set.next()) {
             try {
-                //System.out.println(
-                //        String.format(
-                //                "id:\t\t\t%s\n" +
-                //                        "name:\t\t%s\n" +
-                //                        "address:\t%s\n" +
-                //                        "email:\t\t%s\n" +
-                //                        "telephone:\t%s\n" +
-                //                        "pass:\t\t%s\n" +
-                //                        "date:\t\t%s\n",
-                //                client_set.getString("ID"),          // index 1
-                //                client_set.getString("name"),        // index 2
-                //                client_set.getString("address"),     // index 3
-                //                client_set.getString("email"),       // index 4
-                //                client_set.getString("phone"),       // index 5
-                //                client_set.getString("password"),    // index 6
-                //                client_set.getString("date")         // index 7
-                //        )
-                //);
+                /*
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
+                                client_set.getString("ID"),          // index 1
+                                client_set.getString("name"),        // index 2
+                                client_set.getString("address"),     // index 3
+                                client_set.getString("email"),       // index 4
+                                client_set.getString("phone"),       // index 5
+                                client_set.getString("password"),    // index 6
+                                client_set.getString("date")         // index 7
+                        )
+                );
+                */
                 Client client = new Client(
                         client_set.getString("name"),
                         client_set.getDate("date"),
@@ -62,22 +62,6 @@ public class Main {
                         client_set.getString("phone"),
                         client_set.getInt("user_id")
                 );
-                ResultSet account_set = DatabaseController.loadAccounts(client);
-                System.out.println(client_set);
-                assert account_set != null;
-                while (account_set.next()) {
-                    try {
-                        if(account_set.getString("type").equals("CREDIT")){
-                            client.addAccount(new CreditAccount(client));
-                        }
-                        else if(account_set.getString("type").equals("GIRO")){
-                            client.addAccount(new GiroAccount(client));
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -89,24 +73,26 @@ public class Main {
         assert employee_list != null;
         while (employee_list.next()) {
             try {
-                //System.out.println(
-                //        String.format(
-                //                "id:\t\t\t%s\n" +
-                //                        "name:\t\t%s\n" +
-                //                        "address:\t%s\n" +
-                //                        "email:\t\t%s\n" +
-                //                        "telephone:\t%s\n" +
-                //                        "pass:\t\t%s\n" +
-                //                        "date:\t\t%s\n",
-                //                employee_list.getString("ID"),          // index 1
-                //                employee_list.getString("name"),        // index 2
-                //                employee_list.getString("address"),     // index 3
-                //                employee_list.getString("email"),       // index 4
-                //                employee_list.getString("phone"),       // index 5
-                //                employee_list.getString("password"),    // index 6
-                //                employee_list.getString("date")         // index 7
-                //        )
-                //);
+                /*
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
+                                employee_list.getString("ID"),          // index 1
+                                employee_list.getString("name"),        // index 2
+                                employee_list.getString("address"),     // index 3
+                                employee_list.getString("email"),       // index 4
+                                employee_list.getString("phone"),       // index 5
+                                employee_list.getString("password"),    // index 6
+                                employee_list.getString("date")         // index 7
+                        )
+                );
+                */
                 Employee employee = new Employee(
                         employee_list.getString("name"),
                         employee_list.getDate("date"),
@@ -127,19 +113,25 @@ public class Main {
         while (account_list.next()) {
             try {
                 Client owner = null;
+                // get id of owner
                 int ownerId = DatabaseController.getOwnerOfAccount(
                         account_list.getString("IBAN")).getInt("client");
+                //System.out.println(String.format("ownerID:\t%d", ownerId));
+
                 // now get the object for that user_id
                 for (Client client : CLIENT_LIST) {
+                    //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
                     if (client.getId() == ownerId) {
                         owner = client;
+                        break;
                     }
                 }
                 if (owner == null) {
-                    System.out.println(String.format("Could not find an owner for %s",
-                            account_list.getString("IBAN")));
+                    //System.out.println(String.format("Could not find an owner for %s",
+                    //        account_list.getString("IBAN")));
                     continue;
                 }
+
                 // next find the type of the account
                 AccountType type;
                 switch (account_list.getString("type")) {
@@ -171,15 +163,18 @@ public class Main {
             }
         }
         System.out.println(ACCOUNT_LIST);
+>>>>>>>>> Temporary merge branch 2
 
         // debug
-
+        /*
         for(Client c : CLIENT_LIST){
             System.out.println( c.getName() + " " + c.getAccounts());
         }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
 
+
+         */
 
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
@@ -191,7 +186,6 @@ public class Main {
 
         // frontend start
 
-        JFrame frame = null;
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
@@ -200,36 +194,49 @@ public class Main {
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }
-        int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, bankIcon);
-        if (option != JOptionPane.OK_OPTION) {
-            System.exit(0);
-        }
-        if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
-            for (Person p : EMPLOYEE_LIST) {
-                if (p.getId() == Integer.parseInt(username.getText())) {
-                    System.out.println(p);
-                    loggedIn = p;
-                    break;
+
+        while (loggedIn == null) {
+            try {
+                int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, bankIcon);
+                if (option != JOptionPane.OK_OPTION) {
+                    System.exit(0);
+                }
+                if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
+                    for (Person p : EMPLOYEE_LIST) {
+                            if (p.getId() == Integer.parseInt(username.getText())) {
+                                System.out.println(p);
+                                loggedIn = p;
+                                break;
+                            }
+                    }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    frame = Gui.createGUI();
+                } else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
+                    for (Person p : CLIENT_LIST) {
+                        if (p.getId() == Integer.parseInt(username.getText())) {
+                            loggedIn = p;
+                            break;
+                        }
+                    }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    frame = Gui.createGUI();
+                } else {
+                    System.out.println("login failed");
+                    //username.setText("");
+                    //password.setText("");
                 }
             }
-            System.out.println("Login successful");
-            System.out.println(loggedIn.getName());
-            frame = Gui.createGUI();
-        }
-        else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")){
-                for (Person p : CLIENT_LIST) {
-                    if (p.getId() == Integer.parseInt(username.getText())) {
-                        loggedIn = p;
-                        break;
-                    }
-                }
-            System.out.println("Login successful");
-            System.out.println(loggedIn.getName());
-            frame = Gui.createGUI();
-        }
-        else {
-            System.out.println("login failed");
-            //maybe repeat here
+            catch (NumberFormatException nfe) {
+                // just bad number input, repeat
+                username.setText("");
+            }
+            catch (Exception e) {
+                username.setText("");
+                password.setText("");
+                e.printStackTrace();
+            }
         }
 
         // the gui is running by now

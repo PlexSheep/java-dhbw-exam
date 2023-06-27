@@ -1,16 +1,21 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+<<<<<<<<< Temporary merge branch 1
 import backend.people.Client;
+=========
 import backend.utils.Authentication;
+>>>>>>>>> Temporary merge branch 2
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
+
 
 public class UserData extends JFrame {
     private JLabel JAdress;
@@ -43,22 +48,24 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
 
+<<<<<<<<< Temporary merge branch 1
 
     /**
      * Function to display the users data on the GUI
      */
+=========
+>>>>>>>>> Temporary merge branch 2
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == JChangePassword) {
-                    try {
-                        String newPassword = JNewPassword.getText();
-                        Connection conn = DatabaseController.conn;
-                        UserData.updatePassword(conn, newPassword);
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
+                    String newPassword = JNewPassword.getText();
+                     if (DatabaseController.changePassword(Main.loggedIn, newPassword)) {
+                         // success
+                         // empty the text field
+                         JNewPassword.setText("");
+                     }
                 }
             }
 
@@ -79,30 +86,29 @@ public class UserData extends JFrame {
         JNumberVar.setText(number);
         String mail = p.getEmail();
         JEmailVar.setText(mail);
-        JIbanVar.setText(p.getAccounts().get(0).getIBAN());
-
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangeCredential.ChangeCredential();
+                ChangeCredential cc = new ChangeCredential();
             }
         });
         JLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                // behave as if the frame was closed by the user
+                Main.frame.dispatchEvent(new WindowEvent(Main.frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }
 
     public static void createUser() {
-        UserData test = new UserData();
-        test.setContentPane(test.JMain);
-        test.setTitle("Test");
-        test.setSize(500, 400);
-        test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        UserData accountCenter = new UserData();
+        accountCenter.setContentPane(accountCenter.JMain);
+        accountCenter.setTitle("Konto Center");
+        accountCenter.setSize(500, 400);
+        accountCenter.setVisible(true);
+        accountCenter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -110,6 +116,7 @@ public class UserData extends JFrame {
      * @param conn
      * @param newPassword
      * @throws SQLException
+     * @deprecated do not use this, does not even work. use DatabaseController.changePassword
      */
     public static void updatePassword(Connection conn, String newPassword) throws SQLException {
         try {

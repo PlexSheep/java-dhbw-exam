@@ -6,6 +6,7 @@ import backend.database.DatabaseController;
 import java.util.ArrayList;
 import javax.xml.crypto.Data;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -114,7 +115,7 @@ public class Client extends Person {
     @Override
     public void save() {
         try {
-            DatabaseController.updateUsers(this, DatabaseController.TABLE_EMPLOYEES);
+            DatabaseController.updateUsers(this, DatabaseController.TABLE_CLIENTS);
         } catch (SQLException e) {
             System.out.println(String.format("could not save user %s", this.getName()));
         }

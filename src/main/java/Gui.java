@@ -1,8 +1,6 @@
 import backend.database.DatabaseController;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +61,6 @@ public class Gui {
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 UserData.createUser();
-
             }
         });
 

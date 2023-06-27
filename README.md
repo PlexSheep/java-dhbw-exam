@@ -5,9 +5,9 @@
 Schreiben Sie eine Bankanwendung „BankingApp“:
 #### Bank Kunde:
 - [x] Login/Logout
-- [ ] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
+- [x] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
 - [ ] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
-- [ ] Konto ändern, 
+- [x] Konto ändern, 
 - [ ] Konto auflösen, 
 - [ ] Zahlungseingang, 
 - [ ] Zahlungsausgang, 
@@ -15,7 +15,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Prüfungen ob Konto gedeckt, 
 - [ ] Dispo anzeigen
 #### Bänker:
-- [ ] Login/Logout
+- [x] Login/Logout
 - [ ] Report 
   - über alle zugehörigen Kunden
   - alle Konten

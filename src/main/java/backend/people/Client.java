@@ -18,7 +18,7 @@ public class Client extends Person {
     /**
      * stores the accounts of a backend.Client
      */
-    public List<Account> accounts;
+    public ArrayList<Account> accounts = new ArrayList<>();
 
     /**
      * Create a new Client
@@ -101,7 +101,7 @@ public class Client extends Person {
 
     }
 
-    public List<Account> getAccounts() {
+    public ArrayList<Account> getAccounts() {
         return accounts;
     }
 

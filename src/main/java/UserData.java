@@ -6,13 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-<<<<<<<<< Temporary merge branch 1
+import backend.accounts.Account;
 import backend.people.Client;
-=========
-import backend.utils.Authentication;
->>>>>>>>> Temporary merge branch 2
-import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
@@ -47,14 +44,12 @@ public class UserData extends JFrame {
     private JButton JLogout;
     public JPanel JMain;
     private JTextField JNewPassword;
-
-<<<<<<<<< Temporary merge branch 1
+    private JList accList;
 
     /**
      * Function to display the users data on the GUI
      */
-=========
->>>>>>>>> Temporary merge branch 2
+
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -86,6 +81,14 @@ public class UserData extends JFrame {
         JNumberVar.setText(number);
         String mail = p.getEmail();
         JEmailVar.setText(mail);
+
+        ArrayList<String> list = new ArrayList<>();
+        for(Account a : p.getAccounts()){
+            list.add(a.getIBAN());
+        }
+        String[] arr = new String[list.size()];
+        arr = list.toArray(arr);
+        accList.setListData(arr);
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override

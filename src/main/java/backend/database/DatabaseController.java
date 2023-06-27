@@ -1,5 +1,6 @@
 package backend.database;
 import backend.people.Client;
+import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;

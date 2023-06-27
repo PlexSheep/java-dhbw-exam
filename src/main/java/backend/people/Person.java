@@ -68,7 +68,7 @@ public abstract class Person {
         this.id = secRan.nextInt(9999999,99999999);
 
         // finally, save to DB
-        this.save();
+        //this.save();
     }
 
     public Person(
@@ -86,7 +86,7 @@ public abstract class Person {
         this.id = id;
 
         // finally, save to DB
-        this.save();
+        //this.save();
     }
 
     /**

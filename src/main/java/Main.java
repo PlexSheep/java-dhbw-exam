@@ -24,14 +24,16 @@ public class Main {
     static Person loggedIn = null;
     static JFrame frame = null;
 
+    static LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
+    static LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
 
 
-        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
-        LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         assert client_set != null;
         while (client_set.next()) {
@@ -72,7 +74,11 @@ public class Main {
                         Account account = null;
                         switch (account_set.getString("type")) {
                             case "GIRO":
-                                account = new GiroAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.GIRO,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;
@@ -80,7 +86,11 @@ public class Main {
                                 //type = AccountType.DEBIT;
                                 break;
                             case "CREDIT":
-                                account = new CreditAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.CREDIT,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;
@@ -142,6 +152,7 @@ public class Main {
             }
         }
 
+
         /*
         LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         ResultSet account_list = DatabaseController.readAccounts();
@@ -199,10 +210,7 @@ public class Main {
             }
         }
         System.out.println(ACCOUNT_LIST);
-
-
-         */
-
+*/
         // debug
         /*
         for(Client c : CLIENT_LIST){
@@ -288,18 +296,11 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    try {
-                        client.save(DatabaseController.TABLE_CLIENTS);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    System.out.println("Saving clients");
+                    client.save(DatabaseController.TABLE_CLIENTS);
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    try {
-                        employee.save(DatabaseController.TABLE_EMPLOYEES);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    employee.save(DatabaseController.TABLE_EMPLOYEES);
                 }
                 /*
                 for (Account account : ACCOUNT_LIST) {

@@ -7,9 +7,9 @@ public class GiroAccount extends Account{
         this.TYPE = AccountType.GIRO;
     }
 
-    public GiroAccount(Client owner, String iban, int balance, int debtLimit) {
-        super(owner);
-        this.TYPE = AccountType.CREDIT;
+    public GiroAccount(Client owner, String iban, Double balance, Double debtLimit) {
+        super(owner, iban, balance, debtLimit);
+        this.TYPE = AccountType.GIRO;
     }
 
 }

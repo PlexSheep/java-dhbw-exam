@@ -14,8 +14,8 @@ public class CreditAccount extends Account {
         this.TYPE = AccountType.CREDIT;
     }
 
-    public CreditAccount(Client owner, String iban, int balance, int debtLimit) {
-        super(owner);
+    public CreditAccount(Client owner, String iban, Double balance, Double debtLimit) {
+        super(owner, iban, balance, debtLimit);
         this.TYPE = AccountType.CREDIT;
     }
     public CreditAccount(Client owner, Double dueLimit) {

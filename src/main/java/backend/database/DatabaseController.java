@@ -181,13 +181,13 @@ public class DatabaseController {
 
     public static void updateAccount(Account a) throws SQLException {
         try {
-            String insert = "UPDATE account set type = ?, balance = ?, debtLimit = ?  WHERE IBAN =?";
+            String insert = "UPDATE account set type = ?, balance = ?, debtLimit = ? WHERE IBAN =?";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, a.getIBAN());
-            stmt.setString(2, a.getTYPE().toString());
-            stmt.setDouble(3, a.getBalance());
-            stmt.setDouble(4, a.getDebtLimit());
-            stmt.setDouble(5, a.getDebtLimit());
+            stmt.setString(1, a.getTYPE().toString());
+            stmt.setDouble(2, a.getBalance());
+            stmt.setDouble(3, a.getDebtLimit());
+            stmt.setString(4, a.getIBAN());
+
             System.out.println(String.format("query:\t%s", stmt.toString()));
 
             stmt.executeUpdate();
@@ -298,11 +298,11 @@ public class DatabaseController {
 
     public static boolean changeBalance(int accID, double amount) throws SQLException {
         try {
-            String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
+            String query = "UPDATE `account` SET balance=? WHERE IBAN = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setDouble(1, amount);
             stmt.setInt(1, accID);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             return true;
         }
         catch (Exception e){

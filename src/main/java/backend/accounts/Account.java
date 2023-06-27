@@ -31,11 +31,11 @@ public abstract class Account {
      *
      * can be negative
      */
-    private int balance = 0;
+    private double balance = 0;
     /**
      * lower limit for the balance of the account
      */
-    private int debtLimit = 0;
+    private double debtLimit = 0;
     /**
      * Unique identifier for any account, used as primary key in the database
      */
@@ -65,7 +65,7 @@ public abstract class Account {
      * @param balance
      * @param debtLimit
      */
-    public Account(Client owner, String iban, int balance, int debtLimit) {
+    public Account(Client owner, String iban, Double balance, Double debtLimit) {
         this.owner = owner;
         this.iban = Iban.valueOf(iban);
         this.accountNumber = this.iban.getAccountNumber();
@@ -79,6 +79,7 @@ public abstract class Account {
     public void save() {
         try {
             DatabaseController.updateAccount(this);
+            System.out.println("Saving account" + this.getIBAN());
         } catch (SQLException e) {
             System.out.println(String.format("could not save account %s", this.getIBAN()));
         }
@@ -100,7 +101,7 @@ public abstract class Account {
     /**
      * @return current balance of the account
      */
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -109,7 +110,7 @@ public abstract class Account {
      *
      * @param balance new balance
      */
-    public void setBalance(int balance) throws SQLException {
+    public void setBalance(double balance) throws SQLException {
         this.balance = balance;
         this.save();
     }
@@ -123,7 +124,7 @@ public abstract class Account {
      *               can be negative.
      * @return the new balance of the account
      */
-    public int modBalance(int amount) throws SQLException {
+    public double modBalance(int amount) throws SQLException {
         this.balance += amount;
         this.save();
         return this.balance;
@@ -132,7 +133,7 @@ public abstract class Account {
     /**
      * @return get the current debt limit
      */
-    public int getDebtLimit() {
+    public Double getDebtLimit() {
         return debtLimit;
     }
 

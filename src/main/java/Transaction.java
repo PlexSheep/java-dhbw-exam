@@ -40,54 +40,56 @@ public class Transaction extends JFrame{
                     System.exit(1);
                 }
 
+                Account recAcc;
+                for (Client c : Main.CLIENT_LIST){
+                    for (Account a : c.getAccounts()){
+                        if (a.getIBAN().equals(JIBAN.getText())){
+                            recAcc = a;
+                            break;
+                        }
+                    }
+                }
+
                 // get and validate the sum of transfer
                 // then make the transfer
                 Double amount;
 
-                /*
                 try {
 
                     amount = Double.parseDouble(JAmountInput.getText());
-                    AccountType type;
                     Account acc = client.getAccounts().get(0);
                     switch (acc.getTYPE()) {
-                        case AccountType.GIRO:
+                        case GIRO:
 
                             break;
-                        case AccountType.DEBIT:
-                            acc = (DebitAccount) acc;
-                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
-                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
+                        case DEBIT:
+                            if (true) {
+                                client.getAccounts().get(0).setBalance(acc.getBalance() - amount);
+                                acc.setBalance(acc.getBalance() + amount);
                                 DatabaseController.saveTransaction(client, iban.toString(), amount);
+                                System.out.println(amount);
+
                                 break;
                             }
-                        case AccountType.CREDIT:
-                            acc = (CreditAccount) acc;
-                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
-                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
+                        case CREDIT:
+                            if (true) {
+                                client.getAccounts().get(0).setBalance(acc.getBalance() - amount);
                                 DatabaseController.saveTransaction(client, iban.toString(), amount);
+                                System.out.println(amount);
                                 break;
                             }
                             break;
-                        case AccountType.FIXED:
+                        case FIXED:
 
                             break;
                         default:
-                            System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                            //System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
                     }
 
-                } catch (NumberFormatException nfe) {
+                } catch (NumberFormatException | SQLException nfe) {
                     // bad amount format
                     System.exit(1);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
                 }
-            }
-        });
-
-                     */
             }
         });
     }

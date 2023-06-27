@@ -97,7 +97,6 @@ public abstract class Person {
     public void save(String table) throws SQLException {
         DatabaseController.updateUsers(this, table);
     }
-
     /**
      * log the user in
      */
@@ -175,7 +174,6 @@ public abstract class Person {
     }
 
     //public boolean transferMoney(int recipientID, double amount){}
-    public abstract void save();
 
     /*
     public UUID getUuid() {

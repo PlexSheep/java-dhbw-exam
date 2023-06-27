@@ -6,7 +6,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 #### Bank Kunde:
 - [x] Login/Logout
 - [x] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
-- [ ] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
+- [x] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
 - [x] Konto ändern, 
 - [ ] Konto auflösen, 
 - [ ] Zahlungseingang, 
@@ -74,7 +74,8 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 | Username | Password      |
 |----------|---------------|
 | 1        | (leave empty) |
-| 25063084    | test          |
+| 77067103    | test          |
+| 25063084    | killer        |
 
 ## Dependencies
 - [iban4j](https://github.com/arturmkrtchyan/iban4j)

@@ -6,12 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import backend.accounts.Account;
+import backend.accounts.AccountType;
 import backend.people.Client;
 import backend.utils.Authentication;
-import backend.people.Person;
-import backend.utils.Authentication;
 import backend.database.DatabaseController;
+import org.iban4j.Iban;
 
 
 public class UserData extends JFrame {
@@ -28,20 +30,21 @@ public class UserData extends JFrame {
     private JLabel JAdressVariable;
     private JLabel JEmailVar;
     private JLabel JNumberVar;
-
     private JLabel JNameVariable;
-
     private JButton JChangePassword;
     private JButton JChangeCredentials;
     private JButton JDeleteAccount;
     private JButton JLogout;
     public JPanel JMain;
     private JTextField JNewPassword;
-
+    private JList accList;
+    private JButton createAccountButton;
+    private JComboBox comboBox1;
 
     /**
      * Function to display the users data on the GUI
      */
+
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -74,6 +77,14 @@ public class UserData extends JFrame {
         String mail = p.getEmail();
         JEmailVar.setText(mail);
 
+        ArrayList<String> list = new ArrayList<>();
+        for(Account a : p.getAccounts()){
+            list.add(a.getIBAN() + " - " + a.getBalance() + "€");
+        }
+        String[] arr = new String[list.size()];
+        arr = list.toArray(arr);
+        accList.setListData(arr);
+
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -85,6 +96,39 @@ public class UserData extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 // behave as if the frame was closed by the user
                 Main.frame.dispatchEvent(new WindowEvent(Main.frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String type = (String) comboBox1.getSelectedItem();
+                System.out.println(type);
+                switch (type) {
+                    case "Giro":
+                        p.createAccount(AccountType.GIRO);
+                        break;
+                    case "Credit":
+                        p.createAccount(AccountType.CREDIT);
+                        break;
+                    case "Debit":
+                        p.createAccount(AccountType.DEBIT);
+                        break;
+                    case "Fixed":
+                        p.createAccount(AccountType.FIXED);
+                        break;
+                    default:
+                        System.out.println(String.format("unknown account type %s", type));
+                        System.exit(1);
+                }
+            }
+        });
+        JDeleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String ibanStr = accList.getSelectedValue().toString();
+                ibanStr = ibanStr.substring(0, ibanStr.indexOf(" "));
+                System.out.println(String.format("selected to delete: %s", ibanStr));
+                p.deleteAccount(ibanStr);
             }
         });
     }
@@ -149,4 +193,5 @@ public class UserData extends JFrame {
 
         return value;
     }
+
 }

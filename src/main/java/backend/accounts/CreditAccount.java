@@ -24,4 +24,12 @@ public class CreditAccount extends Account {
         this.TYPE = AccountType.CREDIT;
 
     }
+
+    public double getDueLimit() {
+        return dueLimit;
+    }
+
+    public void setDueLimit(double dueLimit) {
+        this.dueLimit = dueLimit;
+    }
 }

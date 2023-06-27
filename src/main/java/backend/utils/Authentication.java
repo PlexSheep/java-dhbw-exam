@@ -18,6 +18,11 @@ public class Authentication {
      */
     public static boolean password_authentication(Integer userId, String password, String table) throws SQLException {
         String db_password = DatabaseController.get_user_password(userId, table);
+        if (db_password == null) {
+            // the db is unreliable
+            System.out.println("could not get hash from database");
+            System.exit(1);
+        }
         return encoder.matches(password, db_password);
     }
     /**

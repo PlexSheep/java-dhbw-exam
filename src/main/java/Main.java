@@ -1,12 +1,13 @@
 import backend.accounts.Account;
-import backend.accounts.CreditAccount;
-import backend.accounts.GiroAccount;
+import backend.accounts.AccountType;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +30,6 @@ public class Main {
 
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
-        System.out.println(client_set);
         assert client_set != null;
         while (client_set.next()) {
             try {
@@ -61,22 +61,6 @@ public class Main {
                         client_set.getString("phone"),
                         client_set.getInt("user_id")
                 );
-                ResultSet account_set = DatabaseController.loadAccounts(client);
-                System.out.println(client_set);
-                assert account_set != null;
-                while (account_set.next()) {
-                    try {
-                        if(account_set.getString("type").equals("CREDIT")){
-                            client.addAccount(new CreditAccount(client));
-                        }
-                        else if(account_set.getString("type").equals("GIRO")){
-                            client.addAccount(new GiroAccount(client));
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,10 +69,10 @@ public class Main {
 
         LinkedList<Employee> EMPLOYEE_LIST = new LinkedList<>();
         ResultSet employee_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
-        System.out.println(employee_list);
         assert employee_list != null;
         while (employee_list.next()) {
             try {
+                /*
                 System.out.println(
                         String.format(
                                 "id:\t\t\t%s\n" +
@@ -107,6 +91,7 @@ public class Main {
                                 employee_list.getString("date")         // index 7
                         )
                 );
+                */
                 Employee employee = new Employee(
                         employee_list.getString("name"),
                         employee_list.getDate("date"),
@@ -121,23 +106,67 @@ public class Main {
             }
         }
 
-        LinkedList<Employee> ACCOUNT_LIST = new LinkedList<>();
-        ResultSet account_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
-        System.out.println(account_list);
+        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
+        ResultSet account_list = DatabaseController.readAccounts();
         assert account_list != null;
+        while (account_list.next()) {
+            try {
+                Client owner = null;
+                // get id of owner
+                int ownerId = DatabaseController.getOwnerOfAccount(
+                        account_list.getString("IBAN")).getInt("client");
+                //System.out.println(String.format("ownerID:\t%d", ownerId));
 
+                // now get the object for that user_id
+                for (Client client : CLIENT_LIST) {
+                    //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
+                    if (client.getId() == ownerId) {
+                        owner = client;
+                        break;
+                    }
+                }
+                if (owner == null) {
+                    //System.out.println(String.format("Could not find an owner for %s",
+                    //        account_list.getString("IBAN")));
+                    continue;
+                }
 
+                // next find the type of the account
+                AccountType type;
+                switch (account_list.getString("type")) {
+                    case "GIRO":
+                        type = AccountType.GIRO;
+                        break;
+                    case "DEBIT":
+                        type = AccountType.DEBIT;
+                        break;
+                    case "CREDIT":
+                        type = AccountType.CREDIT;
+                        break;
+                    case "FIXED":
+                        type = AccountType.FIXED;
+                        break;
+                    default:
+                        System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                        continue;
+                }
+                Account account = owner.loadAccount(
+                        type,
+                        account_list.getString("IBAN"),
+                        account_list.getInt("balance"),
+                        account_list.getInt("debtLimit")
+                );
+                ACCOUNT_LIST.add(account);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(ACCOUNT_LIST);
 
         // debug
-        /*
-        for(Client c : CLIENT_LIST){
-            System.out.println( c.getName() + " " + c.getAccounts());
-        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
 
-
-         */
 
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
@@ -149,6 +178,7 @@ public class Main {
 
         // frontend start
 
+        JFrame frame = null;
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
@@ -160,44 +190,56 @@ public class Main {
         int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, bankIcon);
         if (option != JOptionPane.OK_OPTION) {
             System.exit(0);
-        } else {
-                if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
-                    for (Person p : EMPLOYEE_LIST) {
-                        if (p.getId() == Integer.parseInt(username.getText())) {
-                            System.out.println(p);
-                            loggedIn = p;
-                            break;
-                        }
+        }
+        if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
+            for (Person p : EMPLOYEE_LIST) {
+                if (p.getId() == Integer.parseInt(username.getText())) {
+                    System.out.println(p);
+                    loggedIn = p;
+                    break;
+                }
+            }
+            System.out.println("Login successful");
+            System.out.println(loggedIn.getName());
+            frame = Gui.createGUI();
+        }
+        else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")){
+                for (Person p : CLIENT_LIST) {
+                    if (p.getId() == Integer.parseInt(username.getText())) {
+                        loggedIn = p;
+                        break;
                     }
-                    System.out.println("Login successful");
-                    System.out.println(loggedIn.getName());
-                    Gui.createGUI();
                 }
-                else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")){
-                        for (Person p : CLIENT_LIST) {
-                            if (p.getId() == Integer.parseInt(username.getText())) {
-                                loggedIn = p;
-                                break;
-                            }
-                        }
-                    System.out.println("Login successful");
-                    System.out.println(loggedIn.getName());
-                    Gui.createGUI();
-                }
-                else {
-                    System.out.println("login failed");
-                    //maybe repeat here
-                }
+            System.out.println("Login successful");
+            System.out.println(loggedIn.getName());
+            frame = Gui.createGUI();
+        }
+        else {
+            System.out.println("login failed");
+            //maybe repeat here
         }
 
-        /*
-        for(Person p : EMPLOYEE_LIST){
-            DatabaseController.updateUsers(p, DatabaseController.TABLE_EMPLOYEES);
-        }
-        for(Person p : CLIENT_LIST){
-            DatabaseController.updateUsers(p, DatabaseController.TABLE_CLIENTS);
-        }
-
-         */
+        // the gui is running by now
+        frame.addWindowListener(new WindowAdapter() {
+            /** executes when the window is closing
+             * used to store our data back into the database
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Ending application, saving data");
+                for (Client client : CLIENT_LIST) {
+                    client.save();
+                }
+                for (Employee employee : EMPLOYEE_LIST) {
+                    employee.save();
+                }
+                for (Account account : ACCOUNT_LIST) {
+                    account.save();
+                }
+                super.windowClosing(e);
+            }
+        });
     }
 }

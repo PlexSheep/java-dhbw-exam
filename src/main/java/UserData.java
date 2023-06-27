@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import backend.people.Client;
+import backend.utils.Authentication;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
@@ -65,6 +66,10 @@ public class UserData extends JFrame {
         });
 
 
+        String columnName = "name";
+        JNameVariable.setText(getColumnValue("Employee", columnName));
+        String columnAdress = "address";
+        JAdressVariable.setText(getColumnValue("Employee", columnAdress));
 
         Client p = (Client) Main.loggedIn;
         String name = p.getName();
@@ -151,5 +156,4 @@ public class UserData extends JFrame {
 
         return value;
     }
-
 }

@@ -14,28 +14,18 @@ public class DatabaseController {
 
     public static final String TABLE_CLIENTS = "client";
     public static final String TABLE_EMPLOYEES = "Employee";
-    private static Client dave = new Client("dave", new Date(1), "Here", "s", "e");
-
-    private static Account a = new CreditAccount(dave);
+    public static final String TABLE_ACCOUNTS = "account";
+    public static final String TABLE_CLIENT_ACCOUNTS = "client_account";
     public static Connection conn = null;
     public static void connect() {
-
         try {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
-            System.out.println("Connection to SQLite has been established.");
+            //System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public static void fillDb() throws SQLException {
-        for(int i = 0; i < 1000; i++){
-            saveUsers(new Client("dave", new Date(1), "Here", "s", "e"), "test", "client");
-
-            saveAccount(dave, a);
         }
     }
 
@@ -67,13 +57,15 @@ public class DatabaseController {
 
     public static void updateUsers(Person p, String table) throws SQLException {
         try {
-            String insert = "UPDATE " + table + "set (user_id,name, address, email, phone) VALUES(?, ?, ?, ?) WHERE id = ?";
+            String insert = "UPDATE " + table + " set name = ?, address = ?, email = ?, phone = ? WHERE id = ?";
+            //System.out.println(String.format("prepared query:\t%s", insert));
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(2, p.getName());
-            stmt.setString(3, p.getAddress());
-            stmt.setString(4, p.getEmail());
-            stmt.setString(5, p.getTelephoneNumber());
-            stmt.setInt(6, p.getId());
+            stmt.setString(1, p.getName());
+            stmt.setString(2, p.getAddress());
+            stmt.setString(3, p.getEmail());
+            stmt.setString(4, p.getTelephoneNumber());
+            stmt.setInt(5, p.getId());
+            //System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -230,6 +222,12 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
+    public static ResultSet readAccounts() throws SQLException {
+        String query = "SELECT * FROM " + DatabaseController.TABLE_ACCOUNTS;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        return stmt.executeQuery();
+    }
+
 
     /**
      * get a single user from the database
@@ -246,7 +244,7 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
-    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
+    public static ResultSet authUsers(String name, String password, String table) throws SQLException {
         try {
 
             String query = "SELECT * FROM " + table + " WHERE name = ?";
@@ -268,12 +266,11 @@ public class DatabaseController {
      * @return
      * @throws SQLException
      */
-    public static String get_user_password(Integer userId, String table) throws SQLException {
+    public static String getUserPassword(Integer userId, String table) throws SQLException {
         try {
             String query = "SELECT password FROM " + table + " WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
-            System.out.println(String.format("query:\t%s", stmt.toString()));
             return stmt.executeQuery().getString("password");
         }
         catch (Exception e){
@@ -283,5 +280,51 @@ public class DatabaseController {
         return null;
     }
 
+    public static ResultSet getOwnerOfAccount(String iban) throws SQLException {
+        try {
+            String query = "SELECT * FROM  " + TABLE_CLIENT_ACCOUNTS + " WHERE account=?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, iban);
+            stmt.setMaxRows(1);
+            return stmt.executeQuery();
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean changeBalance(int accID, double amount) throws SQLException {
+        try {
+            String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setDouble(1, amount);
+            stmt.setInt(1, accID);
+            stmt.executeQuery();
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean changePassword(Person p, String pass, String table){
+        try {
+            String update = "UPDATE " + table + " set (password) VALUES(?) WHERE id=?";
+            PreparedStatement stmt = conn.prepareStatement(update);
+            stmt.setString(1, Authentication.hash_password(pass));
+            stmt.setInt(2, p.getId());
+            stmt.executeUpdate();
+            return true;
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

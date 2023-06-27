@@ -20,6 +20,7 @@ import java.util.LinkedList;
 public class Main {
 
     static Person loggedIn = null;
+    static JFrame frame = null;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
@@ -174,7 +175,6 @@ public class Main {
 
         // frontend start
 
-        JFrame frame = null;
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
@@ -192,11 +192,11 @@ public class Main {
                 }
                 if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
                     for (Person p : EMPLOYEE_LIST) {
-                        if (p.getId() == Integer.parseInt(username.getText())) {
-                            System.out.println(p);
-                            loggedIn = p;
-                            break;
-                        }
+                            if (p.getId() == Integer.parseInt(username.getText())) {
+                                System.out.println(p);
+                                loggedIn = p;
+                                break;
+                            }
                     }
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
@@ -213,9 +213,13 @@ public class Main {
                     frame = Gui.createGUI();
                 } else {
                     System.out.println("login failed");
-                    username.setText("");
-                    password.setText("");
+                    //username.setText("");
+                    //password.setText("");
                 }
+            }
+            catch (NumberFormatException nfe) {
+                // just bad number input, repeat
+                username.setText("");
             }
             catch (Exception e) {
                 username.setText("");

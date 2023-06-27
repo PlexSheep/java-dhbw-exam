@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,19 +25,12 @@ public class UserData extends JFrame {
     private JLabel JName;
     private JPanel JAdressPanel;
     private JLabel profilePicturePanel;
-    private JPanel JIban;
-    private JPanel JBic;
     private JLabel JAdressVariable;
     private JLabel JEmailVar;
     private JLabel JNumberVar;
 
-    private JLabel JIBAN;
-    private JLabel JBIC;
-
     private JLabel JNameVariable;
 
-    private JLabel JIbanVar;
-    private JLabel JBicVar;
     private JButton JChangePassword;
     private JButton JChangeCredentials;
     private JButton JDeleteAccount;
@@ -79,24 +73,18 @@ public class UserData extends JFrame {
         JNumberVar.setText(number);
         String mail = p.getEmail();
         JEmailVar.setText(mail);
-        try {
-            JIbanVar.setText(p.getAccounts().get(0).getIBAN());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ChangeCredential.ChangeCredential();
+                ChangeCredential cc = new ChangeCredential();
             }
         });
         JLogout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
+                // behave as if the frame was closed by the user
+                Main.frame.dispatchEvent(new WindowEvent(Main.frame, WindowEvent.WINDOW_CLOSING));
             }
         });
     }

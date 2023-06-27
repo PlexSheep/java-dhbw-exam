@@ -1,6 +1,7 @@
 package backend.people;
 
 import backend.database.DatabaseController;
+import jdk.jshell.spi.ExecutionControl;
 
 import javax.xml.crypto.Data;
 import java.security.MessageDigest;
@@ -92,6 +93,7 @@ public abstract class Person {
      * save the backend.People.Person to the backend.database
      */
     public void save() {
+        throw new UnsupportedOperationException("save is not implemented for abstract Person");
     }
 
     /**

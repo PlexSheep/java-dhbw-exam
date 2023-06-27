@@ -40,7 +40,7 @@ public class Transaction extends JFrame{
                     System.exit(1);
                 }
 
-                Account recAcc;
+                Account recAcc = null;
                 for (Client c : Main.CLIENT_LIST){
                     for (Account a : c.getAccounts()){
                         if (a.getIBAN().equals(JIBAN.getText())){
@@ -49,6 +49,9 @@ public class Transaction extends JFrame{
                         }
                     }
                 }
+
+                assert recAcc != null;
+                System.out.println(recAcc);
 
                 // get and validate the sum of transfer
                 // then make the transfer
@@ -65,7 +68,7 @@ public class Transaction extends JFrame{
                         case DEBIT:
                             if (true) {
                                 client.getAccounts().get(0).setBalance(acc.getBalance() - amount);
-                                acc.setBalance(acc.getBalance() + amount);
+                                recAcc.setBalance(acc.getBalance() + amount);
                                 DatabaseController.saveTransaction(client, iban.toString(), amount);
                                 System.out.println(amount);
 
@@ -74,6 +77,7 @@ public class Transaction extends JFrame{
                         case CREDIT:
                             if (true) {
                                 client.getAccounts().get(0).setBalance(acc.getBalance() - amount);
+                                recAcc.setBalance(recAcc.getBalance() + amount);
                                 DatabaseController.saveTransaction(client, iban.toString(), amount);
                                 System.out.println(amount);
                                 break;

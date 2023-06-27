@@ -13,11 +13,15 @@ import java.awt.event.WindowEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.net.URL;
 import javax.swing.*;
 import java.awt.Image;
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class Main {
 
@@ -58,9 +62,11 @@ public class Main {
                         )
                 );
                 */
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new Locale("us"));
+
                 Client client = new Client(
                         client_set.getString("name"),
-                        client_set.getDate("date"),
+                        sdf.parse(client_set.getString("date")),
                         client_set.getString("address"),
                         client_set.getString("email"),
                         client_set.getString("phone"),

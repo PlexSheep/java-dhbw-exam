@@ -41,6 +41,13 @@ public class DatabaseController {
         }
     }
 
+    /**
+     * Initially save a user
+     * @param p
+     * @param password
+     * @param table
+     * @throws SQLException
+     */
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
             String insert = "INSERT INTO " + table + "(user_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
@@ -59,16 +66,15 @@ public class DatabaseController {
         }
     }
 
-    public static void updateUsers(Person p, String password, String table) throws SQLException {
+    public static void updateUsers(Person p, String table) throws SQLException {
         try {
-            String insert = "UPDATE " + table + "set (name, address, email, phone, password) VALUES(?, ?, ?, ?, ?) WHERE id = ?";
+            String insert = "UPDATE " + table + "set (user_id,name, address, email, phone) VALUES(?, ?, ?, ?) WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, p.getName());
-            stmt.setString(2, p.getAddress());
-            stmt.setString(3, p.getEmail());
-            stmt.setString(4, p.getTelephoneNumber());
-            stmt.setString(5, Authentication.hash_password(password));
-            stmt.setInt(5, p.getId());
+            stmt.setString(2, p.getName());
+            stmt.setString(3, p.getAddress());
+            stmt.setString(4, p.getEmail());
+            stmt.setString(5, p.getTelephoneNumber());
+            stmt.setInt(6, p.getId());
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -78,17 +84,17 @@ public class DatabaseController {
     }
 
     /**
-     * Save a transaction
+     * Initially save a transaction
      * @param sender
      * @param recipient
      * @throws SQLException
      */
-    public static void saveTransaction(Client sender, Client recipient, Double amount) throws SQLException {
+    public static void saveTransaction(Client sender, String iban, Double amount) throws SQLException {
         try {
             String insert = "INSERT INTO transactions (sender, recipient, amount, timestamp) VALUES(?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, sender.getId());
-            stmt.setInt(2, recipient.getId());
+            stmt.setString(2, iban);
             stmt.setDouble(3, amount);
             stmt.setString(4, new Date().toString());
             stmt.executeUpdate();
@@ -104,11 +110,13 @@ public class DatabaseController {
      * @param sender
      * @throws SQLException
      */
-    public static ResultSet readTransactionBySender(Client sender) throws SQLException {
+    public static ResultSet readTransactionByClient(Person p) throws SQLException {
         try {
-            String query = "SELECT * FROM transactions WHERE sender=?";
+            String query = "SELECT * FROM transactions WHERE sender=? OR recipient=?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, sender.getId());
+            stmt.setInt(1, p.getId());
+            stmt.setInt(1, p.getId());
+
             return stmt.executeQuery();
         }
         catch (Exception e){
@@ -152,6 +160,12 @@ public class DatabaseController {
         return null;
     }
 
+    /**
+     * Initially save an account to the database
+     * @param c
+     * @param a
+     * @throws SQLException
+     */
     public static void saveAccount(Client c, Account a) throws SQLException {
         try {
             String insert = "INSERT INTO account (IBAN, type, balance, debtLimit) VALUES(?, ?, ?, ?)";
@@ -182,7 +196,6 @@ public class DatabaseController {
             stmt.setString(2, a.getTYPE().toString());
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());
-            stmt.setDouble(5, a.getDebtLimit());
 
             stmt.executeUpdate();
         }
@@ -192,11 +205,11 @@ public class DatabaseController {
         }
     }
 
-    public static ResultSet loadAccount(Iban iban) throws SQLException {
+    public static ResultSet loadAccounts(Person p) throws SQLException {
         try {
-            String query = "SELECT * FROM account WHERE IBAN = ?)";
+            String query = "SELECT * FROM client, account, client_account WHERE client.user_id = ? AND client.user_id = client_account.client AND account.IBAN = client_account.account";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, iban.toString());
+            stmt.setInt(1, p.getId());
             return stmt.executeQuery();
         }
         catch (Exception e){
@@ -205,6 +218,12 @@ public class DatabaseController {
         return null;
     }
 
+    /**
+     * Get all users from the database
+     * @param table
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet readUsers(String table) throws SQLException {
         String query = "SELECT * FROM " + table;
         PreparedStatement stmt = conn.prepareStatement(query);
@@ -242,6 +261,13 @@ public class DatabaseController {
         return null;
     }
 
+    /**
+     * Function to get user password from the database
+     * @param userId
+     * @param table
+     * @return
+     * @throws SQLException
+     */
     public static String get_user_password(Integer userId, String table) throws SQLException {
         try {
 
@@ -257,36 +283,5 @@ public class DatabaseController {
         return null;
     }
 
-    public boolean changeBalance(int accID, double amount) throws SQLException {
-        try {
-            String query = "UPDATE `accounts` SET balance=? WHERE ID = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setDouble(1, amount);
-            stmt.setInt(1, accID);
-            stmt.executeQuery();
-            return true;
-        }
-        catch (Exception e){
-            System.out.println(e);
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean changePassword(Person p, String pass, String table){
-        try {
-            String update = "UPDATE " + table + " set (password) VALUES(?) WHERE id=?";
-            PreparedStatement stmt = conn.prepareStatement(update);
-            stmt.setString(1, Authentication.hash_password(pass));
-            stmt.setInt(2, p.getId());
-            stmt.executeUpdate();
-            return true;
-        }
-        catch (Exception e){
-            System.out.println(e);
-            e.printStackTrace();
-        }
-        return false;
-    }
 
 }

@@ -1,3 +1,6 @@
+import backend.accounts.Account;
+import backend.accounts.CreditAccount;
+import backend.accounts.GiroAccount;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
@@ -18,14 +21,19 @@ public class Main {
     static Person loggedIn;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
+        // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
+
+
+
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         System.out.println(client_set);
         assert client_set != null;
         while (client_set.next()) {
             try {
+                /*
                 System.out.println(
                         String.format(
                                 "id:\t\t\t%s\n" +
@@ -44,6 +52,7 @@ public class Main {
                                 client_set.getString("date")         // index 7
                         )
                 );
+                */
                 Client client = new Client(
                         client_set.getString("name"),
                         client_set.getDate("date"),
@@ -52,6 +61,22 @@ public class Main {
                         client_set.getString("phone"),
                         client_set.getInt("user_id")
                 );
+                ResultSet account_set = DatabaseController.loadAccounts(client);
+                System.out.println(client_set);
+                assert account_set != null;
+                while (account_set.next()) {
+                    try {
+                        if(account_set.getString("type").equals("CREDIT")){
+                            client.addAccount(new CreditAccount(client));
+                        }
+                        else if(account_set.getString("type").equals("GIRO")){
+                            client.addAccount(new GiroAccount(client));
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -96,11 +121,23 @@ public class Main {
             }
         }
 
+        LinkedList<Employee> ACCOUNT_LIST = new LinkedList<>();
+        ResultSet account_list = DatabaseController.readUsers(DatabaseController.TABLE_EMPLOYEES);
+        System.out.println(account_list);
+        assert account_list != null;
+
+
 
         // debug
+        /*
+        for(Client c : CLIENT_LIST){
+            System.out.println( c.getName() + " " + c.getAccounts());
+        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
 
+
+         */
 
         Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
         //herbert.login("FFF");
@@ -153,5 +190,15 @@ public class Main {
                     //maybe repeat here
                 }
         }
+
+        /*
+        for(Person p : EMPLOYEE_LIST){
+            DatabaseController.updateUsers(p, DatabaseController.TABLE_EMPLOYEES);
+        }
+        for(Person p : CLIENT_LIST){
+            DatabaseController.updateUsers(p, DatabaseController.TABLE_CLIENTS);
+        }
+
+         */
     }
 }

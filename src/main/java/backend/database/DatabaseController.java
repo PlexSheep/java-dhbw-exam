@@ -1,11 +1,9 @@
 package backend.database;
-import backend.accounts.CreditAccount;
 import backend.people.Client;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;
 import org.iban4j.Iban;
-import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.Date;
@@ -14,14 +12,10 @@ public class DatabaseController {
 
     public static final String TABLE_CLIENTS = "client";
     public static final String TABLE_EMPLOYEES = "Employee";
-    private static Client dave = new Client("dave", new Date(1), "Here", "s", "e");
-
-    private static Account a = new CreditAccount(dave);
+    public static final String TABLE_ACCOUNTS = "account";
+    public static final String TABLE_CLIENT_ACCOUNTS = "client_account";
     public static Connection conn = null;
     public static void connect() {
-
-
-
         try {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
@@ -30,14 +24,6 @@ public class DatabaseController {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    public static void fillDb() throws SQLException {
-        for(int i = 0; i < 1000; i++){
-            saveUsers(new Client("dave", new Date(1), "Here", "s", "e"), "test", "client");
-
-            saveAccount(dave, a);
         }
     }
 
@@ -59,16 +45,17 @@ public class DatabaseController {
         }
     }
 
-    public static void updateUsers(Person p, String password, String table) throws SQLException {
+    public static void updateUsers(Person p, String table) throws SQLException {
         try {
-            String insert = "UPDATE " + table + "set (name, address, email, phone, password) VALUES(?, ?, ?, ?, ?) WHERE id = ?";
+            String insert = "UPDATE " + table + " set name = ?, address = ?, email = ?, phone = ? WHERE id = ?";
+            System.out.println(String.format("prepared query:\t%s", insert));
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, p.getName());
             stmt.setString(2, p.getAddress());
             stmt.setString(3, p.getEmail());
             stmt.setString(4, p.getTelephoneNumber());
-            stmt.setString(5, Authentication.hash_password(password));
             stmt.setInt(5, p.getId());
+            System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -183,7 +170,7 @@ public class DatabaseController {
             stmt.setDouble(3, a.getBalance());
             stmt.setDouble(4, a.getDebtLimit());
             stmt.setDouble(5, a.getDebtLimit());
-
+            System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -211,6 +198,12 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
+    public static ResultSet readAccounts() throws SQLException {
+        String query = "SELECT * FROM " + DatabaseController.TABLE_ACCOUNTS;
+        PreparedStatement stmt = conn.prepareStatement(query);
+        return stmt.executeQuery();
+    }
+
 
     /**
      * get a single user from the database
@@ -227,7 +220,7 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
-    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
+    public static ResultSet authUsers(String name, String password, String table) throws SQLException {
         try {
 
             String query = "SELECT * FROM " + table + " WHERE name = ?";
@@ -242,13 +235,28 @@ public class DatabaseController {
         return null;
     }
 
-    public static String get_user_password(Integer userId, String table) throws SQLException {
+    public static String getUserPassword(Integer userId, String table) throws SQLException {
         try {
 
             String query = "SELECT `password` FROM " + table + " WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
             return stmt.executeQuery().getString("password");
+        }
+        catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ResultSet getOwnerOfAccount(String iban) throws SQLException {
+        try {
+            String query = "SELECT * FROM  " + TABLE_CLIENT_ACCOUNTS + " WHERE account=?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, iban);
+            stmt.setMaxRows(1);
+            return stmt.executeQuery();
         }
         catch (Exception e){
             System.out.println(e);

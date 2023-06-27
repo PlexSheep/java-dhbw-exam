@@ -20,8 +20,6 @@ public class DatabaseController {
     public static Connection conn = null;
     public static void connect() {
 
-
-
         try {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
@@ -50,7 +48,7 @@ public class DatabaseController {
      */
     public static void saveUsers(Person p, String password, String table) throws SQLException {
         try {
-            String insert = "INSERT INTO " + table + "(user_id, name, address, email, phone, password) VALUES(?, ?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO " + table + "(user_id, name, address, email, phone, password, date) VALUES(?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setInt(1, p.getId());
             stmt.setString(2, p.getName());
@@ -58,6 +56,7 @@ public class DatabaseController {
             stmt.setString(4, p.getEmail());
             stmt.setString(5, p.getTelephoneNumber());
             stmt.setString(6, Authentication.hash_password(password));
+            stmt.setString(7, p.getBirthday().toString());
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -86,7 +85,8 @@ public class DatabaseController {
     /**
      * Initially save a transaction
      * @param sender
-     * @param recipient
+     * @param iban
+     * @param amount
      * @throws SQLException
      */
     public static void saveTransaction(Client sender, String iban, Double amount) throws SQLException {
@@ -107,7 +107,7 @@ public class DatabaseController {
 
     /**
      * Read transactions for specific sender
-     * @param sender
+     * @param p
      * @throws SQLException
      */
     public static ResultSet readTransactionByClient(Person p) throws SQLException {
@@ -270,10 +270,10 @@ public class DatabaseController {
      */
     public static String get_user_password(Integer userId, String table) throws SQLException {
         try {
-
-            String query = "SELECT `password` FROM " + table + " WHERE user_id = ?";
+            String query = "SELECT password FROM " + table + " WHERE user_id = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
+            System.out.println(String.format("query:\t%s", stmt.toString()));
             return stmt.executeQuery().getString("password");
         }
         catch (Exception e){

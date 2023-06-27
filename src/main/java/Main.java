@@ -184,7 +184,6 @@ public class Main {
                     System.out.println(loggedIn.getName());
                     Gui.createGUI();
                 }
-
                 else {
                     System.out.println("login failed");
                     //maybe repeat here

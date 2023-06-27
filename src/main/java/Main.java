@@ -19,7 +19,7 @@ import java.util.LinkedList;
 
 public class Main {
 
-    static Person loggedIn;
+    static Person loggedIn = null;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
@@ -167,10 +167,6 @@ public class Main {
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
 
-
-        Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
-        //herbert.login("FFF");
-
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));
         //database_controller.saveUsers(herbert, "test", "Employee");
@@ -187,36 +183,45 @@ public class Main {
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }
-        int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, bankIcon);
-        if (option != JOptionPane.OK_OPTION) {
-            System.exit(0);
-        }
-        if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
-            for (Person p : EMPLOYEE_LIST) {
-                if (p.getId() == Integer.parseInt(username.getText())) {
-                    System.out.println(p);
-                    loggedIn = p;
-                    break;
+
+        while (loggedIn == null) {
+            try {
+                int option = JOptionPane.showConfirmDialog(null, message, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, bankIcon);
+                if (option != JOptionPane.OK_OPTION) {
+                    System.exit(0);
+                }
+                if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
+                    for (Person p : EMPLOYEE_LIST) {
+                        if (p.getId() == Integer.parseInt(username.getText())) {
+                            System.out.println(p);
+                            loggedIn = p;
+                            break;
+                        }
+                    }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    frame = Gui.createGUI();
+                } else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
+                    for (Person p : CLIENT_LIST) {
+                        if (p.getId() == Integer.parseInt(username.getText())) {
+                            loggedIn = p;
+                            break;
+                        }
+                    }
+                    System.out.println("Login successful");
+                    System.out.println(loggedIn.getName());
+                    frame = Gui.createGUI();
+                } else {
+                    System.out.println("login failed");
+                    username.setText("");
+                    password.setText("");
                 }
             }
-            System.out.println("Login successful");
-            System.out.println(loggedIn.getName());
-            frame = Gui.createGUI();
-        }
-        else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")){
-                for (Person p : CLIENT_LIST) {
-                    if (p.getId() == Integer.parseInt(username.getText())) {
-                        loggedIn = p;
-                        break;
-                    }
-                }
-            System.out.println("Login successful");
-            System.out.println(loggedIn.getName());
-            frame = Gui.createGUI();
-        }
-        else {
-            System.out.println("login failed");
-            //maybe repeat here
+            catch (Exception e) {
+                username.setText("");
+                password.setText("");
+                e.printStackTrace();
+            }
         }
 
         // the gui is running by now

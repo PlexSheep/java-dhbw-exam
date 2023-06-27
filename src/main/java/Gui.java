@@ -1,29 +1,19 @@
+import backend.database.DatabaseController;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Gui {
-    public static void createTrFrame() {
-        JFrame dialog = new JFrame();
-        dialog.setTitle("My Frame");
-        dialog.setSize(800, 700);
-        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        dialog.setVisible(true);
-    }
 
-    public static void createAccFrame() {
-        UserData test = new UserData();
-        test.setTitle("Konto Center");
-        test.setContentPane(test.JMain);
-        test.setSize(500, 400);
-        test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public static void createGUI() {
-        JFrame frame = new JFrame("Banking App");
+    public static JFrame createGUI() throws SQLException {
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -42,8 +32,16 @@ public class Gui {
         JPanel secondRowPanel = new JPanel(new BorderLayout());
         panel.add(secondRowPanel, BorderLayout.CENTER);
 
-        String[] elements = {"Amogus sent you: 10000000$", "Whatcolorisyourbugatti withdrew: 0.1$", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Auf Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder", "Placeholder"};
-        JList<String> list = new JList<>(elements);
+        ResultSet trans = DatabaseController.readTransactionByClient(Main.loggedIn);
+        ArrayList<String> elements = new ArrayList<String>();
+        System.out.println("Transaction  elements: " + elements);
+        while (trans.next()){
+            elements.add(new String("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " +trans.getString("recipient")));
+        }
+        String[] arr = new String[elements.size()];
+        arr = elements.toArray(arr);
+
+        JList<String> list = new JList<>(arr);
         JScrollPane scrollPane = new JScrollPane(list);
         list.setLayoutOrientation(JList.VERTICAL);
         secondRowPanel.add(scrollPane, BorderLayout.CENTER);
@@ -63,7 +61,6 @@ public class Gui {
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 UserData.createUser();
-
             }
         });
 
@@ -73,5 +70,6 @@ public class Gui {
         frame.getContentPane().add(panel);
         frame.setSize(400, 300);
         frame.setVisible(true);
+        return frame;
     }
 }

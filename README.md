@@ -4,10 +4,10 @@
 ### Finale Aufgabe
 Schreiben Sie eine Bankanwendung „BankingApp“:
 #### Bank Kunde:
-- [ ] Login/Logout
-- [ ] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
+- [x] Login/Logout
+- [x] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
 - [ ] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
-- [ ] Konto ändern, 
+- [x] Konto ändern, 
 - [ ] Konto auflösen, 
 - [ ] Zahlungseingang, 
 - [ ] Zahlungsausgang, 
@@ -15,7 +15,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Prüfungen ob Konto gedeckt, 
 - [ ] Dispo anzeigen
 #### Bänker:
-- [ ] Login/Logout
+- [x] Login/Logout
 - [ ] Report 
   - über alle zugehörigen Kunden
   - alle Konten
@@ -23,29 +23,29 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Freigabe von neuen Konten
 - [ ] bestimmen ob und wie weit der Kunde ins Minus darf
 #### Allgemeines:
-- [ ] Das Programm muss eine UI-Schnittstelle haben mit Java AWT/ Swing.
-- [ ] Das Programm soll Intuitive Bedienbar sein.
+- [x] Das Programm muss eine UI-Schnittstelle haben mit Java AWT/ Swing.
+- [x] Das Programm soll Intuitive Bedienbar sein.
 - [ ] Das Programm muss seine Daten dauerhaft abspeichern (z.B. Persistenz mit JDBC). 
   - D.h. wenn neue Benutzer angelegt wurden und neue Konten 
     dann müssen diese Daten nach Neustart im Programm verfügbar sein.
-- [ ] Überlegen Sie sich ein passendes, realistische Klassen-/Objektmodell
+- [x] Überlegen Sie sich ein passendes, realistische Klassen-/Objektmodell
   - (z.B. Konto, Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
-- [ ] Leiten Sie sinnvoll ab, 
+- [x] Leiten Sie sinnvoll ab, 
   - verteilen Sie die Attribute und Methoden so, dass die Objektorientierung einen Sinn ergibt
-- [ ] Es muss eine sinnvolle Vererbungshierarchie erkennbar sein.
+- [x] Es muss eine sinnvolle Vererbungshierarchie erkennbar sein.
   - Arbeiten Sie ggf. mit abstrakten Klassen
-- [ ] Setzen Sie ggf. Polymorphie ein
-- [ ] Denken Sie an Datenkapselung
+- [x] Setzen Sie ggf. Polymorphie ein
+- [x] Denken Sie an Datenkapselung
 - [ ] Denken Sie an die Fehlerbehandlung (Eingabe, Konvertierungen, Überläufe, ...)
 - [ ] Formatieren Sie im Team konsistent, 
   - (source code gemeint vermutlich)
-- [ ] Wählen Sie sinnvolle Bezeichner (entscheiden Sie sich für eine Sprache)
+- [x] Wählen Sie sinnvolle Bezeichner (entscheiden Sie sich für eine Sprache)
 #### Team-Setup und Projektplanung:
-- [ ] Überlegen Sie wie Sie an das Projekt heran gehen wollen
-- [ ] Überlegen Sie sich ein Vorgehensmodell und einen Zeitplan
-- [ ] Legen Sie fest wer was bis wann macht
-- [ ] Beginnen Sie mit dem Datenmodel
-- [ ] Abstrahieren Sie ein Klassenmodell
+- [x] Überlegen Sie wie Sie an das Projekt heran gehen wollen
+- [x] Überlegen Sie sich ein Vorgehensmodell und einen Zeitplan
+- [x] Legen Sie fest wer was bis wann macht
+- [x] Beginnen Sie mit dem Datenmodel
+- [x] Abstrahieren Sie ein Klassenmodell
      - Attribute, Vererbung, Methoden
 - [ ] Dokumentieren Sie die Ergebnisse
 #### Abgabeinhalte:
@@ -71,9 +71,10 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 
 
 ## Test Credentials
-| Username | Password |
-|----------|----------|
-| Herbert  | test     |
+| Username | Password      |
+|----------|---------------|
+| 1        | (leave empty) |
+| 25063084    | test          |
 
 ## Dependencies
 - [iban4j](https://github.com/arturmkrtchyan/iban4j)

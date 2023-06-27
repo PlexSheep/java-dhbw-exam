@@ -84,7 +84,7 @@ public class UserData extends JFrame {
 
         ArrayList<String> list = new ArrayList<>();
         for(Account a : p.getAccounts()){
-            list.add(a.getIBAN());
+            list.add(a.getIBAN() + " with balance: " + a.getBalance());
         }
         String[] arr = new String[list.size()];
         arr = list.toArray(arr);

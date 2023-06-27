@@ -288,14 +288,25 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    client.save();
+                    try {
+                        client.save(DatabaseController.TABLE_CLIENTS);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    employee.save();
+                    try {
+                        employee.save(DatabaseController.TABLE_EMPLOYEES);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+                /*
                 for (Account account : ACCOUNT_LIST) {
                     account.save();
                 }
+
+                 */
                 super.windowClosing(e);
             }
         });

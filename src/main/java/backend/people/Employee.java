@@ -13,6 +13,15 @@ public class Employee extends Person{
         super(name, birthday, address, email, telephoneNumber);
     }
 
+    /**
+     * Second constructor for recreation of Objects with ID
+     * @param name
+     * @param birthday
+     * @param address
+     * @param email
+     * @param telephoneNumber
+     * @param id
+     */
     public Employee(
             String name,
             Date birthday,

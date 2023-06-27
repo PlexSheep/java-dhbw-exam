@@ -1,3 +1,4 @@
+import backend.accounts.*;
 import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
@@ -34,8 +35,7 @@ public class Transaction extends JFrame{
                 Iban iban = null;
                 try {
                     iban = Iban.valueOf(JIBAN.getText());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println(String.format("Bad Iban: %s", JIBAN.getText()));
                     System.exit(1);
                 }
@@ -43,20 +43,51 @@ public class Transaction extends JFrame{
                 // get and validate the sum of transfer
                 // then make the transfer
                 Double amount;
+
+                /*
                 try {
-                    //amount = Double.parseDouble(JAmountInput.getText());
-                    //
-                    //if ()
-                    //DatabaseController.changeBalance(account.getId(), client.getId() - amount);
-                    //DatabaseController.saveTransaction(client, iban.toString(), amount);
-                }
-                catch (NumberFormatException nfe) {
+
+                    amount = Double.parseDouble(JAmountInput.getText());
+                    AccountType type;
+                    Account acc = client.getAccounts().get(0);
+                    switch (acc.getTYPE()) {
+                        case AccountType.GIRO:
+
+                            break;
+                        case AccountType.DEBIT:
+                            acc = (DebitAccount) acc;
+                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
+                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
+                                DatabaseController.saveTransaction(client, iban.toString(), amount);
+                                break;
+                            }
+                        case AccountType.CREDIT:
+                            acc = (CreditAccount) acc;
+                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
+                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
+                                DatabaseController.saveTransaction(client, iban.toString(), amount);
+                                break;
+                            }
+                            break;
+                        case AccountType.FIXED:
+
+                            break;
+                        default:
+                            System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                    }
+
+                } catch (NumberFormatException nfe) {
                     // bad amount format
                     System.exit(1);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
+            }
+        });
 
+                     */
             }
         });
     }

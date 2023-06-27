@@ -3,11 +3,9 @@ package backend.people;
 import backend.accounts.*;
 import backend.database.DatabaseController;
 
-import javax.xml.crypto.Data;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Represent a client of the bank
@@ -100,7 +98,7 @@ public class Client extends Person {
 
     }
 
-    public List<Account> getAccounts() {
+    public ArrayList<Account> getAccounts() {
         return accounts;
     }
 
@@ -109,10 +107,15 @@ public class Client extends Person {
         return true;
     }
 
+
+    //public boolean transferMoney(int recipientID, double amount){}
     @Override
     public void save() {
         try {
             DatabaseController.updateUsers(this, DatabaseController.TABLE_CLIENTS);
+            for (Account a : accounts){
+                a.save();
+            }
         } catch (SQLException e) {
             System.out.println(String.format("could not save user %s", this.getName()));
         }

@@ -1,5 +1,6 @@
 package backend.people;
 
+import backend.accounts.Account;
 import backend.database.DatabaseController;
 import jdk.jshell.spi.ExecutionControl;
 
@@ -7,6 +8,7 @@ import javax.xml.crypto.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -68,7 +70,7 @@ public abstract class Person {
         this.id = secRan.nextInt(9999999,99999999);
 
         // finally, save to DB
-        this.save();
+        //this.save();
     }
 
     public Person(
@@ -86,14 +88,14 @@ public abstract class Person {
         this.id = id;
 
         // finally, save to DB
-        this.save();
+        //this.save();
     }
 
     /**
      * save the backend.People.Person to the backend.database
      */
-    public void save() {
-        throw new UnsupportedOperationException("save is not implemented for abstract Person");
+    public void save(String table) throws SQLException {
+        DatabaseController.updateUsers(this, table);
     }
 
     /**
@@ -171,6 +173,9 @@ public abstract class Person {
     public int getId(){
         return id;
     }
+
+    //public boolean transferMoney(int recipientID, double amount){}
+    public abstract void save();
 
     /*
     public UUID getUuid() {

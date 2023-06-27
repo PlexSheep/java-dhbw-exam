@@ -1,12 +1,10 @@
 package backend.database;
-import backend.accounts.CreditAccount;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;
 import org.iban4j.Iban;
-import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.Date;
@@ -23,7 +21,7 @@ public class DatabaseController {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
-            //System.out.println("Connection to SQLite has been established.");
+            System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -185,10 +183,12 @@ public class DatabaseController {
         try {
             String insert = "UPDATE account set type = ?, balance = ?, debtLimit = ?  WHERE IBAN =?";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, a.getTYPE().toString());
-            stmt.setInt(2, a.getBalance());
-            stmt.setInt(3, a.getDebtLimit());
-            stmt.setString(4, a.getIBAN());
+            stmt.setString(1, a.getIBAN());
+            stmt.setString(2, a.getTYPE().toString());
+            stmt.setDouble(3, a.getBalance());
+            stmt.setDouble(4, a.getDebtLimit());
+            stmt.setDouble(5, a.getDebtLimit());
+            System.out.println(String.format("query:\t%s", stmt.toString()));
 
             stmt.executeUpdate();
         }
@@ -245,7 +245,7 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
-    public static ResultSet authUsers(String name, String password, String table) throws SQLException {
+    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
         try {
 
             String query = "SELECT * FROM " + table + " WHERE name = ?";
@@ -337,4 +337,5 @@ public class DatabaseController {
         }
         return false;
     }
+
 }

@@ -6,10 +6,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import backend.accounts.Account;
 import backend.people.Client;
-import backend.utils.Authentication;
-import backend.people.Person;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
 
@@ -25,23 +25,31 @@ public class UserData extends JFrame {
     private JLabel JName;
     private JPanel JAdressPanel;
     private JLabel profilePicturePanel;
+    private JPanel JIban;
+    private JPanel JBic;
     private JLabel JAdressVariable;
     private JLabel JEmailVar;
     private JLabel JNumberVar;
 
+    private JLabel JIBAN;
+    private JLabel JBIC;
+
     private JLabel JNameVariable;
 
+    private JLabel JIbanVar;
+    private JLabel JBicVar;
     private JButton JChangePassword;
     private JButton JChangeCredentials;
     private JButton JDeleteAccount;
     private JButton JLogout;
     public JPanel JMain;
     private JTextField JNewPassword;
-
+    private JList accList;
 
     /**
      * Function to display the users data on the GUI
      */
+
     public UserData() {
         JChangePassword.addActionListener(new ActionListener() {
             @Override
@@ -73,6 +81,14 @@ public class UserData extends JFrame {
         JNumberVar.setText(number);
         String mail = p.getEmail();
         JEmailVar.setText(mail);
+
+        ArrayList<String> list = new ArrayList<>();
+        for(Account a : p.getAccounts()){
+            list.add(a.getIBAN() + " with balance: " + a.getBalance());
+        }
+        String[] arr = new String[list.size()];
+        arr = list.toArray(arr);
+        accList.setListData(arr);
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override
@@ -149,4 +165,5 @@ public class UserData extends JFrame {
 
         return value;
     }
+
 }

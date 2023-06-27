@@ -1,5 +1,7 @@
 import backend.accounts.Account;
 import backend.accounts.AccountType;
+import backend.accounts.CreditAccount;
+import backend.accounts.GiroAccount;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
@@ -28,7 +30,7 @@ public class Main {
         DatabaseController.connect();
 
 
-
+        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         assert client_set != null;
@@ -62,6 +64,39 @@ public class Main {
                         client_set.getString("phone"),
                         client_set.getInt("user_id")
                 );
+                ResultSet account_set = DatabaseController.loadAccounts(client);
+                System.out.println(client_set);
+                assert account_set != null;
+                while (account_set.next()) {
+                    try {
+                        Account account = null;
+                        switch (account_set.getString("type")) {
+                            case "GIRO":
+                                account = new GiroAccount(client);
+                                client.addAccount(account);
+                                ACCOUNT_LIST.add(account);
+                                break;
+                            case "DEBIT":
+                                //type = AccountType.DEBIT;
+                                break;
+                            case "CREDIT":
+                                account = new CreditAccount(client);
+                                client.addAccount(account);
+                                ACCOUNT_LIST.add(account);
+                                break;
+                            case "FIXED":
+                                //type = AccountType.FIXED;
+                                break;
+                            default:
+                                //System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                                continue;
+                        }
+                        ;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -107,6 +142,7 @@ public class Main {
             }
         }
 
+        /*
         LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         ResultSet account_list = DatabaseController.readAccounts();
         assert account_list != null;
@@ -164,9 +200,22 @@ public class Main {
         }
         System.out.println(ACCOUNT_LIST);
 
+
+         */
+
         // debug
+        /*
+        for(Client c : CLIENT_LIST){
+            System.out.println( c.getName() + " " + c.getAccounts());
+        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
+
+
+         */
+
+        Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
+        //herbert.login("FFF");
 
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));
@@ -239,14 +288,25 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    client.save();
+                    try {
+                        client.save(DatabaseController.TABLE_CLIENTS);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    employee.save();
+                    try {
+                        employee.save(DatabaseController.TABLE_EMPLOYEES);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+                /*
                 for (Account account : ACCOUNT_LIST) {
                     account.save();
                 }
+
+                 */
                 super.windowClosing(e);
             }
         });

@@ -1,7 +1,10 @@
 package backend.people;
 
 import backend.accounts.*;
+import backend.database.DatabaseController;
 
+import javax.xml.crypto.Data;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +74,28 @@ public class Client extends Person {
         return a;
     }
 
+    public Account loadAccount(AccountType type, String iban, int balance, int debtLimit) {
+        Account a = null;
+        switch (type) {
+            case GIRO -> {
+                a = new GiroAccount(this, iban, balance, debtLimit);
+            }
+            case DEBIT -> {
+                a = new DebitAccount(this, iban, balance, debtLimit);
+            }
+            case CREDIT -> {
+                a = new CreditAccount(this, iban, balance, debtLimit);
+            }
+            case FIXED -> {
+                a = new FixedAccount(this, iban, balance, debtLimit);
+            }
+            default -> {
+                throw new UnsupportedOperationException();
+            }
+        }
+        return a;
+    }
+
     public void deleteAccount(String iban) {
 
     }
@@ -84,9 +109,12 @@ public class Client extends Person {
         return true;
     }
 
-    /*
-    public boolean transferMoney(int recipientID, double amount){
+    @Override
+    public void save() {
+        try {
+            DatabaseController.updateUsers(this, DatabaseController.TABLE_EMPLOYEES);
+        } catch (SQLException e) {
+            System.out.println(String.format("could not save user %s", this.getName()));
+        }
     }
-
-     */
 }

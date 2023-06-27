@@ -1,5 +1,8 @@
 package backend.people;
 
+import backend.database.DatabaseController;
+
+import javax.xml.crypto.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -89,7 +92,6 @@ public abstract class Person {
      * save the backend.People.Person to the backend.database
      */
     public void save() {
-        // TODO
     }
 
     /**

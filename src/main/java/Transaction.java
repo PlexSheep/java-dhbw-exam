@@ -1,5 +1,6 @@
 import backend.database.DatabaseController;
 import backend.people.Client;
+import org.iban4j.Iban;
 
 import javax.swing.*;
 import javax.xml.crypto.Data;
@@ -22,13 +23,40 @@ public class Transaction extends JFrame{
         JTransactionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //try {
-                ////    currently bugged
-                ////    if ((Client) Main.loggedIn.getA)
-                ////    DatabaseController.saveTransaction((Client) Main.loggedIn, JIBAN.getText(), Double.parseDouble(JAmountInput.getText()));
-                //} catch (SQLException e) {
-                //    throw new RuntimeException(e);
-                //}
+                // TODO
+                if (!(Main.loggedIn instanceof Client)) {
+                    // this is not supposed to happen
+                    System.exit(1);
+                }
+                Client client = (Client) Main.loggedIn;
+
+                // get and validate the iban
+                Iban iban = null;
+                try {
+                    iban = Iban.valueOf(JIBAN.getText());
+                }
+                catch (Exception e) {
+                    System.out.println(String.format("Bad Iban: %s", JIBAN.getText()));
+                    System.exit(1);
+                }
+
+                // get and validate the sum of transfer
+                // then make the transfer
+                Double amount;
+                try {
+                    //amount = Double.parseDouble(JAmountInput.getText());
+                    //
+                    //if ()
+                    //DatabaseController.changeBalance(account.getId(), client.getId() - amount);
+                    //DatabaseController.saveTransaction(client, iban.toString(), amount);
+                }
+                catch (NumberFormatException nfe) {
+                    // bad amount format
+                    System.exit(1);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
         });
     }

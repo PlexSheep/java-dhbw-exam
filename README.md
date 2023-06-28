@@ -78,11 +78,4 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 | 25063084    | killer        |
 
 ## Dependencies
-- [iban4j](https://github.com/arturmkrtchyan/iban4j)
-```maven
-<dependency>
-  <groupId>org.iban4j</groupId>
-  <artifactId>iban4j</artifactId>
-  <version>3.2.5-RELEASE</version>
-</dependency>
-```
+- see `pom.xml` for maven dependencies

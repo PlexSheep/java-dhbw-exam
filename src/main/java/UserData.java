@@ -104,22 +104,27 @@ public class UserData extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 String type = (String) comboBox1.getSelectedItem();
                 System.out.println(type);
-                switch (type) {
-                    case "Giro":
-                        p.createAccount(AccountType.GIRO);
-                        break;
-                    case "Credit":
-                        p.createAccount(AccountType.CREDIT);
-                        break;
-                    case "Debit":
-                        p.createAccount(AccountType.DEBIT);
-                        break;
-                    case "Fixed":
-                        p.createAccount(AccountType.FIXED);
-                        break;
-                    default:
-                        System.out.printf("unknown account type %s%n", type);
-                        System.exit(1);
+                try {
+                    switch (type) {
+                        case "Giro":
+                            p.createAccount(AccountType.GIRO);
+                            break;
+                        case "Credit":
+                            p.createAccount(AccountType.CREDIT);
+                            break;
+                        case "Debit":
+                            p.createAccount(AccountType.DEBIT);
+                            break;
+                        case "Fixed":
+                            p.createAccount(AccountType.FIXED);
+                            break;
+                        default:
+                            System.out.printf("unknown account type %s%n", type);
+                            System.exit(1);
+                    }
+                }
+                catch (Exception e){
+
                 }
             }
         });

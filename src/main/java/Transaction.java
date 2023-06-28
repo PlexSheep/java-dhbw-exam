@@ -1,9 +1,12 @@
+import backend.accounts.Account;
+import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Transaction extends JFrame {
     public JPanel JTransaction;

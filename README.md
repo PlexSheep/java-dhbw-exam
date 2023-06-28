@@ -73,7 +73,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 | Username | Password      |
 |----------|---------------|
 | 1        | (leave empty) |
-| 77067103    | test          |
+| 50941012    | test          |
 | 25063084    | killer        |
 
 ## Dependencies

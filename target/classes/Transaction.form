@@ -69,7 +69,8 @@
               </grid>
             </constraints>
             <properties>
-              <text value="Input target IBAN"/>
+              <text value=""/>
+              <toolTipText value="Input target IBAN"/>
             </properties>
           </component>
         </children>

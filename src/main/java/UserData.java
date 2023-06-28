@@ -13,7 +13,6 @@ import backend.accounts.AccountType;
 import backend.people.Client;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
-import org.iban4j.Iban;
 
 
 public class UserData extends JFrame {
@@ -40,6 +39,7 @@ public class UserData extends JFrame {
     private JList accList;
     private JButton createAccountButton;
     private JComboBox comboBox1;
+    private JScrollPane scrollPain;
 
     /**
      * Function to display the users data on the GUI
@@ -82,6 +82,7 @@ public class UserData extends JFrame {
         String[] arr = new String[list.size()];
         arr = list.toArray(arr);
         accList.setListData(arr);
+        scrollPain = new JScrollPane(accList);
 
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override

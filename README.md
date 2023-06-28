@@ -13,7 +13,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Zahlungsausgang, 
 - [ ] Überweisung auf anderes Konto, 
 - [ ] Prüfungen ob Konto gedeckt, 
-- [ ] Dispo anzeigen
+- [x] Dispo anzeigen
 #### Bänker:
 - [x] Login/Logout
 - [ ] Report 

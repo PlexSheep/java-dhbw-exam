@@ -70,11 +70,12 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 
 
 ## Test Credentials
-| Username | Password      |
-|----------|---------------|
-| 1        | (leave empty) |
-| 77067103    | test          |
-| 25063084    | killer        |
+| Username | Password      | Role |
+|----------|---------------| ---- |
+| 1        | (leave empty) | Employee |
+| 23131    | test          | Employee |
+| 77067103 | test          | Client |
+| 25063084 | killer        | Client |
 
 ## Dependencies
 - see `pom.xml` for maven dependencies

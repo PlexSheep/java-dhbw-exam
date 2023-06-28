@@ -4,7 +4,6 @@ import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;
-import org.iban4j.Iban;
 
 import java.sql.*;
 import java.util.Date;
@@ -243,7 +242,7 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
-    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
+    public static ResultSet authUsers(String name, String password, String table) throws SQLException {
         try {
 
             String query = "SELECT * FROM " + table + " WHERE name = ?";
@@ -335,5 +334,4 @@ public class DatabaseController {
         }
         return false;
     }
-
 }

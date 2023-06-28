@@ -14,7 +14,6 @@ import java.sql.SQLException;
 
 public class Transaction extends JFrame{
     public JPanel JTransaction;
-
     private JLabel JAmountLabel;
     private JTextField JAmountInput;
     private JButton JTransactionButton;
@@ -99,8 +98,8 @@ public class Transaction extends JFrame{
         Transaction test=new Transaction();
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         test.setContentPane(test.JTransaction);
-        test.setTitle("Test");
-        test.setSize(500,200);
+        test.setTitle("Transaktion");
+        test.setSize(500,400);
         test.setVisible(true);
     }
 

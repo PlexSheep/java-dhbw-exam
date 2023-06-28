@@ -1,9 +1,10 @@
 package backend.database;
+
+import backend.accounts.Account;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
-import backend.accounts.Account;
 
 import java.sql.*;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class DatabaseController {
     public static final String TABLE_ACCOUNTS = "account";
     public static final String TABLE_CLIENT_ACCOUNTS = "client_account";
     public static Connection conn = null;
+
     public static void connect() {
         try {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
@@ -29,6 +31,7 @@ public class DatabaseController {
 
     /**
      * Initially save a user
+     *
      * @param p
      * @param password
      * @param table
@@ -46,8 +49,7 @@ public class DatabaseController {
             stmt.setString(6, Authentication.hash_password(password));
             stmt.setString(7, p.getBirthday().toString());
             stmt.executeUpdate();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -65,8 +67,7 @@ public class DatabaseController {
             stmt.setInt(5, p.getId());
             //System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -74,6 +75,7 @@ public class DatabaseController {
 
     /**
      * Initially save a transaction
+     *
      * @param sender
      * @param iban
      * @param amount
@@ -88,8 +90,7 @@ public class DatabaseController {
             stmt.setDouble(3, amount);
             stmt.setString(4, new Date().toString());
             stmt.executeUpdate();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -97,6 +98,7 @@ public class DatabaseController {
 
     /**
      * Read transactions for specific sender
+     *
      * @param p
      * @throws SQLException
      */
@@ -107,8 +109,7 @@ public class DatabaseController {
             stmt.setInt(1, p.getId());
             stmt.setInt(1, p.getId());
             return stmt.executeQuery();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -128,8 +129,7 @@ public class DatabaseController {
             stmt.setInt(1, recipient.getId());
             stmt.setString(3, new Date().toString());
             return stmt.executeQuery();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -141,8 +141,7 @@ public class DatabaseController {
             String query = "SELECT * FROM transactions";
             PreparedStatement stmt = conn.prepareStatement(query);
             return stmt.executeQuery();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -151,6 +150,7 @@ public class DatabaseController {
 
     /**
      * Initially save an account to the database
+     *
      * @param c
      * @param a
      * @throws SQLException
@@ -170,8 +170,7 @@ public class DatabaseController {
             stmt.setInt(1, c.getId());
             stmt.setString(2, a.getIBAN());
             stmt.executeUpdate();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -181,11 +180,11 @@ public class DatabaseController {
         try {
             String insert = "UPDATE account set type = ?, balance = ?, debtLimit = ?  WHERE IBAN =?";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, a.getIBAN());
-            stmt.setString(2, a.getTYPE().toString());
-            stmt.setDouble(3, a.getBalance());
-            stmt.setDouble(4, a.getDebtLimit());
-            stmt.setDouble(5, a.getDebtLimit());
+            stmt.setString(1, a.getTYPE().toString());
+            stmt.setDouble(2, a.getBalance());
+            stmt.setDouble(3, -a.getDebtLimit());
+            stmt.setString(4, a.getIBAN());
+
             System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
         }
@@ -201,8 +200,7 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, p.getId());
             return stmt.executeQuery();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
         return null;
@@ -210,6 +208,7 @@ public class DatabaseController {
 
     /**
      * Get all users from the database
+     *
      * @param table
      * @return
      * @throws SQLException
@@ -249,8 +248,7 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, name);
             return stmt.executeQuery();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -259,6 +257,7 @@ public class DatabaseController {
 
     /**
      * Function to get user password from the database
+     *
      * @param userId
      * @param table
      * @return
@@ -270,8 +269,7 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, userId);
             return stmt.executeQuery().getString("password");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
         }
@@ -309,17 +307,15 @@ public class DatabaseController {
         return false;
     }
 
-    public static boolean changePassword(Person p, String pass){
+    public static boolean changePassword(Person p, String pass) {
         try {
             String table = null;
             if (p instanceof Client) {
                 table = TABLE_CLIENTS;
-            }
-            else if(p instanceof Employee) {
+            } else if (p instanceof Employee) {
                 table = TABLE_EMPLOYEES;
-            }
-            else {
-                System.out.println(String.format("Invalid Person type: %s", p));
+            } else {
+                System.out.printf("Invalid Person type: %s%n", p);
                 return false;
             }
             String update = "UPDATE " + table + " set password = ? WHERE user_id = ?";

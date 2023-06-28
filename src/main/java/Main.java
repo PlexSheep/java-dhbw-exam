@@ -13,11 +13,15 @@ import java.awt.event.WindowEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.net.URL;
 import javax.swing.*;
 import java.awt.Image;
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class Main {
 
@@ -25,14 +29,16 @@ public class Main {
     static boolean isEmployee = false;
     static JFrame frame = null;
 
+    static LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
+    static LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
 
 
-        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
-        LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         assert client_set != null;
         while (client_set.next()) {
@@ -57,9 +63,11 @@ public class Main {
                         )
                 );
                 */
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new Locale("us"));
+
                 Client client = new Client(
                         client_set.getString("name"),
-                        client_set.getDate("date"),
+                        sdf.parse(client_set.getString("date")),
                         client_set.getString("address"),
                         client_set.getString("email"),
                         client_set.getString("phone"),
@@ -73,7 +81,11 @@ public class Main {
                         Account account = null;
                         switch (account_set.getString("type")) {
                             case "GIRO":
-                                account = new GiroAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.GIRO,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;
@@ -81,7 +93,11 @@ public class Main {
                                 //type = AccountType.DEBIT;
                                 break;
                             case "CREDIT":
-                                account = new CreditAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.CREDIT,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;
@@ -92,6 +108,7 @@ public class Main {
                                 //System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
                                 continue;
                         }
+                        ;
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -159,6 +176,7 @@ public class Main {
                     //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
                     if (client.getId() == ownerId) {
                         owner = client;
+                        break;
                     }
                 }
                 if (owner == null) {
@@ -203,8 +221,18 @@ public class Main {
          */
 
         // debug
+        /*
+        for(Client c : CLIENT_LIST){
+            System.out.println( c.getName() + " " + c.getAccounts());
+        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
+
+
+         */
+
+        Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
+        //herbert.login("FFF");
 
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));
@@ -217,7 +245,7 @@ public class Main {
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
         ImageIcon bankIcon = null;
-        URL imgURL = Main.class.getResource("res/img/bank.png");
+        URL imgURL = Main.class.getResource("amogus.png");
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }
@@ -233,13 +261,12 @@ public class Main {
                             if (p.getId() == Integer.parseInt(username.getText())) {
                                 System.out.println(p);
                                 loggedIn = p;
-                                isEmployee = true;
                                 break;
                             }
                     }
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
-                    if (isEmployee) AdminConsole.createAdminConsole();
+                    frame = Gui.createGUI();
                 } else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
                     for (Person p : CLIENT_LIST) {
                         if (p.getId() == Integer.parseInt(username.getText())) {
@@ -250,39 +277,6 @@ public class Main {
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
                     frame = Gui.createGUI();
-                    // the gui is running by now
-                    frame.addWindowListener(new WindowAdapter() {
-                        /** executes when the window is closing
-                         * used to store our data back into the database
-                         *
-                         * @param e the event to be processed
-                         */
-                        @Override
-                        public void windowClosing(WindowEvent e) {
-                            System.out.println("Ending application, saving data");
-                            for (Client client : CLIENT_LIST) {
-                                try {
-                                    client.save(DatabaseController.TABLE_CLIENTS);
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
-                            }
-                            for (Employee employee : EMPLOYEE_LIST) {
-                                try {
-                                    employee.save(DatabaseController.TABLE_EMPLOYEES);
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
-                            }
-                            /*
-                            for (Account account : ACCOUNT_LIST) {
-                                account.save();
-                            }
-
-                            */
-                            super.windowClosing(e);
-                        }
-                    });
                 } else {
                     System.out.println("login failed");
                     //username.setText("");
@@ -300,6 +294,30 @@ public class Main {
             }
         }
 
+        // the gui is running by now
+        frame.addWindowListener(new WindowAdapter() {
+            /** executes when the window is closing
+             * used to store our data back into the database
+             *
+             * @param e the event to be processed
+             */
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Ending application, saving data");
+                for (Client client : CLIENT_LIST) {
+                    client.save(DatabaseController.TABLE_CLIENTS);
+                }
+                for (Employee employee : EMPLOYEE_LIST) {
+                    employee.save(DatabaseController.TABLE_EMPLOYEES);
+                }
+                /*
+                for (Account account : ACCOUNT_LIST) {
+                    account.save();
+                }
 
+                 */
+                super.windowClosing(e);
+            }
+        });
     }
 }

@@ -29,8 +29,8 @@ public class Gui extends JFrame{
         ResultSet trans = DatabaseController.readTransactionByClient(Main.loggedIn);
         ArrayList<String> elements = new ArrayList<>();
         System.out.println("Transaction  elements: " + elements);
-        while (trans.next()){
-            elements.add(new String("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " +trans.getString("recipient")));
+        while (trans.next()) {
+            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient") + " on: " + trans.getString("timestamp"));
         }
         String[] arr = new String[elements.size()];
         arr = elements.toArray(arr);
@@ -49,7 +49,8 @@ public class Gui extends JFrame{
         JButton button = new JButton("Überweisung");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Transaction.createTransaction();       }
+                Transaction.createTransaction();
+            }
         });
         JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {

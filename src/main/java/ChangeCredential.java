@@ -1,3 +1,4 @@
+import backend.database.DatabaseController;
 import backend.people.Client;
 import backend.people.Employee;
 
@@ -36,7 +37,7 @@ public class ChangeCredential extends JFrame {
                     employee.setAddress(JNewAdress.getText());
                     employee.setEmail(JNewEmail.getText());
                     employee.setTelephoneNumber(JNewNumber.getText());
-                    employee.save();
+                    employee.save(DatabaseController.TABLE_EMPLOYEES);
                 } else if (Main.loggedIn instanceof Client){
                     Client client = (Client) Main.loggedIn;
                     System.out.println(String.format("updating info of user %s", Main.loggedIn.getId()));
@@ -44,7 +45,7 @@ public class ChangeCredential extends JFrame {
                     client.setAddress(JNewAdress.getText());
                     client.setEmail(JNewEmail.getText());
                     client.setTelephoneNumber(JNewNumber.getText());
-                    client.save();
+                    client.save(DatabaseController.TABLE_EMPLOYEES);
                 } else {
                     throw new UnsupportedOperationException();
                 }

@@ -54,7 +54,7 @@ public class Client extends Person {
      * @param type any Class that extends Account (AccountType is an enum)
      * @return a newly created account of type T that has not been reviewed.
      */
-    public Account createAccount(AccountType type) throws UnsupportedOperationException {
+    public Account createAccount(AccountType type) throws UnsupportedOperationException, SQLException {
         Account a = null;
         switch (type) {
             case GIRO -> {
@@ -70,24 +70,25 @@ public class Client extends Person {
                 throw new UnsupportedOperationException();
             }
         }
-        this.accounts.add(a);
+        accounts.add(a);
+        DatabaseController.saveAccount(this, a);
         return a;
     }
 
-    public Account loadAccount(AccountType type, String iban, int balance, int debtLimit) {
+    public Account loadAccount(AccountType type, String iban, double balance, double debtLimit) {
         Account a = null;
         switch (type) {
             case GIRO -> {
                 a = new GiroAccount(this, iban, balance, debtLimit);
             }
             case DEBIT -> {
-                a = new DebitAccount(this, iban, balance, debtLimit);
+                //a = new DebitAccount(this, iban, balance, debtLimit);
             }
             case CREDIT -> {
                 a = new CreditAccount(this, iban, balance, debtLimit);
             }
             case FIXED -> {
-                a = new FixedAccount(this, iban, balance, debtLimit);
+                //a = new FixedAccount(this, iban, balance, debtLimit);
             }
             default -> {
                 throw new UnsupportedOperationException();
@@ -116,10 +117,12 @@ public class Client extends Person {
 
 
     //public boolean transferMoney(int recipientID, double amount){}
+
     @Override
-    public void save() {
+    public void save(String table) {
         try {
-            DatabaseController.updateUsers(this, DatabaseController.TABLE_CLIENTS);
+            System.out.println("Saving inner clients");
+            DatabaseController.updateUsers(this, table);
             for (Account a : accounts){
                 a.save();
             }

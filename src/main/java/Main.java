@@ -214,7 +214,6 @@ public class Main {
         System.out.println(DatabaseController.readUser(1, "Employee").getString("name"));
 
         // frontend start
-
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
@@ -268,19 +267,11 @@ public class Main {
                             for (Employee employee : EMPLOYEE_LIST) {
                                 employee.save(DatabaseController.TABLE_EMPLOYEES);
                             }
-                            /*
-                            for (Account account : ACCOUNT_LIST) {
-                                account.save();
-                            }
-
-                            */
                             super.windowClosing(e);
                         }
                     });
                 } else {
                     System.out.println("login failed");
-                    //username.setText("");
-                    //password.setText("");
                 }
             } catch (NumberFormatException nfe) {
                 // just bad number input, repeat
@@ -291,7 +282,5 @@ public class Main {
                 e.printStackTrace();
             }
         }
-
-
     }
 }

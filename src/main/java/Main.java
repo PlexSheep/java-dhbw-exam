@@ -15,13 +15,18 @@ import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class Main {
 
     static Person loggedIn = null;
     static boolean isEmployee = false;
     static JFrame frame = null;
+    static LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
+    static LinkedList<Client> CLIENT_LIST = new LinkedList<>();
+
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
@@ -29,8 +34,6 @@ public class Main {
         DatabaseController.connect();
 
 
-        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
-        LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         assert client_set != null;
         while (client_set.next()) {
@@ -55,9 +58,10 @@ public class Main {
                         )
                 );
                 */
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new Locale("us"));
                 Client client = new Client(
                         client_set.getString("name"),
-                        client_set.getDate("date"),
+                        sdf.parse(client_set.getString("date")),
                         client_set.getString("address"),
                         client_set.getString("email"),
                         client_set.getString("phone"),
@@ -259,18 +263,10 @@ public class Main {
                         public void windowClosing(WindowEvent e) {
                             System.out.println("Ending application, saving data");
                             for (Client client : CLIENT_LIST) {
-                                try {
-                                    client.save(DatabaseController.TABLE_CLIENTS);
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
+                                client.save(DatabaseController.TABLE_CLIENTS);
                             }
                             for (Employee employee : EMPLOYEE_LIST) {
-                                try {
-                                    employee.save(DatabaseController.TABLE_EMPLOYEES);
-                                } catch (SQLException ex) {
-                                    throw new RuntimeException(ex);
-                                }
+                                employee.save(DatabaseController.TABLE_EMPLOYEES);
                             }
                             /*
                             for (Account account : ACCOUNT_LIST) {

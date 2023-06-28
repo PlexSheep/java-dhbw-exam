@@ -245,7 +245,7 @@ public class Main {
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
         ImageIcon bankIcon = null;
-        URL imgURL = Main.class.getResource("amogus.png");
+        URL imgURL = Main.class.getResource("res/img/bank.png");
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }

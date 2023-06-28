@@ -1,5 +1,7 @@
 import backend.accounts.Account;
 import backend.accounts.AccountType;
+import backend.accounts.CreditAccount;
+import backend.accounts.GiroAccount;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
@@ -20,34 +22,40 @@ import java.util.LinkedList;
 public class Main {
 
     static Person loggedIn = null;
+    static JFrame frame = null;
 
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
         Authentication auth = new Authentication();
         DatabaseController.connect();
+
+
+        LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         LinkedList<Client> CLIENT_LIST = new LinkedList<>();
         ResultSet client_set = DatabaseController.readUsers(DatabaseController.TABLE_CLIENTS);
         assert client_set != null;
         while (client_set.next()) {
             try {
-                //System.out.println(
-                //        String.format(
-                //                "id:\t\t\t%s\n" +
-                //                        "name:\t\t%s\n" +
-                //                        "address:\t%s\n" +
-                //                        "email:\t\t%s\n" +
-                //                        "telephone:\t%s\n" +
-                //                        "pass:\t\t%s\n" +
-                //                        "date:\t\t%s\n",
-                //                client_set.getString("ID"),          // index 1
-                //                client_set.getString("name"),        // index 2
-                //                client_set.getString("address"),     // index 3
-                //                client_set.getString("email"),       // index 4
-                //                client_set.getString("phone"),       // index 5
-                //                client_set.getString("password"),    // index 6
-                //                client_set.getString("date")         // index 7
-                //        )
-                //);
+                /*
+                System.out.println(
+                        String.format(
+                                "id:\t\t\t%s\n" +
+                                        "name:\t\t%s\n" +
+                                        "address:\t%s\n" +
+                                        "email:\t\t%s\n" +
+                                        "telephone:\t%s\n" +
+                                        "pass:\t\t%s\n" +
+                                        "date:\t\t%s\n",
+                                client_set.getString("ID"),          // index 1
+                                client_set.getString("name"),        // index 2
+                                client_set.getString("address"),     // index 3
+                                client_set.getString("email"),       // index 4
+                                client_set.getString("phone"),       // index 5
+                                client_set.getString("password"),    // index 6
+                                client_set.getString("date")         // index 7
+                        )
+                );
+                */
                 Client client = new Client(
                         client_set.getString("name"),
                         client_set.getDate("date"),
@@ -56,6 +64,39 @@ public class Main {
                         client_set.getString("phone"),
                         client_set.getInt("user_id")
                 );
+                ResultSet account_set = DatabaseController.loadAccounts(client);
+                System.out.println(client_set);
+                assert account_set != null;
+                while (account_set.next()) {
+                    try {
+                        Account account = null;
+                        switch (account_set.getString("type")) {
+                            case "GIRO":
+                                account = new GiroAccount(client);
+                                client.addAccount(account);
+                                ACCOUNT_LIST.add(account);
+                                break;
+                            case "DEBIT":
+                                //type = AccountType.DEBIT;
+                                break;
+                            case "CREDIT":
+                                account = new CreditAccount(client);
+                                client.addAccount(account);
+                                ACCOUNT_LIST.add(account);
+                                break;
+                            case "FIXED":
+                                //type = AccountType.FIXED;
+                                break;
+                            default:
+                                //System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                                continue;
+                        }
+                        ;
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 CLIENT_LIST.add(client);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -101,6 +142,7 @@ public class Main {
             }
         }
 
+        /*
         LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         ResultSet account_list = DatabaseController.readAccounts();
         assert account_list != null;
@@ -117,7 +159,6 @@ public class Main {
                     //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
                     if (client.getId() == ownerId) {
                         owner = client;
-                        break;
                     }
                 }
                 if (owner == null) {
@@ -158,6 +199,9 @@ public class Main {
         }
         System.out.println(ACCOUNT_LIST);
 
+
+         */
+
         // debug
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
@@ -169,7 +213,6 @@ public class Main {
 
         // frontend start
 
-        JFrame frame = null;
         JTextField username = new JTextField();
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
@@ -187,11 +230,11 @@ public class Main {
                 }
                 if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
                     for (Person p : EMPLOYEE_LIST) {
-                        if (p.getId() == Integer.parseInt(username.getText())) {
-                            System.out.println(p);
-                            loggedIn = p;
-                            break;
-                        }
+                            if (p.getId() == Integer.parseInt(username.getText())) {
+                                System.out.println(p);
+                                loggedIn = p;
+                                break;
+                            }
                     }
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
@@ -208,9 +251,13 @@ public class Main {
                     frame = Gui.createGUI();
                 } else {
                     System.out.println("login failed");
-                    username.setText("");
-                    password.setText("");
+                    //username.setText("");
+                    //password.setText("");
                 }
+            }
+            catch (NumberFormatException nfe) {
+                // just bad number input, repeat
+                username.setText("");
             }
             catch (Exception e) {
                 username.setText("");
@@ -230,14 +277,24 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    client.save();
+                    try {
+                        client.save(DatabaseController.TABLE_CLIENTS);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    employee.save();
+                    try {
+                        employee.save(DatabaseController.TABLE_EMPLOYEES);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
+                /*
                 for (Account account : ACCOUNT_LIST) {
                     account.save();
                 }
+                 */
                 super.windowClosing(e);
             }
         });

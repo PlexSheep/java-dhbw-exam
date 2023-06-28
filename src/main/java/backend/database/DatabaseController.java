@@ -20,7 +20,7 @@ public class DatabaseController {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
-            System.out.println("Connection to SQLite has been established.");
+            //System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -106,7 +106,6 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, p.getId());
             stmt.setInt(1, p.getId());
-
             return stmt.executeQuery();
         }
         catch (Exception e){
@@ -188,7 +187,6 @@ public class DatabaseController {
             stmt.setDouble(4, a.getDebtLimit());
             stmt.setDouble(5, a.getDebtLimit());
             System.out.println(String.format("query:\t%s", stmt.toString()));
-
             stmt.executeUpdate();
         }
         catch (Exception e){

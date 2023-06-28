@@ -9,10 +9,10 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [x] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
 - [x] Konto ändern, 
 - [x] Konto auflösen, 
-- [ ] Zahlungseingang, 
-- [ ] Zahlungsausgang, 
-- [ ] Überweisung auf anderes Konto, 
-- [ ] Prüfungen ob Konto gedeckt, 
+- [x] Zahlungseingang, 
+- [x] Zahlungsausgang, 
+- [x] Überweisung auf anderes Konto, 
+- [x] Prüfungen, ob Konto gedeckt, 
 - [x] Dispo anzeigen
 #### Bänker:
 - [x] Login/Logout
@@ -49,10 +49,10 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [ ] Dokumentieren Sie die Ergebnisse
 #### Abgabeinhalte:
 - [ ] Als Zip-Datei mit Namen „Banking App <Gruppen-Id>.zip“
-- [ ] Jeglichen Source Code und komplett lauffähiges Projekt
-- [ ] Packen Sie das Projekt in ausführbare „jar“-Files. 
+- [x] Jeglichen Source Code und komplett lauffähiges Projekt
+- [x] Packen Sie das Projekt in ausführbare „jar“-Files. 
   - Die „jar“-Files sollen auf der Konsole ausführbar sein : java -jar BankingApp ...
-- [ ] Komplette Dokumentation inkl. Anleitung, 
+- [x] Komplette Dokumentation inkl. Anleitung, 
     - wie das Programm zu installieren, 
     - auszuführen
     - zu bedienen ist 
@@ -64,7 +64,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
     - Informationen zu externer Software wie z.B. Datenbanken, 
     - Web-Server usw.
 - [ ] Klassendiagramm
-- [ ] Daran denken initial auch ein System mit Daten zu liefern.
+- [x] Daran denken initial auch ein System mit Daten zu liefern.
 - [ ] Video als Demonstration aller Funktionalität KEINEN SOURCE CODE. 
 - [ ] Demonstration von fehlerhafter Eingabe durch den Benutzer
 

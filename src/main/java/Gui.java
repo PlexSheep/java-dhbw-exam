@@ -1,11 +1,10 @@
 import backend.database.DatabaseController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class Gui {
         panel.add(firstRowPanel, BorderLayout.NORTH);
 
 
-
         JPanel textjpanel = new JPanel(new BorderLayout());
         JLabel tlabel = new JLabel("Transaktionen");
         textjpanel.add(tlabel, BorderLayout.WEST);
@@ -35,8 +33,8 @@ public class Gui {
         ResultSet trans = DatabaseController.readTransactionByClient(Main.loggedIn);
         ArrayList<String> elements = new ArrayList<String>();
         System.out.println("Transaction  elements: " + elements);
-        while (trans.next()){
-            elements.add(new String("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " +trans.getString("recipient")));
+        while (trans.next()) {
+            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient"));
         }
         String[] arr = new String[elements.size()];
         arr = elements.toArray(arr);
@@ -55,7 +53,8 @@ public class Gui {
         JButton button = new JButton("Überweisung");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Transaction.createTransaction();       }
+                Transaction.createTransaction();
+            }
         });
         JButton button1 = new JButton("Konto Center");
         button1.addActionListener(new ActionListener() {

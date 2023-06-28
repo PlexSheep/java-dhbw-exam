@@ -19,7 +19,7 @@ public class DatabaseController {
 
     public static void connect() {
         try {
-            String url = "jdbc:sqlite:database.db";
+            String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
             //System.out.println("Connection to SQLite has been established.");
@@ -180,14 +180,15 @@ public class DatabaseController {
         try {
             String insert = "UPDATE account set type = ?, balance = ?, debtLimit = ?  WHERE IBAN =?";
             PreparedStatement stmt = conn.prepareStatement(insert);
-            stmt.setString(1, a.getIBAN());
-            stmt.setString(2, a.getTYPE().toString());
-            stmt.setDouble(3, a.getBalance());
-            stmt.setDouble(4, a.getDebtLimit());
-            stmt.setDouble(5, a.getDebtLimit());
-            System.out.printf("query:\t%s%n", stmt);
+            stmt.setString(1, a.getTYPE().toString());
+            stmt.setDouble(2, a.getBalance());
+            stmt.setDouble(3, -a.getDebtLimit());
+            stmt.setString(4, a.getIBAN());
+
+            System.out.println(String.format("query:\t%s", stmt.toString()));
             stmt.executeUpdate();
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
@@ -228,7 +229,7 @@ public class DatabaseController {
     /**
      * get a single user from the database
      *
-     * @param id    the id of the user
+     * @param id  the id of the user
      * @param table should be one of the constants: TABLE_CLIENTS, TABLE_EMPLOYEES
      * @return
      * @throws SQLException
@@ -282,7 +283,8 @@ public class DatabaseController {
             stmt.setString(1, iban);
             stmt.setMaxRows(1);
             return stmt.executeQuery();
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
@@ -297,7 +299,8 @@ public class DatabaseController {
             stmt.setInt(1, accID);
             stmt.executeQuery();
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
         }
@@ -321,7 +324,8 @@ public class DatabaseController {
             stmt.setInt(2, p.getId());
             stmt.executeUpdate();
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
         return false;

@@ -1,40 +1,36 @@
 import backend.database.DatabaseController;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Gui {
+public class Gui extends JFrame{
 
-    public static JFrame createGUI() throws SQLException {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+    public Gui() throws SQLException {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
 
         JPanel firstRowPanel = new JPanel();
         panel.add(firstRowPanel, BorderLayout.NORTH);
 
-
-        JPanel textjpanel = new JPanel(new BorderLayout());
+        firstRowPanel.setLayout(new BorderLayout());
         JLabel tlabel = new JLabel("Transaktionen");
-        textjpanel.add(tlabel, BorderLayout.WEST);
-        firstRowPanel.add(textjpanel);
+        firstRowPanel.add(tlabel, BorderLayout.WEST);
 
         JPanel secondRowPanel = new JPanel(new BorderLayout());
         panel.add(secondRowPanel, BorderLayout.CENTER);
 
         ResultSet trans = DatabaseController.readTransactionByClient(Main.loggedIn);
-        ArrayList<String> elements = new ArrayList<String>();
+        ArrayList<String> elements = new ArrayList<>();
         System.out.println("Transaction  elements: " + elements);
         while (trans.next()) {
-            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient"));
+            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient") + " on: " + trans.getString("timestamp"));
         }
         String[] arr = new String[elements.size()];
         arr = elements.toArray(arr);
@@ -66,9 +62,21 @@ public class Gui {
         lastRowPanel.add(button);
         lastRowPanel.add(button1);
 
-        frame.getContentPane().add(panel);
-        frame.setSize(400, 300);
-        frame.setVisible(true);
-        return frame;
+        this.getContentPane().add(panel);
+        this.setSize(400, 300);
+        this.setVisible(true);
     }
+
+    public static JFrame createGUI(){
+        try {
+            Gui guiframe = new Gui();
+            guiframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            guiframe.setTitle("Kontoübersicht");
+            guiframe.setSize(500, 200);
+            guiframe.setVisible(true);
+            return guiframe;
+        }
+        catch (SQLException e) {return null;}
+    }
+
 }

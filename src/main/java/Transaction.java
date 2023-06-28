@@ -1,9 +1,12 @@
+import backend.accounts.Account;
+import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Transaction extends JFrame {
     public JPanel JTransaction;
@@ -13,8 +16,12 @@ public class Transaction extends JFrame {
     private JLabel JTitle;
     private JLabel JRecipientLabel;
     private JTextField JIBAN;
+    private JTextField JstatusField;
 
 
+    /**
+     * Function to transfer funds from one account to another one
+     */
     public Transaction() {
         JTransactionButton.addActionListener(new ActionListener() {
             @Override
@@ -32,57 +39,46 @@ public class Transaction extends JFrame {
                     iban = Iban.valueOf(JIBAN.getText());
                 } catch (Exception e) {
                     System.out.printf("Bad Iban: %s%n", JIBAN.getText());
-                    System.exit(1);
+                    JstatusField.setText("Bad Iban: " + JIBAN.getText());
                 }
+
+                /*
+                * Get the recipients account
+                * */
+                Account recAcc = null;
+                for (Client c : Main.CLIENT_LIST) {
+                    for (Account a : c.getAccounts()) {
+                        if (a.getIBAN().equals(JIBAN.getText())) {
+                            recAcc = a;
+                            break;
+                        }
+                    }
+                }
+
+                assert recAcc != null;
+                //System.out.println(recAcc);
 
                 // get and validate the sum of transfer
                 // then make the transfer
                 Double amount;
 
-                /*
                 try {
-
                     amount = Double.parseDouble(JAmountInput.getText());
-                    AccountType type;
-                    Account acc = client.getAccounts().get(0);
-                    switch (acc.getTYPE()) {
-                        case AccountType.GIRO:
-
-                            break;
-                        case AccountType.DEBIT:
-                            acc = (DebitAccount) acc;
-                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
-                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
-                                DatabaseController.saveTransaction(client, iban.toString(), amount);
-                                break;
-                            }
-                        case AccountType.CREDIT:
-                            acc = (CreditAccount) acc;
-                            if ((acc.getDebtLimit() + amount) < acc.getDebtLimit()) {
-                                DatabaseController.changeBalance(client.getId(), client.getId() - amount);
-                                DatabaseController.saveTransaction(client, iban.toString(), amount);
-                                break;
-                            }
-                            break;
-                        case AccountType.FIXED:
-
-                            break;
-                        default:
-                            System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
+                    if (UserData.selecedAcc == null) {
+                        JstatusField.setText("No account selected");
                     }
-
-                } catch (NumberFormatException nfe) {
-                    // bad amount format
-                    System.exit(1);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (SQLException e) {
+                    else if(!UserData.selecedAcc.setBalance(UserData.selecedAcc.getBalance() - amount)){
+                        JstatusField.setText("Insufficient funds");
+                    }
+                    else {
+                        recAcc.setBalance(recAcc.getBalance() + amount);
+                        DatabaseController.saveTransaction(client, iban.toString(), amount);
+                        System.out.println(amount);
+                        JstatusField.setText("Success");
+                    }
+                    } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-            }
-        });
-
-                     */
             }
         });
     }

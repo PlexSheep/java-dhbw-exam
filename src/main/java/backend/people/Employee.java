@@ -35,10 +35,9 @@ public class Employee extends Person {
         super(name, birthday, address, email, telephoneNumber, id);
     }
 
-    @Override
-    public void save() {
+    public void save(String table) {
         try {
-            DatabaseController.updateUsers(this, DatabaseController.TABLE_EMPLOYEES);
+            DatabaseController.updateUsers(this, table);
         } catch (SQLException e) {
             System.out.printf("could not save user %s%n", this.getName());
         }

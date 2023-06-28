@@ -5,6 +5,8 @@ import backend.people.Client;
 import backend.utils.Authentication;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -39,6 +41,9 @@ public class UserData extends JFrame {
     private JList accList;
     private JButton createAccountButton;
     private JComboBox comboBox1;
+    private JLabel accLabel;
+
+    static Account selecedAcc;
 
     /**
      * Function to display the users data on the GUI
@@ -100,22 +105,27 @@ public class UserData extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 String type = (String) comboBox1.getSelectedItem();
                 System.out.println(type);
-                switch (type) {
-                    case "Giro":
-                        p.createAccount(AccountType.GIRO);
-                        break;
-                    case "Credit":
-                        p.createAccount(AccountType.CREDIT);
-                        break;
-                    case "Debit":
-                        p.createAccount(AccountType.DEBIT);
-                        break;
-                    case "Fixed":
-                        p.createAccount(AccountType.FIXED);
-                        break;
-                    default:
-                        System.out.printf("unknown account type %s%n", type);
-                        System.exit(1);
+                try {
+                    switch (type) {
+                        case "Giro":
+                            p.createAccount(AccountType.GIRO);
+                            break;
+                        case "Credit":
+                            p.createAccount(AccountType.CREDIT);
+                            break;
+                        case "Debit":
+                            p.createAccount(AccountType.DEBIT);
+                            break;
+                        case "Fixed":
+                            p.createAccount(AccountType.FIXED);
+                            break;
+                        default:
+                            System.out.printf("unknown account type %s%n", type);
+                            System.exit(1);
+                    }
+                }
+                catch (Exception e){
+
                 }
             }
         });
@@ -134,6 +144,18 @@ public class UserData extends JFrame {
                 } catch (Exception e) {
                     // do nothing
                 }
+            }
+        });
+        accList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                for(Account a : ((Client) Main.loggedIn).getAccounts()){
+                    String[] search = accList.getSelectedValue().toString().split(" ");
+                    if (a.getIBAN().equals(search[0])){
+                        selecedAcc = a;
+                    }
+                }
+                System.out.println("Selected" + selecedAcc.getIBAN());
             }
         });
     }

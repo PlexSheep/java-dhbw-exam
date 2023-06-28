@@ -1,3 +1,4 @@
+import backend.database.DatabaseController;
 import backend.people.Client;
 import backend.people.Employee;
 
@@ -29,20 +30,22 @@ public class ChangeCredential extends JFrame {
         JChangeCredentials.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Main.loggedIn instanceof Employee employee) {
-                    System.out.printf("updating info of user %s%n", Main.loggedIn.getId());
+                if (Main.loggedIn instanceof Employee) {
+                    Employee employee = (Employee) Main.loggedIn;
+                    System.out.println(String.format("updating info of user %s", Main.loggedIn.getId()));
                     employee.setName(JNewName.getText());
                     employee.setAddress(JNewAdress.getText());
                     employee.setEmail(JNewEmail.getText());
                     employee.setTelephoneNumber(JNewNumber.getText());
-                    employee.save();
-                } else if (Main.loggedIn instanceof Client client) {
-                    System.out.printf("updating info of user %s%n", Main.loggedIn.getId());
+                    employee.save(DatabaseController.TABLE_EMPLOYEES);
+                } else if (Main.loggedIn instanceof Client){
+                    Client client = (Client) Main.loggedIn;
+                    System.out.println(String.format("updating info of user %s", Main.loggedIn.getId()));
                     client.setName(JNewName.getText());
                     client.setAddress(JNewAdress.getText());
                     client.setEmail(JNewEmail.getText());
                     client.setTelephoneNumber(JNewNumber.getText());
-                    client.save();
+                    client.save(DatabaseController.TABLE_EMPLOYEES);
                 } else {
                     throw new UnsupportedOperationException();
                 }

@@ -11,10 +11,10 @@
 |------------|----------------------------------------------------------------|-----------------------------------|
 | 2023-05-22 | Datenbankstruktur, Klassenstruktur & Arbeitsteilung            | Alle                              |
 | 2023-06-01 | Implementierung der Klassen die unsere Daten darstellen sollen | Christoph & Domminik              |
-| 2023-06-05 | Implementierung des GUI ohne Backend Funktionen                | Marko & Moritz                    |
+| 2023-06-05 | Implementierung des GUI ohne Backend Funktionen                | Marco & Moritz                    |
 | 2023-06-05 | Implementierung des Datenbank Controllers                      | Tobias                            |
-| 2023-06-25 | Implementierung der Verbindung von Backend und Frontend        | Marko, Christoph & Moritz         |
-| 2023-06-27 | Bugfixing                                                      | Marko, Christoph, Tobias & Moritz |
+| 2023-06-25 | Implementierung der Verbindung von Backend und Frontend        | Marco, Christoph & Moritz         |
+| 2023-06-27 | Bugfixing                                                      | Marco, Christoph, Tobias & Moritz |
 | 2023-06-28 | Dokumentation                                                  | Alle                              |
 
 # Datenmodell

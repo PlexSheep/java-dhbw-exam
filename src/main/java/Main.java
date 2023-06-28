@@ -92,7 +92,6 @@ public class Main {
                                 //System.out.println(String.format("Could not find Account type for %s", account_list.getString("IBAN")));
                                 continue;
                         }
-                        ;
 
                     } catch (Exception e) {
                         e.printStackTrace();

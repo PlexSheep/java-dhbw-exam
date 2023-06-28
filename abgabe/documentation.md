@@ -14,9 +14,9 @@
 ## Anmeldedaten
 | Username | Password      | Role |
 |----------|---------------|------|
-| 23131    | test          | Employee |
+| 85167524 | test          | Client |
 | 77067103 | test          | Client |
-| 25063084 | killer        | Client |
+| 1 | (kein passwort)          | Employee |
 
 ---
 # Informationen zu externer Software

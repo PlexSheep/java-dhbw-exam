@@ -32,6 +32,7 @@ public class Main {
     static LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
     static LinkedList<Client> CLIENT_LIST = new LinkedList<>();
 
+
     public static void main(String[] args) throws SQLException, NoSuchAlgorithmException {
         // backend setup
         Authentication auth = new Authentication();

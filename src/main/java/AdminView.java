@@ -20,12 +20,21 @@ public class AdminView extends JFrame {
     private JList JClientList;
     private JPanel JMain;
 
-    public void displayclients(){
-        for(Client c : Main.CLIENT_LIST){
-            if(c.getId() == Integer.parse(list.getText())){
+    public AdminView(int userid) {
+        for (Client c : Main.CLIENT_LIST) {
+            if (c.getId() == userid) {
 
             }
-        }    }
+        }
+    }
 
+    public static JFrame createAdminView(int userid) {
+        AdminView adview = new AdminView(userid);
+        adview.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        adview.setTitle("Kontoübersicht");
+        adview.setSize(500, 200);
+        adview.setVisible(true);
+        return adview;
+    }
 }
 

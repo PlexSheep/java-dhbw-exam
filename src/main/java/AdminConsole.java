@@ -61,7 +61,7 @@ public class AdminConsole extends JFrame {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int userid = Integer.parseInt((list1.getSelectedValue().split(" ")[0]));
-                    AdminView.createAdminView();
+                    AdminView.createAdminView(userid);
                 }
             }
         });

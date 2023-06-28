@@ -15,8 +15,9 @@
 | Username | Password      | Role |
 |----------|---------------|------|
 | 85167524 | test          | Client |
-| 77067103 | test          | Client |
 | 1 | (kein passwort)          | Employee |
+
+(Andere Client IDs mit test)
 
 ---
 # Informationen zu externer Software

@@ -30,7 +30,7 @@ public class Gui extends JFrame{
         ArrayList<String> elements = new ArrayList<>();
         System.out.println("Transaction  elements: " + elements);
         while (trans.next()) {
-            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient"));
+            elements.add("User " + trans.getInt("sender") + " Sent " + trans.getInt("amount") + " to: " + trans.getString("recipient") + " on: " + trans.getString("timestamp"));
         }
         String[] arr = new String[elements.size()];
         arr = elements.toArray(arr);

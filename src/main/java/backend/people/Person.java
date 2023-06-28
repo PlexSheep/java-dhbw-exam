@@ -1,17 +1,13 @@
 package backend.people;
 
-import backend.accounts.Account;
 import backend.database.DatabaseController;
-import jdk.jshell.spi.ExecutionControl;
 
-import javax.xml.crypto.Data;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.UUID;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -31,7 +27,7 @@ public abstract class Person {
     private Date birthday;
     /**
      * physical location as per requirement
-     *
+     * <p>
      * (this is not a MAC address)
      */
     private String address;
@@ -50,7 +46,7 @@ public abstract class Person {
     /**
      * stores if the user is currently logged in
      */
-    private boolean isLoggedIn = false;
+    private final boolean isLoggedIn = false;
 
     public Person(
             String name,
@@ -67,7 +63,7 @@ public abstract class Person {
         SecureRandom secRan = new SecureRandom();
         secRan.setSeed(System.currentTimeMillis() % 1000);
 
-        this.id = secRan.nextInt(9999999,99999999);
+        this.id = secRan.nextInt(9999999, 99999999);
 
         // finally, save to DB
         //this.save();
@@ -109,8 +105,7 @@ public abstract class Person {
             md.update(salt);
             byte[] hashedPassword = md.digest(password.getBytes(UTF_8));
             System.out.println(Arrays.toString(hashedPassword));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -169,7 +164,7 @@ public abstract class Person {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 

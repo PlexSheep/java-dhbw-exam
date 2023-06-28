@@ -3,8 +3,8 @@ package backend.people;
 import backend.accounts.*;
 import backend.database.DatabaseController;
 
-import java.util.ArrayList;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -32,8 +32,7 @@ public class Client extends Person {
             Date birthday,
             String address,
             String email,
-            String telephoneNumber)
-    {
+            String telephoneNumber) {
         super(name, birthday, address, email, telephoneNumber);
     }
 
@@ -43,8 +42,7 @@ public class Client extends Person {
             String address,
             String email,
             String telephoneNumber,
-            Integer id)
-    {
+            Integer id) {
         super(name, birthday, address, email, telephoneNumber, id);
     }
 
@@ -74,20 +72,20 @@ public class Client extends Person {
         return a;
     }
 
-    public Account loadAccount(AccountType type, String iban, double balance, double debtLimit) {
+    public Account loadAccount(AccountType type, String iban, int balance, int debtLimit) {
         Account a = null;
         switch (type) {
             case GIRO -> {
                 a = new GiroAccount(this, iban, balance, debtLimit);
             }
             case DEBIT -> {
-                //a = new DebitAccount(this, iban, balance, debtLimit);
+                a = new DebitAccount(this, iban, balance, debtLimit);
             }
             case CREDIT -> {
                 a = new CreditAccount(this, iban, balance, debtLimit);
             }
             case FIXED -> {
-                //a = new FixedAccount(this, iban, balance, debtLimit);
+                a = new FixedAccount(this, iban, balance, debtLimit);
             }
             default -> {
                 throw new UnsupportedOperationException();
@@ -116,17 +114,16 @@ public class Client extends Person {
 
 
     //public boolean transferMoney(int recipientID, double amount){}
-
     @Override
     public void save(String table) {
         try {
             System.out.println("Saving inner clients");
             DatabaseController.updateUsers(this, table);
-            for (Account a : accounts){
+            for (Account a : accounts) {
                 a.save();
             }
         } catch (SQLException e) {
-            System.out.println(String.format("could not save user %s", this.getName()));
+            System.out.printf("could not save user %s%n", this.getName());
         }
     }
 }

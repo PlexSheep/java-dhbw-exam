@@ -1,18 +1,11 @@
-import backend.accounts.*;
-import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
-import backend.database.DatabaseController;
-import backend.people.Client;
-
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
-public class Transaction extends JFrame{
+public class Transaction extends JFrame {
     public JPanel JTransaction;
     private JLabel JAmountLabel;
     private JTextField JAmountInput;
@@ -38,7 +31,7 @@ public class Transaction extends JFrame{
                 try {
                     iban = Iban.valueOf(JIBAN.getText());
                 } catch (Exception e) {
-                    System.out.println(String.format("Bad Iban: %s", JIBAN.getText()));
+                    System.out.printf("Bad Iban: %s%n", JIBAN.getText());
                     System.exit(1);
                 }
 
@@ -75,12 +68,12 @@ public class Transaction extends JFrame{
         });
     }
 
-    public static void createTransaction(){
-        Transaction test=new Transaction();
+    public static void createTransaction() {
+        Transaction test = new Transaction();
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         test.setContentPane(test.JTransaction);
         test.setTitle("Transaktion");
-        test.setSize(500,400);
+        test.setSize(500, 400);
         test.setVisible(true);
     }
 

@@ -1,15 +1,17 @@
 import backend.accounts.Account;
-import backend.accounts.AccountType;
 import backend.accounts.CreditAccount;
 import backend.accounts.GiroAccount;
+import backend.database.DatabaseController;
 import backend.people.Client;
 import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
-import backend.database.DatabaseController;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -245,7 +247,7 @@ public class Main {
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
         ImageIcon bankIcon = null;
-        URL imgURL = Main.class.getResource("amogus.png");
+        URL imgURL = Main.class.getResource("res/img/bank.png");
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }
@@ -256,18 +258,19 @@ public class Main {
                 if (option != JOptionPane.OK_OPTION) {
                     System.exit(0);
                 }
-                if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
+                if (Authentication.password_authentication(Integer.parseInt(username.getText()), password.getText(), "Employee")) {//check credentials here
                     for (Person p : EMPLOYEE_LIST) {
-                            if (p.getId() == Integer.parseInt(username.getText())) {
-                                System.out.println(p);
-                                loggedIn = p;
-                                break;
-                            }
+                        if (p.getId() == Integer.parseInt(username.getText())) {
+                            System.out.println(p);
+                            loggedIn = p;
+                            isEmployee = true;
+                            break;
+                        }
                     }
                     System.out.println("Login successful");
                     System.out.println(loggedIn.getName());
-                    frame = Gui.createGUI();
-                } else if (auth.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
+                    if (isEmployee) AdminConsole.createAdminConsole();
+                } else if (Authentication.password_authentication(Integer.parseInt(username.getText()), password.getText(), "client")) {
                     for (Person p : CLIENT_LIST) {
                         if (p.getId() == Integer.parseInt(username.getText())) {
                             loggedIn = p;
@@ -314,6 +317,26 @@ public class Main {
                 for (Account account : ACCOUNT_LIST) {
                     account.save();
                 }
+
+                            */
+                            super.windowClosing(e);
+                        }
+                    });
+                } else {
+                    System.out.println("login failed");
+                    //username.setText("");
+                    //password.setText("");
+                }
+            } catch (NumberFormatException nfe) {
+                // just bad number input, repeat
+                username.setText("");
+            } catch (Exception e) {
+                username.setText("");
+                password.setText("");
+                e.printStackTrace();
+            }
+        }
+
 
                  */
                 super.windowClosing(e);

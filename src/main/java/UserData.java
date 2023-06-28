@@ -1,3 +1,9 @@
+import backend.accounts.Account;
+import backend.accounts.AccountType;
+import backend.database.DatabaseController;
+import backend.people.Client;
+import backend.utils.Authentication;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -9,13 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import backend.accounts.Account;
-import backend.accounts.AccountType;
-import backend.people.Client;
-import backend.utils.Authentication;
-import backend.database.DatabaseController;
-import org.iban4j.Iban;
 
 
 public class UserData extends JFrame {
@@ -55,11 +54,11 @@ public class UserData extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == JChangePassword) {
                     String newPassword = JNewPassword.getText();
-                     if (DatabaseController.changePassword(Main.loggedIn, newPassword)) {
-                         // success
-                         // empty the text field
-                         JNewPassword.setText("");
-                     }
+                    if (DatabaseController.changePassword(Main.loggedIn, newPassword)) {
+                        // success
+                        // empty the text field
+                        JNewPassword.setText("");
+                    }
                 }
             }
         });
@@ -80,7 +79,7 @@ public class UserData extends JFrame {
         JEmailVar.setText(mail);
 
         ArrayList<String> list = new ArrayList<>();
-        for(Account a : p.getAccounts()){
+        for (Account a : p.getAccounts()) {
             list.add(a.getIBAN() + " - " + a.getBalance() + "€ - Debt-Limit: " + a.getDebtLimit() + "€ - Type: " + a.getTYPE());
         }
         String[] arr = new String[list.size()];
@@ -119,7 +118,7 @@ public class UserData extends JFrame {
                         p.createAccount(AccountType.FIXED);
                         break;
                     default:
-                        System.out.println(String.format("unknown account type %s", type));
+                        System.out.printf("unknown account type %s%n", type);
                         System.exit(1);
                 }
             }
@@ -133,11 +132,10 @@ public class UserData extends JFrame {
                     // the button without a selection.
                     String ibanStr = accList.getSelectedValue().toString();
                     ibanStr = ibanStr.substring(0, ibanStr.indexOf(" "));
-                    System.out.println(String.format("selected to delete: %s", ibanStr));
+                    System.out.printf("selected to delete: %s%n", ibanStr);
                     p.deleteAccount(ibanStr);
                     accList.remove(accList.getSelectedIndex());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     // do nothing
                 }
             }
@@ -167,6 +165,7 @@ public class UserData extends JFrame {
 
     /**
      * Update the password from the GUI
+     *
      * @param conn
      * @param newPassword
      * @throws SQLException

@@ -7,7 +7,6 @@ import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 
 import java.sql.SQLException;
-import java.util.UUID;
 
 /**
  *
@@ -21,14 +20,14 @@ public abstract class Account {
     private final Client owner;
     /**
      * whether the account is currently active.
-     *
+     * <p>
      * New accounts have to be reviewed by an backend.People.Employee, only then will they be activated.
      * Accounts can be deactivated for various reasons.
      */
     private boolean active = false;
     /**
      * balance of the account
-     *
+     * <p>
      * can be negative
      */
     private double balance = 0;
@@ -49,7 +48,9 @@ public abstract class Account {
 
     AccountType TYPE;
 
-    /** Create a new account
+    /**
+     * Create a new account
+     *
      * @param owner
      */
     public Account(Client owner) {
@@ -60,6 +61,7 @@ public abstract class Account {
 
     /**
      * Add a new account with existing data
+     *
      * @param owner
      * @param iban
      * @param balance
@@ -81,7 +83,7 @@ public abstract class Account {
             DatabaseController.updateAccount(this);
             System.out.println("Saving account" + this.getIBAN());
         } catch (SQLException e) {
-            System.out.println(String.format("could not save account %s", this.getIBAN()));
+            System.out.printf("could not save account %s%n", this.getIBAN());
         }
     }
 
@@ -118,7 +120,7 @@ public abstract class Account {
 
     /**
      * modify the current balance of an account by a specified amount.
-     *
+     * <p>
      * TODO do some checks to see if the supposed changes are valid.
      *
      * @param amount the amount to modify the current balance by,
@@ -164,7 +166,6 @@ public abstract class Account {
     public String getIBAN() {
         return iban.toString();
     }
-
 
 
 }

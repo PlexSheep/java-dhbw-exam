@@ -50,7 +50,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 #### Abgabeinhalte:
 - [ ] Als Zip-Datei mit Namen „Banking App <Gruppen-Id>.zip“
 - [ ] Jeglichen Source Code und komplett lauffähiges Projekt
-- [ ] Packen Sie das Projekt in ausführbare „jar“-Files. 
+- [x] Packen Sie das Projekt in ausführbare „jar“-Files. 
   - Die „jar“-Files sollen auf der Konsole ausführbar sein : java -jar BankingApp ...
 - [ ] Komplette Dokumentation inkl. Anleitung, 
     - wie das Programm zu installieren, 

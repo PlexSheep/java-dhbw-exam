@@ -5,19 +5,19 @@ import backend.database.DatabaseController;
 import java.sql.SQLException;
 import java.util.Date;
 
-public class Employee extends Person{
+public class Employee extends Person {
     public Employee(
             String name,
             Date birthday,
             String address,
             String email,
-            String telephoneNumber)
-    {
+            String telephoneNumber) {
         super(name, birthday, address, email, telephoneNumber);
     }
 
     /**
      * Second constructor for recreation of Objects with ID
+     *
      * @param name
      * @param birthday
      * @param address
@@ -31,8 +31,7 @@ public class Employee extends Person{
             String address,
             String email,
             String telephoneNumber,
-            Integer id)
-    {
+            Integer id) {
         super(name, birthday, address, email, telephoneNumber, id);
     }
 
@@ -40,7 +39,7 @@ public class Employee extends Person{
         try {
             DatabaseController.updateUsers(this, table);
         } catch (SQLException e) {
-            System.out.println(String.format("could not save user %s", this.getName()));
+            System.out.printf("could not save user %s%n", this.getName());
         }
     }
 }

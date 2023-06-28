@@ -39,7 +39,7 @@ public class Transaction extends JFrame {
                     iban = Iban.valueOf(JIBAN.getText());
                 } catch (Exception e) {
                     System.out.printf("Bad Iban: %s%n", JIBAN.getText());
-                    System.exit(1);
+                    JstatusField.setText("Bad Iban:" + JIBAN.getText());
                 }
 
                 /*

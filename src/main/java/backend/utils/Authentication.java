@@ -29,7 +29,7 @@ public class Authentication {
     }
 
     /**
-     * Function to hash the password
+     * Function to hash the password using Argon2ID password hasing
      *
      * @param password
      * @return

@@ -182,7 +182,7 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(insert);
             stmt.setString(1, a.getTYPE().toString());
             stmt.setDouble(2, a.getBalance());
-            stmt.setDouble(3, a.getDebtLimit());
+            stmt.setDouble(3, -a.getDebtLimit());
             stmt.setString(4, a.getIBAN());
 
             System.out.println(String.format("query:\t%s", stmt.toString()));

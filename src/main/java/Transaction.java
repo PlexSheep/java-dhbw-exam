@@ -39,7 +39,7 @@ public class Transaction extends JFrame {
                     iban = Iban.valueOf(JIBAN.getText());
                 } catch (Exception e) {
                     System.out.printf("Bad Iban: %s%n", JIBAN.getText());
-                    JstatusField.setText("Bad Iban:" + JIBAN.getText());
+                    JstatusField.setText("Bad Iban: " + JIBAN.getText());
                 }
 
                 /*
@@ -68,7 +68,7 @@ public class Transaction extends JFrame {
                         JstatusField.setText("No account selected");
                     }
                     else if(!UserData.selecedAcc.setBalance(UserData.selecedAcc.getBalance() - amount)){
-                        JstatusField.setText("Failed");
+                        JstatusField.setText("Insufficient funds");
                     }
                     else {
                         recAcc.setBalance(recAcc.getBalance() + amount);

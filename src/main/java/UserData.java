@@ -41,6 +41,7 @@ public class UserData extends JFrame {
     private JList accList;
     private JButton createAccountButton;
     private JComboBox comboBox1;
+    private JLabel accLabel;
 
     static Account selecedAcc;
 

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 
 public class Transaction extends JFrame{
     public JPanel JTransaction;
-
     private JLabel JAmountLabel;
     private JTextField JAmountInput;
     private JButton JTransactionButton;

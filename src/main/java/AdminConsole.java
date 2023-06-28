@@ -15,7 +15,7 @@ public class AdminConsole extends JFrame {
         ResultSet trans = DatabaseController.readUsers("client");
         ArrayList<String> elements = new ArrayList<>();
         System.out.println("Transaction  elements: " + elements);
-        while (trans.next()){
+        while (trans.next()) {
             elements.add(trans.getString("name"));
         }
         String[] arr = new String[elements.size()];
@@ -26,14 +26,14 @@ public class AdminConsole extends JFrame {
         this.getContentPane().add(scrollPane);
     }
 
-    public static void createAdminConsole(){
+    public static void createAdminConsole() {
         try {
             AdminConsole verwaltfenst = new AdminConsole();
             verwaltfenst.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             verwaltfenst.setTitle("Kundenübersicht");
             verwaltfenst.setSize(500, 200);
             verwaltfenst.setVisible(true);
+        } catch (SQLException e) {
         }
-        catch (SQLException e) {}
     }
 }

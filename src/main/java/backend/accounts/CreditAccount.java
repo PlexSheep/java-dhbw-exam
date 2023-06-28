@@ -18,6 +18,7 @@ public class CreditAccount extends Account {
         super(owner);
         this.TYPE = AccountType.CREDIT;
     }
+
     public CreditAccount(Client owner, Double dueLimit) {
         super(owner);
         this.dueLimit = dueLimit;

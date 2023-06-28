@@ -3,8 +3,8 @@ package backend.people;
 import backend.accounts.*;
 import backend.database.DatabaseController;
 
-import java.util.ArrayList;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -32,8 +32,7 @@ public class Client extends Person {
             Date birthday,
             String address,
             String email,
-            String telephoneNumber)
-    {
+            String telephoneNumber) {
         super(name, birthday, address, email, telephoneNumber);
     }
 
@@ -43,8 +42,7 @@ public class Client extends Person {
             String address,
             String email,
             String telephoneNumber,
-            Integer id)
-    {
+            Integer id) {
         super(name, birthday, address, email, telephoneNumber, id);
     }
 
@@ -109,7 +107,7 @@ public class Client extends Person {
         return accounts;
     }
 
-    public boolean addAccount(Account a){
+    public boolean addAccount(Account a) {
         accounts.add(a);
         return true;
     }
@@ -120,11 +118,11 @@ public class Client extends Person {
     public void save() {
         try {
             DatabaseController.updateUsers(this, DatabaseController.TABLE_CLIENTS);
-            for (Account a : accounts){
+            for (Account a : accounts) {
                 a.save();
             }
         } catch (SQLException e) {
-            System.out.println(String.format("could not save user %s", this.getName()));
+            System.out.printf("could not save user %s%n", this.getName());
         }
     }
 }

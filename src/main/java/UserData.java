@@ -58,9 +58,7 @@ public class UserData extends JFrame {
                      }
                 }
             }
-
         });
-
 
         String columnName = "name";
         JNameVariable.setText(getColumnValue("Employee", columnName));
@@ -125,10 +123,19 @@ public class UserData extends JFrame {
         JDeleteAccount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                String ibanStr = accList.getSelectedValue().toString();
-                ibanStr = ibanStr.substring(0, ibanStr.indexOf(" "));
-                System.out.println(String.format("selected to delete: %s", ibanStr));
-                p.deleteAccount(ibanStr);
+                try {
+                    // getSelectedIndex returns -1 if no value is selected
+                    // make sure not to crash the app if the user clicks
+                    // the button without a selection.
+                    String ibanStr = accList.getSelectedValue().toString();
+                    ibanStr = ibanStr.substring(0, ibanStr.indexOf(" "));
+                    System.out.println(String.format("selected to delete: %s", ibanStr));
+                    p.deleteAccount(ibanStr);
+                    accList.remove(accList.getSelectedIndex());
+                }
+                catch (Exception e) {
+                    // do nothing
+                }
             }
         });
     }
@@ -193,5 +200,4 @@ public class UserData extends JFrame {
 
         return value;
     }
-
 }

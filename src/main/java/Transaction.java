@@ -3,6 +3,9 @@ import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
+import backend.database.DatabaseController;
+import backend.people.Client;
+
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
@@ -101,8 +104,6 @@ public class Transaction extends JFrame{
         test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
     }
-
-
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

@@ -16,8 +16,12 @@ public class Transaction extends JFrame {
     private JLabel JTitle;
     private JLabel JRecipientLabel;
     private JTextField JIBAN;
+    private JTextArea JstatusField;
 
 
+    /**
+     * Function to transfer funds from one account to another one
+     */
     public Transaction() {
         JTransactionButton.addActionListener(new ActionListener() {
             @Override
@@ -38,6 +42,9 @@ public class Transaction extends JFrame {
                     System.exit(1);
                 }
 
+                /*
+                * Get the recipients account
+                * */
                 Account recAcc = null;
                 for (Client c : Main.CLIENT_LIST) {
                     for (Account a : c.getAccounts()) {
@@ -56,13 +63,18 @@ public class Transaction extends JFrame {
                 Double amount;
 
                 try {
-
                     amount = Double.parseDouble(JAmountInput.getText());
-                    if(!UserData.selecedAcc.setBalance(UserData.selecedAcc.getBalance() - amount)){System.out.println("Insufficient funds");}
+                    if (UserData.selecedAcc == null) {
+                        JstatusField.setText("No account selected");
+                    }
+                    else if(!UserData.selecedAcc.setBalance(UserData.selecedAcc.getBalance() - amount)){
+                        JstatusField.setText("Failed");
+                    }
                     else {
                         recAcc.setBalance(recAcc.getBalance() + amount);
                         DatabaseController.saveTransaction(client, iban.toString(), amount);
                         System.out.println(amount);
+                        JstatusField.setText("Success");
                     }
                     } catch (SQLException e) {
                     throw new RuntimeException(e);

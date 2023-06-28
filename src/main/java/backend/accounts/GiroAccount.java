@@ -2,6 +2,8 @@ package backend.accounts;
 
 import backend.people.Client;
 
+import java.sql.SQLException;
+
 public class GiroAccount extends Account {
     public GiroAccount(Client owner) {
         super(owner);
@@ -13,4 +15,11 @@ public class GiroAccount extends Account {
         this.TYPE = AccountType.GIRO;
     }
 
+    @Override
+    public boolean setBalance(double balance) throws SQLException {
+        if (!(balance < getDebtLimit())){
+            return super.setBalance(balance);
+        }
+        return false;
+    }
 }

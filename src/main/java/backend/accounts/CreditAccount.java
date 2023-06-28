@@ -28,10 +28,21 @@ public class CreditAccount extends Account {
 
     }
 
+    /**
+     * Set the balance of the account without going under the debt limit
+     * Cant go over 0 because it is a credit account. It is either 0 or negative.
+     * @param balance new balance
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean setBalance(double balance) throws SQLException {
         if (balance < getDebtLimit()){
             return false;
+        }
+        else if (balance + getBalance() > 0) {
+            return false;
+
         }
         else {
             super.setBalance(balance);

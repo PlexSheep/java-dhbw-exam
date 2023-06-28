@@ -1,4 +1,5 @@
 import backend.accounts.Account;
+import backend.accounts.AccountType;
 import backend.accounts.CreditAccount;
 import backend.accounts.GiroAccount;
 import backend.database.DatabaseController;
@@ -75,7 +76,11 @@ public class Main {
                         Account account = null;
                         switch (account_set.getString("type")) {
                             case "GIRO":
-                                account = new GiroAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.GIRO,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;
@@ -83,7 +88,11 @@ public class Main {
                                 //type = AccountType.DEBIT;
                                 break;
                             case "CREDIT":
-                                account = new CreditAccount(client);
+                                account = client.loadAccount(
+                                        AccountType.CREDIT,
+                                        account_set.getString("IBAN"),
+                                        account_set.getDouble("balance"),
+                                        account_set.getDouble("debtLimit"));
                                 client.addAccount(account);
                                 ACCOUNT_LIST.add(account);
                                 break;

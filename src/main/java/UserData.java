@@ -81,7 +81,7 @@ public class UserData extends JFrame {
 
         ArrayList<String> list = new ArrayList<>();
         for (Account a : p.getAccounts()) {
-            list.add(a.getIBAN() + " - " + a.getBalance() + "€ - Debt-Limit: " + a.getDebtLimit() + "€ - Type: " + a.getTYPE());
+            list.add(a.getIBAN() + " | " + a.getBalance() + "€ | Debt-Limit: " + a.getDebtLimit() + "€ | Type: " + a.getTYPE());
         }
         String[] arr = new String[list.size()];
         arr = list.toArray(arr);
@@ -164,7 +164,8 @@ public class UserData extends JFrame {
         UserData accountCenter = new UserData();
         accountCenter.setContentPane(accountCenter.JMain);
         accountCenter.setTitle("Konto Center");
-        accountCenter.setSize(500, 400);
+        accountCenter.setSize(500, 800);
+        accountCenter.pack();
         accountCenter.setVisible(true);
         accountCenter.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }

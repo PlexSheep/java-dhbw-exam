@@ -35,8 +35,10 @@ public class AdminConsole extends JFrame {
         ResultSet trans = DatabaseController.readUsers("client");
         ArrayList<String> elements = new ArrayList<>();
         while (trans.next()){
-            String zeug = trans.getString("name");
+            String zeug = trans.getString("user_id") + " : " + trans.getString("name");
             elements.add(zeug);
+
+
             System.out.println(zeug);
         }
         String[] arr = new String[elements.size()];
@@ -53,12 +55,12 @@ public class AdminConsole extends JFrame {
         lastRowPanel.add(button1);
         lastRowPanel.add(button2);
 
-        // Add the ListSelectionListener to the JList
+
         list1.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    String selectedUser = list1.getSelectedValue();
+                    int userid = Integer.parseInt((list1.getSelectedValue().split(" ")[0]));
                     AdminView.createAdminView();
                 }
             }

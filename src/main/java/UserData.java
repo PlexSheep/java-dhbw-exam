@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -40,6 +42,8 @@ public class UserData extends JFrame {
     private JList accList;
     private JButton createAccountButton;
     private JComboBox comboBox1;
+
+    static Account selecedAcc;
 
     /**
      * Function to display the users data on the GUI
@@ -136,6 +140,18 @@ public class UserData extends JFrame {
                 catch (Exception e) {
                     // do nothing
                 }
+            }
+        });
+        accList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                for(Account a : ((Client) Main.loggedIn).getAccounts()){
+                    String[] search = accList.getSelectedValue().toString().split(" ");
+                    if (a.getIBAN().equals(search[0])){
+                        selecedAcc = a;
+                    }
+                }
+                System.out.println("Selected" + selecedAcc.getIBAN());
             }
         });
     }

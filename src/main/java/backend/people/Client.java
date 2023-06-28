@@ -74,20 +74,20 @@ public class Client extends Person {
         return a;
     }
 
-    public Account loadAccount(AccountType type, String iban, int balance, int debtLimit) {
+    public Account loadAccount(AccountType type, String iban, double balance, double debtLimit) {
         Account a = null;
         switch (type) {
             case GIRO -> {
                 a = new GiroAccount(this, iban, balance, debtLimit);
             }
             case DEBIT -> {
-                a = new DebitAccount(this, iban, balance, debtLimit);
+                //a = new DebitAccount(this, iban, balance, debtLimit);
             }
             case CREDIT -> {
                 a = new CreditAccount(this, iban, balance, debtLimit);
             }
             case FIXED -> {
-                a = new FixedAccount(this, iban, balance, debtLimit);
+                //a = new FixedAccount(this, iban, balance, debtLimit);
             }
             default -> {
                 throw new UnsupportedOperationException();

@@ -21,6 +21,7 @@ import java.net.URL;
 import javax.swing.*;
 import java.awt.Image;
 import java.util.LinkedList;
+import java.util.Locale;
 
 public class Main {
 
@@ -304,18 +305,10 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    try {
-                        client.save(DatabaseController.TABLE_CLIENTS);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    client.save(DatabaseController.TABLE_CLIENTS);
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    try {
-                        employee.save(DatabaseController.TABLE_EMPLOYEES);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    employee.save(DatabaseController.TABLE_EMPLOYEES);
                 }
                 /*
                 for (Account account : ACCOUNT_LIST) {

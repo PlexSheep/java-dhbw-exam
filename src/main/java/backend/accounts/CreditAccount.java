@@ -2,6 +2,8 @@ package backend.accounts;
 
 import backend.people.Client;
 
+import java.sql.SQLException;
+
 /**
  * account for a credit card
  */
@@ -23,6 +25,17 @@ public class CreditAccount extends Account {
         this.dueLimit = dueLimit;
         this.TYPE = AccountType.CREDIT;
 
+    }
+
+    @Override
+    public boolean setBalance(double balance) throws SQLException {
+        if (balance < getDebtLimit()){
+            return false;
+        }
+        else {
+            super.setBalance(balance);
+            return true;
+        }
     }
 
     public double getDueLimit() {

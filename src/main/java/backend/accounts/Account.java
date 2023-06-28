@@ -70,7 +70,7 @@ public abstract class Account {
         this.iban = Iban.valueOf(iban);
         this.accountNumber = this.iban.getAccountNumber();
         this.balance = balance;
-        this.debtLimit = debtLimit;
+        this.debtLimit = -debtLimit;
     }
 
     /**
@@ -110,9 +110,10 @@ public abstract class Account {
      *
      * @param balance new balance
      */
-    public void setBalance(double balance) throws SQLException {
+    public boolean setBalance(double balance) throws SQLException {
         this.balance = balance;
         this.save();
+        return true;
     }
 
     /**

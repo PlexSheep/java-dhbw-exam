@@ -4,7 +4,6 @@ import backend.people.Employee;
 import backend.people.Person;
 import backend.utils.Authentication;
 import backend.accounts.Account;
-import org.iban4j.Iban;
 
 import java.sql.*;
 import java.util.Date;
@@ -21,7 +20,7 @@ public class DatabaseController {
             String url = "jdbc:sqlite:src/main/java/backend/database/database.db";
             conn = DriverManager.getConnection(url);
 
-            System.out.println("Connection to SQLite has been established.");
+            //System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -107,7 +106,6 @@ public class DatabaseController {
             PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setInt(1, p.getId());
             stmt.setInt(1, p.getId());
-
             return stmt.executeQuery();
         }
         catch (Exception e){
@@ -189,7 +187,6 @@ public class DatabaseController {
             stmt.setString(4, a.getIBAN());
 
             System.out.println(String.format("query:\t%s", stmt.toString()));
-
             stmt.executeUpdate();
         }
         catch (Exception e){
@@ -245,7 +242,7 @@ public class DatabaseController {
         return stmt.executeQuery();
     }
 
-    public static ResultSet auth_users(String name, String password, String table) throws SQLException {
+    public static ResultSet authUsers(String name, String password, String table) throws SQLException {
         try {
 
             String query = "SELECT * FROM " + table + " WHERE name = ?";
@@ -337,5 +334,4 @@ public class DatabaseController {
         }
         return false;
     }
-
 }

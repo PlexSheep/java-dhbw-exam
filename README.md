@@ -6,14 +6,14 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 #### Bank Kunde:
 - [x] Login/Logout
 - [x] Benutzerdaten pflegen (Name, Geburtsdatum, Adresse, E-Mail, Telefonnummer, ...) - d.h. anlegen, ändern, löschen
-- [ ] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
+- [x] Konto anlegen (z.B. Girokonto, Festgeldkonto, Kreditkarte, Depot, ...)
 - [x] Konto ändern, 
-- [ ] Konto auflösen, 
+- [x] Konto auflösen, 
 - [ ] Zahlungseingang, 
 - [ ] Zahlungsausgang, 
 - [ ] Überweisung auf anderes Konto, 
 - [ ] Prüfungen ob Konto gedeckt, 
-- [ ] Dispo anzeigen
+- [x] Dispo anzeigen
 #### Bänker:
 - [x] Login/Logout
 - [ ] Report 
@@ -37,8 +37,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [x] Setzen Sie ggf. Polymorphie ein
 - [x] Denken Sie an Datenkapselung
 - [ ] Denken Sie an die Fehlerbehandlung (Eingabe, Konvertierungen, Überläufe, ...)
-- [ ] Formatieren Sie im Team konsistent, 
-  - (source code gemeint vermutlich)
+- [ ] Formatieren Sie im Team konsistent
 - [x] Wählen Sie sinnvolle Bezeichner (entscheiden Sie sich für eine Sprache)
 #### Team-Setup und Projektplanung:
 - [x] Überlegen Sie wie Sie an das Projekt heran gehen wollen
@@ -71,17 +70,12 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 
 
 ## Test Credentials
-| Username | Password      |
-|----------|---------------|
-| 1        | (leave empty) |
-| 25063084    | test          |
+| Username | Password      | Role |
+|----------|---------------| ---- |
+| 1        | (leave empty) | Employee |
+| 23131    | test          | Employee |
+| 77067103 | test          | Client |
+| 25063084 | killer        | Client |
 
 ## Dependencies
-- [iban4j](https://github.com/arturmkrtchyan/iban4j)
-```maven
-<dependency>
-  <groupId>org.iban4j</groupId>
-  <artifactId>iban4j</artifactId>
-  <version>3.2.5-RELEASE</version>
-</dependency>
-```
+- see `pom.xml` for maven dependencies

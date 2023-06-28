@@ -6,6 +6,7 @@ import backend.database.DatabaseController;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Represent a client of the bank
@@ -69,23 +70,24 @@ public class Client extends Person {
                 throw new UnsupportedOperationException();
             }
         }
+        this.accounts.add(a);
         return a;
     }
 
-    public Account loadAccount(AccountType type, String iban, Double balance, Double debtLimit) {
+    public Account loadAccount(AccountType type, String iban, int balance, int debtLimit) {
         Account a = null;
         switch (type) {
             case GIRO -> {
                 a = new GiroAccount(this, iban, balance, debtLimit);
             }
             case DEBIT -> {
-                //a = new DebitAccount(this, iban, balance, debtLimit);
+                a = new DebitAccount(this, iban, balance, debtLimit);
             }
             case CREDIT -> {
                 a = new CreditAccount(this, iban, balance, debtLimit);
             }
             case FIXED -> {
-                //a = new FixedAccount(this, iban, balance, debtLimit);
+                a = new FixedAccount(this, iban, balance, debtLimit);
             }
             default -> {
                 throw new UnsupportedOperationException();
@@ -95,10 +97,15 @@ public class Client extends Person {
     }
 
     public void deleteAccount(String iban) {
-
+        for (int i = 0; i < this.accounts.size(); i++) {
+            if (Objects.equals(this.accounts.get(i).iban.toString(), iban)) {
+                this.accounts.remove(i);
+            }
+        }
     }
 
     public ArrayList<Account> getAccounts() {
+        System.out.println(accounts.size());
         return accounts;
     }
 
@@ -122,5 +129,4 @@ public class Client extends Person {
             System.out.println(String.format("could not save user %s", this.getName()));
         }
     }
-
 }

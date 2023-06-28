@@ -21,11 +21,11 @@ import java.net.URL;
 import javax.swing.*;
 import java.awt.Image;
 import java.util.LinkedList;
-import java.util.Locale;
 
 public class Main {
 
     static Person loggedIn = null;
+    static boolean isEmployee = false;
     static JFrame frame = null;
 
     static LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
@@ -158,7 +158,6 @@ public class Main {
             }
         }
 
-
         /*
         LinkedList<Account> ACCOUNT_LIST = new LinkedList<>();
         ResultSet account_list = DatabaseController.readAccounts();
@@ -216,7 +215,10 @@ public class Main {
             }
         }
         System.out.println(ACCOUNT_LIST);
-*/
+
+
+         */
+
         // debug
         /*
         for(Client c : CLIENT_LIST){
@@ -302,11 +304,18 @@ public class Main {
             public void windowClosing(WindowEvent e) {
                 System.out.println("Ending application, saving data");
                 for (Client client : CLIENT_LIST) {
-                    System.out.println("Saving clients");
-                    client.save(DatabaseController.TABLE_CLIENTS);
+                    try {
+                        client.save(DatabaseController.TABLE_CLIENTS);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 for (Employee employee : EMPLOYEE_LIST) {
-                    employee.save(DatabaseController.TABLE_EMPLOYEES);
+                    try {
+                        employee.save(DatabaseController.TABLE_EMPLOYEES);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 /*
                 for (Account account : ACCOUNT_LIST) {

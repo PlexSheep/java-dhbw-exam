@@ -3,6 +3,9 @@ import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
+import backend.database.DatabaseController;
+import backend.people.Client;
+
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
@@ -11,7 +14,6 @@ import java.sql.SQLException;
 
 public class Transaction extends JFrame{
     public JPanel JTransaction;
-
     private JLabel JAmountLabel;
     private JTextField JAmountInput;
     private JButton JTransactionButton;
@@ -100,15 +102,12 @@ public class Transaction extends JFrame{
 
     public static void createTransaction(){
         Transaction test=new Transaction();
+        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         test.setContentPane(test.JTransaction);
-        test.setTitle("Test");
+        test.setTitle("Transaktion");
         test.setSize(500,400);
         test.setVisible(true);
-        test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
     }
-
-
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

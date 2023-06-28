@@ -25,5 +25,3 @@ public class AdminView extends JFrame {
         return adview;
     }
 }
-
-///

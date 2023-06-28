@@ -6,16 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AdminConsole extends JFrame{
+public class AdminConsole extends JFrame {
 
-    public JPanel contpan;
-    private JPanel firstRowPanel;
-    private JList list1;
+    private JPanel contpan;
+    private JList<String> list1;
     private JScrollPane scrollPane;
     private JButton button1;
     private JButton button2;
+    private JPanel firstRowPanel;
 
     public AdminConsole() throws SQLException {
+        contpan = new JPanel();
         contpan.setLayout(new BorderLayout());
         contpan.setBorder(new EmptyBorder(new Insets(10, 20, 10, 20)));
 
@@ -39,8 +40,8 @@ public class AdminConsole extends JFrame{
         String[] arr = new String[elements.size()];
         arr = elements.toArray(arr);
 
-        list1.setListData(arr);
-        scrollPane.add(list1);
+        list1 = new JList<>(arr);
+        scrollPane = new JScrollPane(list1);
         list1.setLayoutOrientation(JList.VERTICAL);
         secondRowPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -64,7 +65,9 @@ public class AdminConsole extends JFrame{
             adcon.setVisible(true);
             return adcon;
         }
-        catch (SQLException e) {return null;}
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-
 }

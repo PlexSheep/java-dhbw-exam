@@ -18,3 +18,48 @@
 | 77067103 | test          | Client |
 | 25063084 | killer        | Client |
 
+---
+# Informationen zu externer Software
+- Wir verwenden JDBC als Datenbank Java Backend
+- Wir verwenden sqlite3 zum Speichern der Daten
+- Die Jar Datei ist nicht signiert, damit es bei der Ausführung keine Probleme gibt.
+
+# Klassendiagramme
+##### (siehe Directory: Klassendiagramme)
+
+---
+#### AccountFactory 
+![](Klassendiagramme/AccountFactory.png)
+---
+#### AdminConsole
+![](Klassendiagramme/AdminConsole.png)
+---
+#### ChangeCredential
+![](Klassendiagramme/ChangeCredential.png)
+---
+#### Client
+![](Klassendiagramme/Client.png)
+---
+#### DatabaseController
+![](Klassendiagramme/DatabaseController.png)
+---
+#### Employee
+![](Klassendiagramme/Employee.png)
+---
+#### Gui
+![](Klassendiagramme/Gui.png)
+---
+#### Main
+![](Klassendiagramme/Main.png)
+---
+#### Person
+![](Klassendiagramme/Person.png)
+---
+#### Transaction
+![](Klassendiagramme/Transaction.png)
+---
+#### UserData
+![](Klassendiagramme/UserData.png)
+---
+#### Account
+![](Klassendiagramme/Accounts.png)

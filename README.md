@@ -37,8 +37,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [x] Setzen Sie ggf. Polymorphie ein
 - [x] Denken Sie an Datenkapselung
 - [ ] Denken Sie an die Fehlerbehandlung (Eingabe, Konvertierungen, Überläufe, ...)
-- [ ] Formatieren Sie im Team konsistent, 
-  - (source code gemeint vermutlich)
+- [ ] Formatieren Sie im Team konsistent
 - [x] Wählen Sie sinnvolle Bezeichner (entscheiden Sie sich für eine Sprache)
 #### Team-Setup und Projektplanung:
 - [x] Überlegen Sie wie Sie an das Projekt heran gehen wollen
@@ -78,11 +77,4 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 | 25063084    | killer        |
 
 ## Dependencies
-- [iban4j](https://github.com/arturmkrtchyan/iban4j)
-```maven
-<dependency>
-  <groupId>org.iban4j</groupId>
-  <artifactId>iban4j</artifactId>
-  <version>3.2.5-RELEASE</version>
-</dependency>
-```
+- see `pom.xml` for maven dependencies

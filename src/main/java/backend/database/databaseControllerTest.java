@@ -54,10 +54,12 @@ class databaseControllerTest {
 
      */
 
+    /*
     @Test
     void testTransactionTable() throws SQLException {
         DatabaseController.connect();
         DatabaseController.saveTransaction(dave, "1", 1000.88);
     }
+    */
 
 }

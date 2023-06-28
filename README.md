@@ -37,8 +37,7 @@ Schreiben Sie eine Bankanwendung „BankingApp“:
 - [x] Setzen Sie ggf. Polymorphie ein
 - [x] Denken Sie an Datenkapselung
 - [ ] Denken Sie an die Fehlerbehandlung (Eingabe, Konvertierungen, Überläufe, ...)
-- [ ] Formatieren Sie im Team konsistent, 
-  - (source code gemeint vermutlich)
+- [ ] Formatieren Sie im Team konsistent
 - [x] Wählen Sie sinnvolle Bezeichner (entscheiden Sie sich für eine Sprache)
 #### Team-Setup und Projektplanung:
 - [x] Überlegen Sie wie Sie an das Projekt heran gehen wollen

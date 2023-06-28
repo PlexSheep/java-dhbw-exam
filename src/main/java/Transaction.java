@@ -16,7 +16,7 @@ public class Transaction extends JFrame {
     private JLabel JTitle;
     private JLabel JRecipientLabel;
     private JTextField JIBAN;
-    private JTextArea JstatusField;
+    private JTextField JstatusField;
 
 
     /**

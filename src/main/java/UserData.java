@@ -9,9 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import backend.accounts.Account;
+import backend.accounts.AccountType;
 import backend.people.Client;
 import backend.utils.Authentication;
 import backend.database.DatabaseController;
+import org.iban4j.Iban;
 
 
 public class UserData extends JFrame {
@@ -25,19 +27,10 @@ public class UserData extends JFrame {
     private JLabel JName;
     private JPanel JAdressPanel;
     private JLabel profilePicturePanel;
-    private JPanel JIban;
-    private JPanel JBic;
     private JLabel JAdressVariable;
     private JLabel JEmailVar;
     private JLabel JNumberVar;
-
-    private JLabel JIBAN;
-    private JLabel JBIC;
-
     private JLabel JNameVariable;
-
-    private JLabel JIbanVar;
-    private JLabel JBicVar;
     private JButton JChangePassword;
     private JButton JChangeCredentials;
     private JButton JDeleteAccount;
@@ -45,6 +38,8 @@ public class UserData extends JFrame {
     public JPanel JMain;
     private JTextField JNewPassword;
     private JList accList;
+    private JButton createAccountButton;
+    private JComboBox comboBox1;
 
     /**
      * Function to display the users data on the GUI
@@ -63,9 +58,7 @@ public class UserData extends JFrame {
                      }
                 }
             }
-
         });
-
 
         String columnName = "name";
         JNameVariable.setText(getColumnValue("Employee", columnName));
@@ -84,7 +77,7 @@ public class UserData extends JFrame {
 
         ArrayList<String> list = new ArrayList<>();
         for(Account a : p.getAccounts()){
-            list.add(a.getIBAN() + " with balance: " + a.getBalance());
+            list.add(a.getIBAN() + " - " + a.getBalance() + "€ - Debt-Limit: " + a.getDebtLimit() + "€ - Type: " + a.getTYPE());
         }
         String[] arr = new String[list.size()];
         arr = list.toArray(arr);
@@ -101,6 +94,48 @@ public class UserData extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 // behave as if the frame was closed by the user
                 Main.frame.dispatchEvent(new WindowEvent(Main.frame, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String type = (String) comboBox1.getSelectedItem();
+                System.out.println(type);
+                switch (type) {
+                    case "Giro":
+                        p.createAccount(AccountType.GIRO);
+                        break;
+                    case "Credit":
+                        p.createAccount(AccountType.CREDIT);
+                        break;
+                    case "Debit":
+                        p.createAccount(AccountType.DEBIT);
+                        break;
+                    case "Fixed":
+                        p.createAccount(AccountType.FIXED);
+                        break;
+                    default:
+                        System.out.println(String.format("unknown account type %s", type));
+                        System.exit(1);
+                }
+            }
+        });
+        JDeleteAccount.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    // getSelectedIndex returns -1 if no value is selected
+                    // make sure not to crash the app if the user clicks
+                    // the button without a selection.
+                    String ibanStr = accList.getSelectedValue().toString();
+                    ibanStr = ibanStr.substring(0, ibanStr.indexOf(" "));
+                    System.out.println(String.format("selected to delete: %s", ibanStr));
+                    p.deleteAccount(ibanStr);
+                    accList.remove(accList.getSelectedIndex());
+                }
+                catch (Exception e) {
+                    // do nothing
+                }
             }
         });
     }
@@ -165,5 +200,4 @@ public class UserData extends JFrame {
 
         return value;
     }
-
 }

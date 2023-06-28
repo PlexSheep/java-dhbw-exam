@@ -3,6 +3,9 @@ import backend.database.DatabaseController;
 import backend.people.Client;
 import org.iban4j.Iban;
 
+import backend.database.DatabaseController;
+import backend.people.Client;
+
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
@@ -100,8 +103,6 @@ public class Transaction extends JFrame{
         test.setSize(500,200);
         test.setVisible(true);
     }
-
-
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

@@ -160,7 +160,6 @@ public class Main {
                     //System.out.println(String.format("%d == %d => %s", client.getId(), ownerId, client.getId() == ownerId));
                     if (client.getId() == ownerId) {
                         owner = client;
-                        break;
                     }
                 }
                 if (owner == null) {
@@ -205,18 +204,8 @@ public class Main {
          */
 
         // debug
-        /*
-        for(Client c : CLIENT_LIST){
-            System.out.println( c.getName() + " " + c.getAccounts());
-        }
         System.out.println(CLIENT_LIST);
         System.out.println(EMPLOYEE_LIST);
-
-
-         */
-
-        Client herbert = new Client("Herbert", new Date(1), "Here", "s", "e");
-        //herbert.login("FFF");
 
         //DatabaseController.saveUsers(herbert, "test", "Employee");
         System.out.println(DatabaseController.readUsers("client").getString("Name"));
@@ -229,7 +218,7 @@ public class Main {
         JTextField password = new JPasswordField();
         Object[] message = {"User ID:", username, "Password:", password};
         ImageIcon bankIcon = null;
-        URL imgURL = Main.class.getResource("amogus.png");
+        URL imgURL = Main.class.getResource("res/img/bank.png");
         if (imgURL != null) {
             bankIcon = new ImageIcon((new ImageIcon(imgURL)).getImage().getScaledInstance(90, 90, Image.SCALE_SMOOTH));
         }

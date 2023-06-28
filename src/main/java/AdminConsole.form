@@ -35,7 +35,9 @@
             <children>
               <component id="f0da1" class="javax.swing.JList" binding="list1" default-binding="true">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <model/>
+                </properties>
               </component>
             </children>
           </scrollpane>
